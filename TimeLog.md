@@ -4,4 +4,4 @@
 | 2023/05/17 |        |  .5 |         |       |       |       |    Online Idea Discussion    |
 | 2023/05/23 |        |  1  |    1    |       |       |       |    In Person Idea Decision   |
 | 2023/05/24 |        |     |   1.5   |       |       |       |    Rough Feature Brainstorm  |
-| 2023/05/26 |        |     |   1   |       |       |       |    In Person Proposal  Planning  |
+| 2023/05/26 |        |  1   |   1   |       |       |       |    In Person Proposal  Planning  |
