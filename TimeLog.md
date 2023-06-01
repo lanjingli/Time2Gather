@@ -8,3 +8,4 @@
 | 2023/05/29 |        |     |    7    |       |   1   |   5   |       Figma UI Design        |
 | 2023/05/30 |        |     |    2    |       |  0.5  |       |   Official Proposal Writing  |
 | 2023/06/01 |        |     |         |       |   2   |       |       Figma UI Design        |
+| 2023/06/01 |   4    |     |         |       |       |       |   Official Proposal Writing  |
