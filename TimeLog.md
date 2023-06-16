@@ -11,3 +11,4 @@
 | 2023/06/01 |   4    |  3  |         |   2   |       |   3    |   Official Proposal Writing  |
 | 2023/06/02 |        |     |         |  1.5  |       |       |   Official Proposal Writing  |
 | 2023/06/15 |        |  2  |         |       |       |       |   Buddy Team’s evaluation  |
+| 2023/06/16 |        |     |         |  0.5  |       |       |   Buddy Team’s evaluation  |
