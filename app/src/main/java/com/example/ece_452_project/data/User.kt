@@ -5,5 +5,6 @@ data class User (
     val password: String = "",
     val name: String = "",
     val email: String = "",
-    val dietary: List<String> = listOf<String>()
+    val dietary: List<String> = listOf<String>(),
+    val schedule: List<Event> = listOf<Event>()
 )

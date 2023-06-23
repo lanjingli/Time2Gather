@@ -14,17 +14,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.ece_452_project.ui.DashViewModel
-import com.example.ece_452_project.ui.DashboardScreen
+import com.example.ece_452_project.ui.ScheduleScreen
+import com.example.ece_452_project.ui.ScheduleViewModel
 
-enum class DashScreen(){
-    Dashboard,
+enum class ScheduleScreen(){
+    Start,
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashNavGraph(
-    viewModel: DashViewModel = viewModel(),
+fun ScheduleNavGraph(
+    viewModel: ScheduleViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     Scaffold(){ innerPadding ->
@@ -32,11 +32,11 @@ fun DashNavGraph(
 
         NavHost(
             navController = navController,
-            startDestination = DashScreen.Dashboard.name,
+            startDestination = ScheduleScreen.Start.name,
             modifier = Modifier.padding(innerPadding)
         ){
-            composable(route = DashScreen.Dashboard.name){
-                DashboardScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
+            composable(route = ScheduleScreen.Start.name){
+                ScheduleScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
             }
         }
     }
