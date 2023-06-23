@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">ECE_452_Project</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="login_to_your_account">Log Into Your Account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="dont_have_an_account">Don\'t Have an Account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="register">Register</string>
+    <string name="create_your_account">Create Your Account</string>
+    <string name="email_address">Email Address</string>
+    <string name="name">Name</string>
+    <string name="user_info">User Info</string>
+    <string name="preferences">Preferences</string>
+    <string name="dietary">Dietary</string>
+    <string name="save">Save</string>
+    <string name="hello">Hello</string>
 </resources>
