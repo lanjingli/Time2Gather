@@ -13,3 +13,4 @@
 | 2023/06/15 |   2    |  2  |    2    |       |       |       |   Buddy Team’s evaluation    |
 | 2023/06/16 |        |     |         |  0.5  |       |  1    |   Buddy Team’s evaluation    |
 | 2023/06/22 |   8    |     |         |       |       |       |     App Demo Development     |
+| 2023/06/23 |   2    |  2  |    2    |   2   |   2   |   2   |     App Demo Discussion      |
