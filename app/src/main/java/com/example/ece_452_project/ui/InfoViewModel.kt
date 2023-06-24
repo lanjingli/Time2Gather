@@ -4,11 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.InfoUiState
 import com.example.ece_452_project.data.MenuData
+import com.example.ece_452_project.data.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class InfoViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(InfoUiState())
@@ -44,5 +47,36 @@ class InfoViewModel : ViewModel() {
 
     fun resetInfo(){
         _uiState.value = InfoUiState()
+    }
+
+    fun updateUserFromInputs(){
+        val tmp_dietary = mutableListOf<String>()
+        dietary.forEachIndexed(){i,it->
+            if (it) tmp_dietary.add(MenuData.dietaryOptions[i])
+        }
+        val tmp_user = User(
+            username = username,
+            password = password,
+            name = name,
+            email = email,
+            dietary = tmp_dietary
+        )
+        _uiState.update { currentState ->
+            currentState.copy(user = tmp_user)
+        }
+    }
+
+    fun updateUser(user: User){
+        _uiState.update { currentState ->
+            currentState.copy(user = user)
+        }
+    }
+
+    fun fetchDummyUser(){
+        DummyData.users.forEach{it->
+            if (it.username == username) {
+                updateUser(it)
+            }
+        }
     }
 }

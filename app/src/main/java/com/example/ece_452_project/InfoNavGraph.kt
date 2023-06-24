@@ -43,7 +43,9 @@ fun InfoNavGraph(
             composable(route = InfoScreen.Login.name) {
                 LoginScreen(
                     modifier = Modifier.fillMaxSize().padding(16.dp),
-                    onLoginButtonClicked = { navController.navigate(InfoScreen.Dashboard.name) },
+                    onLoginButtonClicked = {
+                        viewModel.fetchDummyUser()
+                        navController.navigate(InfoScreen.Dashboard.name) },
                     onSignupButtonClicked = { navController.navigate(InfoScreen.Register.name) },
                     usernameText = viewModel.username,
                     passwordText = viewModel.password,
@@ -72,12 +74,15 @@ fun InfoNavGraph(
                     onEmailChange = { viewModel.updateEmail(it) },
                     checkboxStates = viewModel.dietary,
                     onCheckboxChange = {new: Boolean, i: Int -> viewModel.updateDietary(new, i)},
-                    onSaveButtonClicked = {navController.navigate(InfoScreen.Dashboard.name)}
+                    onSaveButtonClicked = {
+                        viewModel.updateUserFromInputs()
+                        navController.navigate(InfoScreen.Dashboard.name)
+                    }
                 )
             }
             composable(route = InfoScreen.Dashboard.name) {
                 DashNavGraph(
-
+                    user = uiState.user
                 )
             }
         }

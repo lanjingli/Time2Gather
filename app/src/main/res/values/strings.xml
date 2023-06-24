@@ -18,4 +18,8 @@
     <string name="dietary">Dietary</string>
     <string name="save">Save</string>
     <string name="hello">Hello</string>
+    <string name="hello_comma">Hello,</string>
+    <string name="upcoming_meets">Upcoming Meets</string>
+    <string name="in_discussion">In Discussion</string>
+    <string name="no_events">No Events</string>
 </resources>
