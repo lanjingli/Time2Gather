@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -27,12 +28,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ece_452_project.*
 import com.example.ece_452_project.ui.theme.*
 import com.kizitonwose.calendar.compose.WeekCalendar
 import com.kizitonwose.calendar.compose.weekcalendar.rememberWeekCalendarState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import com.example.ece_452_project.R
+import com.example.ece_452_project.data.DummyData
+import java.time.Duration
+import java.time.LocalDateTime
 
 /**
  * Composable for the time selection screen
@@ -74,42 +79,74 @@ fun ScheduleScreen(
 }
 
 private val dateFormatter = DateTimeFormatter.ofPattern("dd")
+private var currentUser = "alpha";
 
 @Composable
 private fun Day(date: LocalDate, isSelected: Boolean, onClick: (LocalDate) -> Unit) {
-    Box(
-        modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .clickable { onClick(date) },
-        contentAlignment = Alignment.TopCenter,
+    Column(
+            modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-                modifier = Modifier.padding(vertical = 10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(6.dp),
+        Box(
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .background(PurpleGrey40)
+                        .clickable { onClick(date) },
+                contentAlignment = Alignment.TopCenter,
         ) {
-            Text(
-                    text = date.dayOfWeek.toString().substring(0,3),
-                    fontSize = 12.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Light,
-            )
-            Text(
-                    text = dateFormatter.format(date),
-                    fontSize = 14.sp,
-                    color = if (isSelected) Pink80 else Color.White,
-                    fontWeight = FontWeight.Bold,
-            )
+            Column(
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                Text(
+                        text = date.dayOfWeek.toString().substring(0, 3),
+                        fontSize = 12.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Light,
+                )
+                Text(
+                        text = dateFormatter.format(date),
+                        fontSize = 14.sp,
+                        color = if (isSelected) Pink80 else Color.White,
+                        fontWeight = FontWeight.Bold,
+                )
+            }
+            if (isSelected) {
+                Box(
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .height(5.dp)
+                                .background(Pink80)
+                                .align(Alignment.BottomCenter),
+                )
+            }
         }
-        if (isSelected) {
-            Box(
-                    modifier = Modifier
-                            .fillMaxWidth()
-                            .height(5.dp)
-                            .background(PurpleGrey40)
-                            .align(Alignment.BottomCenter),
-            )
+        for (event in DummyData.users[0].schedule) {
+            var eventEndTime : LocalDateTime = LocalDateTime.of(date.year,date.month,date.dayOfMonth,8,0)
+            if (date.dayOfMonth == event.start.dayOfMonth) {
+                Box(
+                        modifier = Modifier
+                                .padding(
+                                        top = ((Duration.between(eventEndTime, event.start).toMinutes().toInt() / 60) * 32).dp
+                                )
+                                .size(((Duration.between(event.start, event.end).toMinutes().toInt() / 60) * 32).dp)
+                                .background(Purple40),
+                        contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                            text = "${event.start.hour}:${event.start.minute}\n-\n${event.end.hour}:${event.end.minute}",
+                            fontSize = 12.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Light
+                    )
+                }
+            }
+            eventEndTime = event.end
         }
     }
 }
@@ -118,6 +155,6 @@ private fun Day(date: LocalDate, isSelected: Boolean, onClick: (LocalDate) -> Un
 @Composable
 fun SchedulePreview(){
     ScheduleScreen(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp))
+            .fillMaxSize()
+            .padding(16.dp))
 }
