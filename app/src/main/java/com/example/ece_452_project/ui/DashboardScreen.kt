@@ -2,11 +2,13 @@ package com.example.ece_452_project.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -44,7 +46,8 @@ import java.time.format.DateTimeFormatter
 fun DashboardScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
-    onNewEventButtonClicked: () -> Unit
+    onNewEventButtonClicked: () -> Unit,
+    onViewScheduleButtonClicked: () -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -106,16 +109,34 @@ fun DashboardScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            modifier = Modifier,
-            onClick = onNewEventButtonClicked,
-            colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
-        ){
-            Text(
-                text = stringResource(R.string.new_event),
-                fontSize = 16.sp,
-                textAlign = TextAlign.Left
-            )
+
+        Row(horizontalArrangement = Arrangement.SpaceEvenly)
+            {
+                Button(
+                    modifier = Modifier,
+                    onClick = onNewEventButtonClicked,
+                    colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
+                ){
+                    Text(
+                        text = stringResource(R.string.new_event),
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Left
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Button(
+                    modifier = Modifier,
+                    onClick = onViewScheduleButtonClicked,
+                    colors =  ButtonDefaults.buttonColors(containerColor = SolidGreen)
+                ) {
+                    Text(
+                        text = stringResource(R.string.view_schedule),
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Left
+                    )
+                }
         }
         Spacer(modifier = Modifier.height(16.dp))
         Card(
@@ -145,6 +166,7 @@ fun DashboardPreview(){
     DashboardScreen(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
-        onNewEventButtonClicked = {}
+        onNewEventButtonClicked = {},
+        onViewScheduleButtonClicked = {}
     )
 }
