@@ -36,6 +36,9 @@ import com.example.ece_452_project.R
 
 /**
  * Composable for the time selection screen
+ *
+ * Based on example code from the "Calendar" library by kizitonwose
+ * https://github.com/kizitonwose/Calendar/blob/main/sample/src/main/java/com/kizitonwose/calendar/sample/compose/Example5Page.kt
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +51,7 @@ fun ScheduleScreen(
     var selection by remember { mutableStateOf(currentDate) }
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val state = rememberWeekCalendarState(
@@ -75,11 +78,11 @@ private val dateFormatter = DateTimeFormatter.ofPattern("dd")
 @Composable
 private fun Day(date: LocalDate, isSelected: Boolean, onClick: (LocalDate) -> Unit) {
     Box(
-            modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .clickable { onClick(date) },
-            contentAlignment = Alignment.Center,
+        modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .clickable { onClick(date) },
+        contentAlignment = Alignment.TopCenter,
     ) {
         Column(
                 modifier = Modifier.padding(vertical = 10.dp),
@@ -87,7 +90,7 @@ private fun Day(date: LocalDate, isSelected: Boolean, onClick: (LocalDate) -> Un
                 verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Text(
-                    text = date.dayOfWeek.toString(),
+                    text = date.dayOfWeek.toString().substring(0,3),
                     fontSize = 12.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Light,
