@@ -14,20 +14,29 @@ object DummyData {
             name = "Alice",
             email = "a@mail.com",
             dietary = listOf("Halal"),
-            schedule = listOf(
+            friends = mutableListOf(
+                "bravo",
+                "charlie",
+                "delta"
+            ),
+            schedule = mutableListOf(
                 Event(
-                start = LocalDateTime.of(2023, 6, 26, 8, 30),
-                end = LocalDateTime.of(2023, 6, 26, 16, 30)
+                    name = "Trip to Pizza Boy",
+                    start = LocalDateTime.of(2023, 6, 26, 8, 30),
+                    end = LocalDateTime.of(2023, 6, 26, 16, 30)
                 ),
                 Event(
+                    name = "Meeting at Cafe 101",
                     start = LocalDateTime.of(2023, 6, 27, 8, 30),
                     end = LocalDateTime.of(2023, 6, 27, 16, 30)
                 ),
                 Event(
+                    name = "Hangout at Cafe 202",
                     start = LocalDateTime.of(2023, 6, 28, 8, 30),
                     end = LocalDateTime.of(2023, 6, 28, 16, 30)
                 ),
                 Event(
+                    name = "Meeting at Cafe 303",
                     start = LocalDateTime.of(2023, 6, 30, 8, 30),
                     end = LocalDateTime.of(2023, 6, 30, 16, 30)
                 )
@@ -38,8 +47,12 @@ object DummyData {
             password = "pass",
             name = "Bob",
             email = "b@mail.com",
+            friends = mutableListOf(
+                "alpha",
+                "delta"
+            ),
             dietary = listOf<String>(),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
                     start = LocalDateTime.of(2023, 6, 29, 7, 30),
                     end = LocalDateTime.of(2023, 6, 29, 10, 30)
@@ -55,8 +68,13 @@ object DummyData {
             password = "pass",
             name = "Charlie",
             email = "c@mail.com",
+            friends = mutableListOf(
+                "bravo",
+                "alpha",
+                "delta"
+            ),
             dietary = listOf<String>("Vegetarian"),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
                     start = LocalDateTime.of(2023, 6, 27, 15, 0),
                     end = LocalDateTime.of(2023, 6, 27, 17, 30)
@@ -72,18 +90,11 @@ object DummyData {
             password = "pass",
             name = "Dahlia",
             email = "d@mail.com",
+            friends = mutableListOf(
+                "bravo"
+            ),
             dietary = listOf<String>(""),
-            schedule = listOf(
-                Event(
-                    start = LocalDateTime.of(2023, 7, 1, 15, 0),
-                    end = LocalDateTime.of(2023, 7, 1, 17, 30),
-                    shared = true
-                ),
-                Event(
-                    start = LocalDateTime.of(2023, 7, 5, 15, 30),
-                    end = LocalDateTime.of(2023, 7, 5, 16, 0),
-                    shared = true
-                ),
+            schedule = mutableListOf(
             )
         )
     )

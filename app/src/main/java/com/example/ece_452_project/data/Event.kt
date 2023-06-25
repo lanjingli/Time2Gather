@@ -6,8 +6,13 @@ import java.util.Date
 
 data class Event (
     val name: String = "",
+    val description: String = "",
+    val decisionDeadline: String = "",
+    val timeToAlloc: String = "",
+    val startDate: String = "",
+    val endDate: String = "",
     val start: LocalDateTime = LocalDateTime.MIN,
     val end: LocalDateTime = LocalDateTime.MIN,
     val location: String = "",
-    val shared: Boolean = false
+    val invitedFriends: MutableList<String> = mutableListOf("")
 )

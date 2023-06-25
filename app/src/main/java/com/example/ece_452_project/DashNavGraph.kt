@@ -17,9 +17,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.data.User
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
+import com.example.ece_452_project.ui.EventViewModel
+import com.example.ece_452_project.ui.PreferencesScreen
 
 enum class DashScreen(){
     Dashboard,
+    EventConfig
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +44,18 @@ fun DashNavGraph(
             composable(route = DashScreen.Dashboard.name){
                 DashboardScreen(
                     modifier = Modifier.fillMaxSize().padding(16.dp),
-                    user = uiState.user
+                    user = uiState.user,
+                    onCreateEventButtonClick = { navController.navigate(DashScreen.EventConfig.name) },
+                    onViewEventClick = {
+                        viewModel.fetchCurEvent(user)
+                        navController.navigate(DashScreen.EventConfig.name)
+                    },
+                )
+            }
+            composable(route = DashScreen.EventConfig.name) {
+                EventNavGraph(
+                    user = uiState.user,
+                    event = uiState.event
                 )
             }
         }
