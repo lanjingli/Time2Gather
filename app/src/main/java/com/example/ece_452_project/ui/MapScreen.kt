@@ -18,8 +18,8 @@ import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.DummyPlace
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
@@ -43,7 +43,7 @@ fun MapScreen(
         )
         val waterloo = LatLng(43.472646, -80.537666)
         val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(waterloo, 10f)
+            position = CameraPosition.fromLatLngZoom(waterloo, 15f)
         }
 
         GoogleMap(
@@ -51,13 +51,12 @@ fun MapScreen(
             cameraPositionState = cameraPositionState
         )
         {
-//            DummyData.places.forEach { place ->
-//                Marker(
-//                    MarkerState(position = LatLng(place.latitude, place.longitude)),
-//                    place.name,
-//                    "Marker"
-//                )
-//            }
+            locations.forEach { place ->
+                Marker(
+                    state = MarkerState(position = LatLng(place.latitude, place.longitude)),
+                    title = place.name,
+                )
+            }
 
         }
     }
