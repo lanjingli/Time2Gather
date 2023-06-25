@@ -37,9 +37,10 @@ fun MapScreen(
             text = stringResource(R.string.hello),
             style = MaterialTheme.typography.headlineLarge
         )
+        val singapore = LatLng(1.35, 103.87)
         val waterloo = LatLng(43.472646, -80.537666)
         val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(waterloo, 10f)
+            position = CameraPosition.fromLatLngZoom(singapore, 10f)
         }
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
