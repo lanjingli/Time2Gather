@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.ece_452_project.data.User
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
 
@@ -25,8 +26,10 @@ enum class DashScreen(){
 @Composable
 fun DashNavGraph(
     viewModel: DashViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    user: User = User()
 ) {
+    viewModel.updateUser(user)
     Scaffold(){ innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
 
@@ -36,7 +39,10 @@ fun DashNavGraph(
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = DashScreen.Dashboard.name){
-                DashboardScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
+                DashboardScreen(
+                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    user = uiState.user
+                )
             }
         }
     }
