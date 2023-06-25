@@ -37,10 +37,6 @@ fun MapScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(R.string.hello),
-            style = MaterialTheme.typography.headlineLarge
-        )
         val waterloo = LatLng(43.472646, -80.537666)
         val cameraPositionState = rememberCameraPositionState {
             position = CameraPosition.fromLatLngZoom(waterloo, 15f)
