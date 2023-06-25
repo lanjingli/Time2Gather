@@ -20,6 +20,7 @@ import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
 import com.example.ece_452_project.ui.EventInfoScreen
 import com.example.ece_452_project.ui.ListSelectScreen
+import com.example.ece_452_project.ui.MapScreen
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.format.TextStyle
@@ -78,8 +79,8 @@ fun DashNavGraph(
             composable(route = DashScreen.TimePlaceSelect.name){
                 EventInfoScreen(
                     modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+                        .fillMaxSize()
+                        .padding(16.dp),
                     onTimeButtonClicked = {navController.navigate(DashScreen.Schedule.name)},
                     onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},
                     onFinishButtonClicked = {

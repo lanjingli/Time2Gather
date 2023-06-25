@@ -36,7 +36,7 @@ fun MapNavGraph(
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = MapScreen.Start.name){
-                MapScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
+                MapScreen(modifier = Modifier.fillMaxSize().padding(16.dp), locations = listOf<String>("location 1","location 2"))
             }
         }
     }

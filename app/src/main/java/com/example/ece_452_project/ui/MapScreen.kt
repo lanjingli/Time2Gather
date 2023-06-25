@@ -21,7 +21,8 @@ import com.example.ece_452_project.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    locations: List<String>
 ) {
     Column(
         modifier = modifier,
@@ -40,5 +41,6 @@ fun MapScreen(
 fun MapPreview(){
     MapScreen(modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp))
+        .padding(16.dp),
+    locations = listOf<String>("Location 1", "Location 2", "Location 3"))
 }
