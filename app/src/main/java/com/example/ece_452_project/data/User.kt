@@ -6,5 +6,5 @@ data class User (
     val name: String = "",
     val email: String = "",
     val dietary: List<String> = listOf<String>(),
-    val schedule: List<Event> = listOf<Event>()
+    var schedule: MutableList<Event> = mutableListOf<Event>()
 )

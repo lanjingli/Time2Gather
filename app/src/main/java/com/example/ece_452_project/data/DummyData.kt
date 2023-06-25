@@ -7,14 +7,14 @@ data class DummyPlace (
     val options: List<String> = listOf<String>()
 )
 object DummyData {
-    val users = listOf<User>(
+    var users = mutableListOf<User>(
         User(
             username = "alpha",
             password = "pass",
             name = "Alice",
             email = "a@mail.com",
             dietary = listOf("Halal"),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
                     name = "Lectures",
                     start = LocalDateTime.of(2023, 6, 26, 8, 30),
@@ -48,7 +48,7 @@ object DummyData {
             name = "Bob",
             email = "b@mail.com",
             dietary = listOf<String>(),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
                     start = LocalDateTime.of(2023, 6, 29, 7, 30),
                     end = LocalDateTime.of(2023, 6, 29, 10, 30)
@@ -65,7 +65,7 @@ object DummyData {
             name = "Charlie",
             email = "c@mail.com",
             dietary = listOf<String>("Vegetarian"),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
                     start = LocalDateTime.of(2023, 6, 27, 15, 0),
                     end = LocalDateTime.of(2023, 6, 27, 17, 30)
@@ -82,13 +82,15 @@ object DummyData {
             name = "Dahlia",
             email = "d@mail.com",
             dietary = listOf<String>(""),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
+                    name = "FYDP Brainstorming",
                     start = LocalDateTime.of(2023, 7, 1, 15, 0),
                     end = LocalDateTime.of(2023, 7, 1, 17, 30),
                     shared = true
                 ),
                 Event(
+                    name = "Ice Cream Meet",
                     start = LocalDateTime.of(2023, 7, 5, 15, 30),
                     end = LocalDateTime.of(2023, 7, 5, 16, 0),
                     shared = true
@@ -103,24 +105,18 @@ object DummyData {
             options = listOf("Vegetarian", "Halal")
         ),
         DummyPlace(
-            name = "Cafe 101",
-            options = listOf("Vegan")
-        ),
-        DummyPlace(
-            name = "Robinson's BBQ",
-            options = listOf("Halal")
-        ),
-        DummyPlace(
             name = "WackDonald's",
-            options = listOf("Gluten-Free", "Vegetarian")
-        ),
-        DummyPlace(
-            name = "Stan's Meat Shack",
-            options = listOf("Halal")
+            options = listOf("Gluten-Free", "Vegetarian", "Halal")
         ),
         DummyPlace(
             name = "Freshburg",
             options = listOf("Vegetarian", "Halal", "Kosher")
         )
+    )
+
+    val times = listOf<LocalDateTime>(
+        LocalDateTime.of(2023, 6, 28, 18, 0),
+        LocalDateTime.of(2023, 6, 30, 19, 0),
+        LocalDateTime.of(2023, 7, 2, 15, 0)
     )
 }
