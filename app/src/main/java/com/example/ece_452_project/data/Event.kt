@@ -6,8 +6,8 @@ import java.util.Date
 
 data class Event (
     val name: String = "",
-    val start: LocalDateTime = LocalDateTime.MIN,
-    val end: LocalDateTime = LocalDateTime.MIN,
-    val location: String = "",
+    var start: LocalDateTime = LocalDateTime.MIN,
+    var end: LocalDateTime = LocalDateTime.MIN,
+    var location: String = "",
     val shared: Boolean = false
 )
