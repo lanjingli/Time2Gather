@@ -8,12 +8,13 @@
 | 2023/05/29 |        |     |    7    |       |   1   |   5   |       Figma UI Design        |
 | 2023/05/30 |        |     |    2    |       |  0.5  |       |   Official Proposal Writing  |
 | 2023/06/01 |        |     |         |       |   2   |       |       Figma UI Design        |
-| 2023/06/01 |   4    |  3  |    1    |   2   |       |   3   |   Official Proposal Writing  |
+| 2023/06/01 |   4    |  3  |    1    |   2   |   1   |   3   |   Official Proposal Writing  |
 | 2023/06/02 |        |     |         |  1.5  |       |       |   Official Proposal Writing  |
 | 2023/06/15 |   2    |  2  |    2    |       |       |       |   Buddy Team’s evaluation    |
-| 2023/06/16 |        |     |         |  0.5  |       |  1    |   Buddy Team’s evaluation    |
+| 2023/06/16 |        |     |         |  0.5  |   1   |  1    |   Buddy Team’s evaluation    |
 | 2023/06/22 |   8    |     |         |       |       |       |     App Demo Development     |
 | 2023/06/23 |   2    |  2  |    2    |   2   |   2   |   2   |     App Demo Discussion      |
 | 2023/06/23 |   6    |     |         |       |       |       |     App Demo Development     |
 | 2023/06/23 |        | 0.5 |         |  0.5  |       |       |  App Schedule View Dicussion |
-| 2023/06/24 |   4    |     |         |       |       |       |     App Demo Development     |
+| 2023/06/24 |   4    |     |         |       |   4   |   6   |     App Demo Development     |
+| 2023/06/25 |        |     |         |       |   5   |  5    |     App Demo Development     |
