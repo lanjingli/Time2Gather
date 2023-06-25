@@ -22,4 +22,13 @@
     <string name="upcoming_meets">Upcoming Meets</string>
     <string name="in_discussion">In Discussion</string>
     <string name="no_events">No Events</string>
+    <string name="my_schedules">My Schedules</string>
+    <string name="friends">Friends</string>
+    <string name="updates">Updates</string>
+    <string name="personal">Personal</string>
+    <string name="shared">Shared</string>
+    <string name="plus">+</string>
+    <string name="personalListTEMP">Schedule Personal List Screen TODO</string>
+    <string name="sharedListTEMP">Schedule Shared List Screen TODO</string>
+    <string name="createScreenTEMP">Schedule Create Screen TODO</string>
 </resources>

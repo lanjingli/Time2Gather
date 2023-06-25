@@ -8,20 +8,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.ece_452_project.ui.ScheduleCreateScreen
+import com.example.ece_452_project.ui.SchedulePersonalListScreen
 import com.example.ece_452_project.ui.ScheduleScreen
+import com.example.ece_452_project.ui.ScheduleSharedListScreen
 import com.example.ece_452_project.ui.ScheduleViewModel
 
 enum class ScheduleScreen(){
     Start,
+    Personal,
+    Shared,
+    Create
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun ScheduleNavGraph(
     viewModel: ScheduleViewModel = viewModel(),
@@ -36,7 +44,30 @@ fun ScheduleNavGraph(
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = ScheduleScreen.Start.name){
-                ScheduleScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
+                ScheduleScreen(
+                    modifier = Modifier.padding(16.dp),
+                    onPersonalButtonClicked = {navController.navigate(ScheduleScreen.Personal.name)},
+                    onSharedButtonClicked = {navController.navigate(ScheduleScreen.Shared.name)},
+                    onAddScheduleButtonClicked = {navController.navigate(ScheduleScreen.Create.name)}
+                )
+            }
+
+            composable(route = ScheduleScreen.Personal.name){
+                SchedulePersonalListScreen(
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            composable(route = ScheduleScreen.Shared.name){
+                ScheduleSharedListScreen(
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            composable(route = ScheduleScreen.Create.name){
+                ScheduleCreateScreen(
+                    modifier = Modifier.padding(16.dp)
+                )
             }
         }
     }
