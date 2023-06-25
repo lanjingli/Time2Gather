@@ -18,7 +18,7 @@ import com.example.ece_452_project.ui.InfoViewModel
 import com.example.ece_452_project.ui.LoginScreen
 import com.example.ece_452_project.ui.PreferencesScreen
 import com.example.ece_452_project.ui.RegisterScreen
-
+import com.example.ece_452_project.ui.SuggestedPlacesScreen
 enum class InfoScreen(){
     Login,
     Register,

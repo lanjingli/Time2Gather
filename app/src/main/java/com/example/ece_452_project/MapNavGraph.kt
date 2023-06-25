@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.ui.MapScreen
+import com.example.ece_452_project.ui.SuggestedPlacesScreen
 import com.example.ece_452_project.ui.MapViewModel
 
 enum class MapScreen(){
@@ -36,7 +37,8 @@ fun MapNavGraph(
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = MapScreen.Start.name){
-                MapScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
+                //MapScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
+                SuggestedPlacesScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
             }
         }
     }

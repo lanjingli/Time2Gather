@@ -28,6 +28,7 @@ class InfoViewModel : ViewModel() {
     var email by mutableStateOf("")
         private set
 
+
     // Update input values
     fun updateUsername(value: String) { username = value }
     fun updatePassword(value: String) { password = value }
