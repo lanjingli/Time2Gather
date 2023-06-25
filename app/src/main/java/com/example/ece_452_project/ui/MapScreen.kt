@@ -14,6 +14,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ece_452_project.R
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.rememberCameraPositionState
 
 /**
  * Composable for the initial location selection screen
@@ -33,6 +37,14 @@ fun MapScreen(
             text = stringResource(R.string.hello),
             style = MaterialTheme.typography.headlineLarge
         )
+        val waterloo = LatLng(43.472646, -80.537666)
+        val cameraPositionState = rememberCameraPositionState {
+            position = CameraPosition.fromLatLngZoom(waterloo, 10f)
+        }
+        GoogleMap(
+            modifier = Modifier.fillMaxSize(),
+            cameraPositionState = cameraPositionState
+        )
     }
 }
 
@@ -42,5 +54,5 @@ fun MapPreview(){
     MapScreen(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
-    locations = listOf<String>("Location 1", "Location 2", "Location 3"))
+        locations = listOf<String>("Location 1", "Location 2", "Location 3"))
 }
