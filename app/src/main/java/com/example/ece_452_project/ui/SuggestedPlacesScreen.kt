@@ -26,20 +26,19 @@ fun SuggestedPlacesScreen(
     val itemList = remember { mutableStateListOf<String>() }
     var newItemText by remember { mutableStateOf("") }
 
-    Scaffold(topBar = {
-        TopAppBar(title = { Text(text = "List") })
-    }) {
-        Spacer(modifier = Modifier.width(8.dp))
-        Column(modifier = Modifier.padding(16.dp)) {
+//    Scaffold(topBar = {
+//        TopAppBar(title = { Text(text = "List") })
+//    }) {padding ->
+        Column(modifier = Modifier.padding(6.dp)) {
+            Spacer(modifier = Modifier.height(20.dp))
             Row {
-                Spacer(modifier = Modifier.width(8.dp))
                 TextField(
                     value = newItemText,
                     onValueChange = { newItemText = it },
                     label = { Text(text = "New Item") },
                     modifier = Modifier.weight(1f)
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                //Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = {
                         if (newItemText.isNotBlank()) {
@@ -62,7 +61,7 @@ fun SuggestedPlacesScreen(
             }
         }
     }
-}
+//}
 
 
 @Composable
