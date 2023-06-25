@@ -80,7 +80,7 @@ fun ScheduleScreen(
             ) {
                 Text(
                     text = stringResource(R.string.plus),
-                    fontSize = 16.sp
+                    fontSize = 20.sp
                 )
             }
         }

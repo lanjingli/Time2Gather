@@ -31,4 +31,6 @@
     <string name="personalListTEMP">Schedule Personal List Screen TODO</string>
     <string name="sharedListTEMP">Schedule Shared List Screen TODO</string>
     <string name="createScreenTEMP">Schedule Create Screen TODO</string>
+    <string name="left_arrow"><![CDATA[<]]></string>
+    <string name="right_arrow"><![CDATA[>]]></string>
 </resources>

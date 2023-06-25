@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +39,9 @@ import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
+import com.kizitonwose.calendar.core.nextMonth
+import com.kizitonwose.calendar.core.previousMonth
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -46,9 +53,12 @@ import java.util.Locale
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScheduleMonthlyScreen() {
+fun ScheduleMonthlyScreen(
+//    onPrevMonthButtonClicked: () -> Unit,
+//    onNextMonthButtonClicked: () -> Unit
+) {
 
-    val currentDate = remember {LocalDate.now()}
+    val currentDate = remember { LocalDate.now() }
     val currentMonth = remember { YearMonth.now() }
     val startMonth = remember { currentMonth.minusMonths(12) } // Adjust as needed
     val endMonth = remember { currentMonth.plusMonths(12) } // Adjust as needed
@@ -61,15 +71,20 @@ fun ScheduleMonthlyScreen() {
         firstDayOfWeek = daysOfWeek.first()
     )
 
-    Column {
-        Row(verticalAlignment = Alignment.CenterVertically){
+    val coroutineScope = rememberCoroutineScope()
 
-            Text(
-                text = currentMonth.month.name,
-                fontSize = 22.sp,
-                modifier = Modifier.padding((16.dp))
-            )
-        }
+    Column {
+
+        CalendarHeader(
+            onPrevButtonClicked = { coroutineScope.launch {
+                state.scrollToMonth(state.firstVisibleMonth.yearMonth.previousMonth)
+            }},
+            onNextButtonClicked = { coroutineScope.launch {
+                state.scrollToMonth(state.firstVisibleMonth.yearMonth.nextMonth)
+            } },
+            currentMonth = currentMonth
+        )
+
         DaysOfWeekTitle(daysOfWeek = daysOfWeek)
         HorizontalCalendar(
             state = state,
@@ -83,8 +98,43 @@ fun ScheduleMonthlyScreen() {
     }
 }
 
+@Composable
+fun CalendarHeader(
+    onPrevButtonClicked: () -> Unit,
+    onNextButtonClicked: () -> Unit,
+    currentMonth: YearMonth
+){
+    // Month header with previous and next month buttons
+    Row(verticalAlignment = Alignment.CenterVertically){
+        Button(
+            shape = CircleShape,
+            onClick =  onPrevButtonClicked
+        ){
+            Text(
+                text = stringResource(R.string.left_arrow),
+                fontSize = 22.sp
+            )
+        }
+        Text(
+            text = currentMonth.month.name,
+            fontSize = 22.sp,
+            modifier = Modifier.padding((16.dp))
+        )
+        Button(
+            shape = CircleShape,
+            onClick = onNextButtonClicked
+        ){
+            Text(
+                text = stringResource(R.string.right_arrow),
+                fontSize = 22.sp
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun ScheduleMonthlyPreview(){
-    ScheduleMonthlyScreen()
+    ScheduleMonthlyScreen(
+    )
 }
