@@ -1,5 +1,6 @@
 package com.example.ece_452_project
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -110,19 +111,28 @@ fun DashNavGraph(
             }
             composable(route = DashScreen.Map.name){
                 val options = DummyData.places.map{it.name + " - " + it.options.joinToString ( ", " )}
-                ListSelectScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
+//                /*
+//                */
+                Column() {
+                    ListSelectScreen(
+                        modifier = Modifier
+//                        .fillMaxSize()
+                            .padding(16.dp),
+                        title = "Locations",
+                        exclusive = true,
+                        options = options,
+                        onNextButtonClicked = {
+                            val selected = DummyData.places.filterIndexed {index, _ -> it[index]}
+                            viewModel.updateSelectedPlace(selected[0].name)
+                            navController.navigate(DashScreen.TimePlaceSelect.name)
+                        }
+                    )
+                    MapScreen(modifier =
+                    Modifier
+//                        .fillMaxSize()
                         .padding(16.dp),
-                    title = "Locations",
-                    exclusive = true,
-                    options = options,
-                    onNextButtonClicked = {
-                        val selected = DummyData.places.filterIndexed {index, _ -> it[index]}
-                        viewModel.updateSelectedPlace(selected[0].name)
-                        navController.navigate(DashScreen.TimePlaceSelect.name)
-                    }
-                )
+                        locations = DummyData.places)
+                }
             }
         }
     }

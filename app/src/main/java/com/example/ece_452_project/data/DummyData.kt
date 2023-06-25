@@ -4,7 +4,9 @@ import java.time.LocalDateTime
 
 data class DummyPlace (
     val name: String = "",
-    val options: List<String> = listOf<String>()
+    val options: List<String> = listOf<String>(),
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
 )
 object DummyData {
     var users = mutableListOf<User>(
@@ -89,19 +91,24 @@ object DummyData {
             )
         )
     )
-
     val places = listOf<DummyPlace>(
         DummyPlace(
-            name = "Pizza Boy",
-            options = listOf("Vegetarian", "Halal")
+            name = "Campus Pizza",
+            options = listOf("Vegetarian", "Halal"),
+            latitude = 43.4721753,
+            longitude = -80.5405827
+    ),
+        DummyPlace(
+            name = "Kismet",
+            options = listOf("Gluten-Free", "Vegetarian", "Halal"),
+            latitude = 43.472623,
+            longitude = -80.5397511
         ),
         DummyPlace(
-            name = "WackDonald's",
-            options = listOf("Gluten-Free", "Vegetarian", "Halal")
-        ),
-        DummyPlace(
-            name = "Freshburg",
-            options = listOf("Vegetarian", "Halal", "Kosher")
+            name = "Subway",
+            options = listOf("Vegetarian"),
+            latitude = 43.4722921,
+            longitude = -80.5404086
         )
     )
 

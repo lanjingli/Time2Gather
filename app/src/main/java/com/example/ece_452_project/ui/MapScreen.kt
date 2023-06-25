@@ -14,9 +14,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ece_452_project.R
+import com.example.ece_452_project.data.DummyData
+import com.example.ece_452_project.data.DummyPlace
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 /**
@@ -26,7 +30,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun MapScreen(
     modifier: Modifier = Modifier,
-    locations: List<String>
+    locations: List<DummyPlace>
 ) {
     Column(
         modifier = modifier,
@@ -37,23 +41,33 @@ fun MapScreen(
             text = stringResource(R.string.hello),
             style = MaterialTheme.typography.headlineLarge
         )
-        val singapore = LatLng(1.35, 103.87)
         val waterloo = LatLng(43.472646, -80.537666)
         val cameraPositionState = rememberCameraPositionState {
-            position = CameraPosition.fromLatLngZoom(singapore, 10f)
+            position = CameraPosition.fromLatLngZoom(waterloo, 10f)
         }
+
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState
         )
+        {
+//            DummyData.places.forEach { place ->
+//                Marker(
+//                    MarkerState(position = LatLng(place.latitude, place.longitude)),
+//                    place.name,
+//                    "Marker"
+//                )
+//            }
+
+        }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MapPreview(){
-    MapScreen(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp),
-        locations = listOf<String>("Location 1", "Location 2", "Location 3"))
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun MapPreview(){
+//    MapScreen(modifier = Modifier
+//        .fillMaxSize()
+//        .padding(16.dp),
+//        locations = listOf<String>("Location 1", "Location 2", "Location 3"))
+//}
