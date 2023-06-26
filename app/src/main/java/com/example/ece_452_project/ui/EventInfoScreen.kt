@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.Button
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Place
@@ -94,7 +95,7 @@ fun EventInfoScreen(
             onClick = onFinishButtonClicked
         ) {
             Row (verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Sharp.Check, contentDescription = "Finish")
+                Icon(Icons.Sharp.Check, contentDescription = "Save Event")
                 Text(
                     modifier = Modifier.padding(4.dp),
                     text = stringResource(R.string.save_event)

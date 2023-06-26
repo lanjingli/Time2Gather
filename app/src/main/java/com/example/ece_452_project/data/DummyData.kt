@@ -18,20 +18,29 @@ object DummyData {
             dietary = listOf("Halal"),
             schedule = mutableListOf(
                 Event(
-                start = LocalDateTime.of(2023, 6, 26, 8, 30),
-                end = LocalDateTime.of(2023, 6, 26, 16, 30)
+                    name = "Lectures",
+                    start = LocalDateTime.of(2023, 6, 26, 8, 30),
+                    end = LocalDateTime.of(2023, 6, 26, 16, 30)
                 ),
                 Event(
-                    start = LocalDateTime.of(2023, 6, 27, 8, 30),
+                    name = "Labs",
+                    start = LocalDateTime.of(2023, 6, 27, 9, 30),
+                    end = LocalDateTime.of(2023, 6, 27, 11, 30)
+                ),
+                Event(
+                    name = "Tutorials",
+                    start = LocalDateTime.of(2023, 6, 27, 13, 30),
                     end = LocalDateTime.of(2023, 6, 27, 16, 30)
                 ),
                 Event(
-                    start = LocalDateTime.of(2023, 6, 28, 8, 30),
-                    end = LocalDateTime.of(2023, 6, 28, 16, 30)
+                    name = "Social",
+                    start = LocalDateTime.of(2023, 6, 28, 10, 30),
+                    end = LocalDateTime.of(2023, 6, 28, 18, 30)
                 ),
                 Event(
-                    start = LocalDateTime.of(2023, 6, 30, 8, 30),
-                    end = LocalDateTime.of(2023, 6, 30, 16, 30)
+                    name = "Job Fair",
+                    start = LocalDateTime.of(2023, 6, 30, 11, 30),
+                    end = LocalDateTime.of(2023, 6, 30, 14, 30)
                 )
             )
         ),

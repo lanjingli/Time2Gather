@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -52,7 +53,8 @@ import java.time.format.DateTimeFormatter
 fun DashboardScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
-    onNewEventButtonClicked: () -> Unit
+    onNewEventButtonClicked: () -> Unit,
+    onViewScheduleButtonClicked: () -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -114,16 +116,37 @@ fun DashboardScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Box (contentAlignment = Alignment.Center) {
+
+        Row(horizontalArrangement = Arrangement.SpaceAround)
+        {
             Button(
                 modifier = Modifier,
                 onClick = onNewEventButtonClicked,
                 colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
-            ){
-                Row () {
+            ) {
+                Row (verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Default.Add, contentDescription = "Add")
                     Text(
+                        modifier = Modifier.padding(2.dp),
                         text = stringResource(R.string.new_event),
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Left
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Button(
+                modifier = Modifier,
+                onClick = onViewScheduleButtonClicked,
+                colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
+            ) {
+                Row (verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.DateRange, contentDescription = "Schedule")
+                    Text(
+                        modifier = Modifier.padding(2.dp),
+                        text = stringResource(R.string.view_schedule),
                         fontSize = 16.sp,
                         textAlign = TextAlign.Left
                     )
@@ -154,12 +177,13 @@ fun DashboardScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DashboardPreview(){
-    DashboardScreen(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp),
-        onNewEventButtonClicked = {}
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DashboardPreview(){
+//    DashboardScreen(modifier = Modifier
+//        .fillMaxSize()
+//        .padding(16.dp),
+//        onNewEventButtonClicked = {},
+//        onViewScheduleButtonClicked = {}
+//    )
+//}
