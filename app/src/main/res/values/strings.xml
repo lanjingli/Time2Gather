@@ -22,12 +22,12 @@
     <string name="upcoming_meets">Upcoming Meets</string>
     <string name="in_discussion">In Discussion</string>
     <string name="no_events">No Events</string>
-    <string name="new_event">New Event</string>
+    <string name="new_event">Add Event</string>
     <string name="next">Next</string>
     <string name="event_details">Event Details</string>
     <string name="newline">\n</string>
     <string name="select_time">Select Time</string>
     <string name="select_place">Select Place</string>
-    <string name="finish">Finish</string>
     <string name="view_schedule">View Schedule</string>
+    <string name="save_event">Save Event</string>
 </resources>

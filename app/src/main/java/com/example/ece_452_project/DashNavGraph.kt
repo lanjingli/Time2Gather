@@ -1,5 +1,6 @@
 package com.example.ece_452_project
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import com.example.ece_452_project.ui.DashboardScreen
 import com.example.ece_452_project.ui.EventInfoScreen
 import com.example.ece_452_project.ui.ListSelectScreen
 import com.example.ece_452_project.ui.ScheduleScreen
+import com.example.ece_452_project.ui.MapScreen
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.format.TextStyle
@@ -85,8 +87,8 @@ fun DashNavGraph(
             composable(route = DashScreen.TimePlaceSelect.name){
                 EventInfoScreen(
                     modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+                        .fillMaxSize()
+                        .padding(16.dp),
                     onTimeButtonClicked = {navController.navigate(DashScreen.Schedule.name)},
                     onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},
                     onFinishButtonClicked = {
@@ -116,19 +118,26 @@ fun DashNavGraph(
             }
             composable(route = DashScreen.Map.name){
                 val options = DummyData.places.map{it.name + " - " + it.options.joinToString ( ", " )}
-                ListSelectScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
+                Column() {
+                    ListSelectScreen(
+                        modifier = Modifier
+//                        .fillMaxSize()
+                            .padding(16.dp),
+                        title = "Locations",
+                        exclusive = true,
+                        options = options,
+                        onNextButtonClicked = {
+                            val selected = DummyData.places.filterIndexed {index, _ -> it[index]}
+                            viewModel.updateSelectedPlace(selected[0].name)
+                            navController.navigate(DashScreen.TimePlaceSelect.name)
+                        }
+                    )
+                    MapScreen(modifier =
+                    Modifier
+//                        .fillMaxSize()
                         .padding(16.dp),
-                    title = "Locations",
-                    exclusive = true,
-                    options = options,
-                    onNextButtonClicked = {
-                        val selected = DummyData.places.filterIndexed {index, _ -> it[index]}
-                        viewModel.updateSelectedPlace(selected[0].name)
-                        navController.navigate(DashScreen.TimePlaceSelect.name)
-                    }
-                )
+                        locations = DummyData.places)
+                }
             }
             composable(route = DashScreen.ViewSchedule.name){
                 ScheduleScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
