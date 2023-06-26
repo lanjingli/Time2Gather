@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -21,6 +22,7 @@ import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
 import com.example.ece_452_project.ui.EventInfoScreen
 import com.example.ece_452_project.ui.ListSelectScreen
+import com.example.ece_452_project.ui.ScheduleScreen
 import com.example.ece_452_project.ui.MapScreen
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -31,10 +33,12 @@ enum class DashScreen(){
     FriendSelect,
     TimePlaceSelect,
     Map,
-    Schedule
+    Schedule,
+    ViewSchedule
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun DashNavGraph(
     viewModel: DashViewModel = viewModel(),
@@ -58,6 +62,9 @@ fun DashNavGraph(
                     user = uiState.user,
                     onNewEventButtonClicked = {
                         navController.navigate(DashScreen.FriendSelect.name)
+                    },
+                    onViewScheduleButtonClicked = {
+                        navController.navigate(DashScreen.ViewSchedule.name)
                     }
                 )
             }
@@ -131,6 +138,9 @@ fun DashNavGraph(
                         .padding(16.dp),
                         locations = DummyData.places)
                 }
+            }
+            composable(route = DashScreen.ViewSchedule.name){
+                ScheduleScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
             }
         }
     }
