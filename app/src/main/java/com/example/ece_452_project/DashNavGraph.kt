@@ -111,8 +111,6 @@ fun DashNavGraph(
             }
             composable(route = DashScreen.Map.name){
                 val options = DummyData.places.map{it.name + " - " + it.options.joinToString ( ", " )}
-//                /*
-//                */
                 Column() {
                     ListSelectScreen(
                         modifier = Modifier

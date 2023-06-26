@@ -30,7 +30,7 @@ class DashViewModel : ViewModel() {
     }
 
     fun updateSelectedTime(start: LocalDateTime, end: LocalDateTime){
-        var tmp = _uiState.value.selectedEvent
+        var tmp = _uiState.value.selectedEvent.copy()
         tmp.start = start
         tmp.end = end
         _uiState.update { currentState ->
@@ -39,8 +39,9 @@ class DashViewModel : ViewModel() {
     }
 
     fun updateSelectedPlace(place: String){
-        var tmp = _uiState.value.selectedEvent
+        var tmp = _uiState.value.selectedEvent.copy()
         tmp.location = place
+        tmp.name = place
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = tmp)
         }
