@@ -156,25 +156,26 @@ fun DashboardScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(horizontalArrangement = Arrangement.Center)
-        {
-            Button(
-                modifier = Modifier,
-                onClick = onViewScheduleButtonClicked,
-                colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
-            ) {
-                Row (verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.DateRange, contentDescription = "Schedule")
-                    Text(
-                        modifier = Modifier.padding(2.dp),
-                        text = stringResource(R.string.view_schedule),
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Left
-                    )
-                }
-
-            }
-        }
+        //TODO: add View Schedule back
+//        Row(horizontalArrangement = Arrangement.Center)
+//        {
+//            Button(
+//                modifier = Modifier,
+//                onClick = onViewScheduleButtonClicked,
+//                colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
+//            ) {
+//                Row (verticalAlignment = Alignment.CenterVertically) {
+//                    Icon(Icons.Default.DateRange, contentDescription = "Schedule")
+//                    Text(
+//                        modifier = Modifier.padding(2.dp),
+//                        text = stringResource(R.string.view_schedule),
+//                        fontSize = 16.sp,
+//                        textAlign = TextAlign.Left
+//                    )
+//                }
+//
+//            }
+//        }
 
         Spacer(modifier = Modifier.height(16.dp))
         Card(
