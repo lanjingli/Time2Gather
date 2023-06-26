@@ -26,6 +26,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material.icons.sharp.Check
+import androidx.compose.material.icons.sharp.DateRange
+import androidx.compose.material.icons.sharp.Place
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -157,7 +160,7 @@ fun EventInfoScreen(
             onClick = onFinishButtonClicked
         ) {
             Text(
-                text = stringResource(R.string.finish),
+                text = stringResource(R.string.save_event),
                 fontSize = 16.sp
             )
         }

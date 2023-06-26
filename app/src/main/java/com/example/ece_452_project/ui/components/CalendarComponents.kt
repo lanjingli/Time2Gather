@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.ece_452_project.ui.theme.SolidGreen
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
@@ -33,6 +34,7 @@ fun Day(day: CalendarDay, isSelected: Boolean = false, onClick: (CalendarDay) ->
             .aspectRatio(1f)
             .clip(CircleShape)
             .background(color = if (isSelected)  MaterialTheme.colorScheme.outlineVariant else Color.Transparent)
+//            .background(color = if (isSelected) SolidGreen else Color.Transparent)
             .clickable(
                 enabled = day.position == DayPosition.MonthDate,
                 onClick = { onClick(day) }

@@ -1,7 +1,9 @@
 package com.example.ece_452_project.ui
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,6 +21,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -31,13 +37,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.ece_452_project.R
 import com.example.ece_452_project.data.User
 import com.example.ece_452_project.ui.components.CalendarHeader
 import com.example.ece_452_project.ui.components.Day
+import com.example.ece_452_project.ui.theme.SolidGreen
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
@@ -52,7 +62,8 @@ import java.time.format.DateTimeFormatter
 fun DashboardScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
-    onNewEventButtonClicked: () -> Unit
+    onNewEventButtonClicked: () -> Unit,
+    onViewScheduleButtonClicked: () -> Unit
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -92,7 +103,6 @@ fun DashboardScreen(
                     CalendarHeader(month = month)
                 }
             )
-
             sharedEvents.forEach { event ->
                 OutlinedButton(
                     onClick = { },
@@ -145,6 +155,28 @@ fun DashboardScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
+
+        Row(horizontalArrangement = Arrangement.Center)
+        {
+            Button(
+                modifier = Modifier,
+                onClick = onViewScheduleButtonClicked,
+                colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
+            ) {
+                Row (verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.DateRange, contentDescription = "Schedule")
+                    Text(
+                        modifier = Modifier.padding(2.dp),
+                        text = stringResource(R.string.view_schedule),
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Left
+                    )
+                }
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
         Card(
             modifier = Modifier
                 .wrapContentHeight()
@@ -172,6 +204,7 @@ fun DashboardPreview(){
     DashboardScreen(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
-        onNewEventButtonClicked = {}
+        onNewEventButtonClicked = {},
+        onViewScheduleButtonClicked = {}
     )
 }

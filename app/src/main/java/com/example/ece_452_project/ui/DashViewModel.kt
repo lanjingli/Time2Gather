@@ -23,24 +23,24 @@ class DashViewModel : ViewModel() {
     var deadlineDate by mutableStateOf("")
         private set
 
-    fun resetDash(){
+    fun resetDash() {
         _uiState.value = DashUiState()
     }
 
-    fun updateUser(user: User){
+    fun updateUser(user: User) {
         _uiState.update { currentState ->
             currentState.copy(user = user)
         }
     }
 
-    fun updateSelectedFriends(friends: List<User>){
+    fun updateSelectedFriends(friends: List<User>) {
         _uiState.update { currentState ->
             currentState.copy(selectedFriends = friends)
         }
     }
 
-    fun updateSelectedTime(start: LocalDateTime, end: LocalDateTime){
-        var tmp = _uiState.value.selectedEvent
+    fun updateSelectedTime(start: LocalDateTime, end: LocalDateTime) {
+        var tmp = _uiState.value.selectedEvent.copy()
         tmp.start = start
         tmp.end = end
         _uiState.update { currentState ->
@@ -48,21 +48,29 @@ class DashViewModel : ViewModel() {
         }
     }
 
-    fun updateSelectedPlace(place: String){
-        var tmp = _uiState.value.selectedEvent
+    fun updateSelectedPlace(place: String) {
+        var tmp = _uiState.value.selectedEvent.copy()
         tmp.location = place
+        tmp.name = place
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = tmp)
         }
     }
 
-    fun updateEventName(value: String) { eventName = value }
+    fun updateEventName(value: String) {
+        eventName = value
+    }
 
-    fun updateEventDescription(value: String){ eventDesc = value }
-    fun updateDeadlineDate(value: String){ deadlineDate = value }
+    fun updateEventDescription(value: String) {
+        eventDesc = value
+    }
+
+    fun updateDeadlineDate(value: String) {
+        deadlineDate = value
+    }
 
     fun updateEventSetting(deadline: String) {
-        var tmp = _uiState.value.selectedEvent
+        var tmp = _uiState.value.selectedEvent.copy()
         tmp.name = eventName
         tmp.description = eventDesc
         tmp.deadlineDate = deadline
