@@ -1,5 +1,8 @@
 package com.example.ece_452_project.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ece_452_project.data.DashUiState
 import com.example.ece_452_project.data.User
@@ -13,23 +16,30 @@ class DashViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(DashUiState())
     val uiState: StateFlow<DashUiState> = _uiState.asStateFlow()
 
-    fun resetDash(){
+    var eventName by mutableStateOf("")
+        private set
+    var eventDesc by mutableStateOf("")
+        private set
+    var deadlineDate by mutableStateOf("")
+        private set
+
+    fun resetDash() {
         _uiState.value = DashUiState()
     }
 
-    fun updateUser(user: User){
+    fun updateUser(user: User) {
         _uiState.update { currentState ->
             currentState.copy(user = user)
         }
     }
 
-    fun updateSelectedFriends(friends: List<User>){
+    fun updateSelectedFriends(friends: List<User>) {
         _uiState.update { currentState ->
             currentState.copy(selectedFriends = friends)
         }
     }
 
-    fun updateSelectedTime(start: LocalDateTime, end: LocalDateTime){
+    fun updateSelectedTime(start: LocalDateTime, end: LocalDateTime) {
         var tmp = _uiState.value.selectedEvent.copy()
         tmp.start = start
         tmp.end = end
@@ -38,12 +48,34 @@ class DashViewModel : ViewModel() {
         }
     }
 
-    fun updateSelectedPlace(place: String){
+    fun updateSelectedPlace(place: String) {
         var tmp = _uiState.value.selectedEvent.copy()
         tmp.location = place
         tmp.name = place
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = tmp)
         }
+    }
+
+    fun updateEventName(value: String) {
+        eventName = value
+    }
+
+    fun updateEventDescription(value: String) {
+        eventDesc = value
+    }
+
+    fun updateDeadlineDate(value: String) {
+        deadlineDate = value
+    }
+
+    fun updateEventSetting(deadline: String) {
+        var tmp = _uiState.value.selectedEvent.copy()
+        tmp.name = eventName
+        tmp.description = eventDesc
+        tmp.deadlineDate = deadline
+//        _uiState.update { currentState ->
+//            currentState.copy(selectedEvent = tmp)
+//        }
     }
 }

@@ -12,5 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+    </style>
+    <style name="DatePickTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorSecondary">#FF6200EE</item>
+        <item name="colorPrimary">#FF6200EE</item> <!-- button text color -->
     </style>
 </resources>
