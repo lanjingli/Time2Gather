@@ -1,5 +1,8 @@
 package com.example.ece_452_project.ui
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ece_452_project.data.DashUiState
 import com.example.ece_452_project.data.User
@@ -12,6 +15,13 @@ import java.time.LocalDateTime
 class DashViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(DashUiState())
     val uiState: StateFlow<DashUiState> = _uiState.asStateFlow()
+
+    var eventName by mutableStateOf("")
+        private set
+    var eventDesc by mutableStateOf("")
+        private set
+    var deadlineDate by mutableStateOf("")
+        private set
 
     fun resetDash(){
         _uiState.value = DashUiState()
@@ -44,5 +54,20 @@ class DashViewModel : ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = tmp)
         }
+    }
+
+    fun updateEventName(value: String) { eventName = value }
+
+    fun updateEventDescription(value: String){ eventDesc = value }
+    fun updateDeadlineDate(value: String){ deadlineDate = value }
+
+    fun updateEventSetting(deadline: String) {
+        var tmp = _uiState.value.selectedEvent
+        tmp.name = eventName
+        tmp.description = eventDesc
+        tmp.deadlineDate = deadline
+//        _uiState.update { currentState ->
+//            currentState.copy(selectedEvent = tmp)
+//        }
     }
 }
