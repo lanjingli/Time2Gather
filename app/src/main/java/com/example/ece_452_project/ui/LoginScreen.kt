@@ -1,5 +1,6 @@
 package com.example.ece_452_project.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -44,15 +46,20 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.leaves),
+            contentDescription = stringResource(id = R.string.leaves_content_description)
+
+        )
         Text(
-            text = stringResource(R.string.welcome_back),
+            text = stringResource(R.string.app_title),
             style = MaterialTheme.typography.headlineLarge
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = stringResource(R.string.login_to_your_account),
-            style = MaterialTheme.typography.headlineSmall
-        )
+//        Spacer(modifier = Modifier.height(4.dp))
+//        Text(
+//            text = stringResource(R.string.welcome_back),
+//            style = MaterialTheme.typography.bodyLarge
+//        )
         Spacer(modifier = Modifier.height(32.dp))
         TextField(
             value = usernameText,
