@@ -16,5 +16,5 @@
 | 2023/06/23 |   2    |  2  |    2    |   2   |   2   |   2   |     App Demo Discussion      |
 | 2023/06/23 |   6    |     |         |       |       |       |     App Demo Development     |
 | 2023/06/23 |        | 0.5 |         |  0.5  |       |       |  App Schedule View Dicussion |
-| 2023/06/24 |   4    |     |         |       |   4   |   6   |     App Demo Development     |
-| 2023/06/25 |   4    |     |         |       |   5   |  5    |     App Demo Development     |
+| 2023/06/24 |   4    |     |   12    |       |   4   |   6   |     App Demo Development     |
+| 2023/06/25 |   4    |     |   10    |       |   5   |  5    |     App Demo Development     |
