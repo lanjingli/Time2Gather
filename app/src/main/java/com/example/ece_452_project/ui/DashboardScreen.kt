@@ -126,22 +126,6 @@ fun DashboardScreen(
 
             }
 
-
-
-
-//            sharedEvents.forEach{event->
-//                Button(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    onClick = {},
-//                    colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
-//                ){
-//                    Text(
-//                        text = event.name + " - " + event.start.format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
-//                        fontSize = 16.sp,
-//                        textAlign = TextAlign.Left
-//                    )
-//                }
-//            }
             if (sharedEvents.isEmpty()){
                 Text(
                     modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
