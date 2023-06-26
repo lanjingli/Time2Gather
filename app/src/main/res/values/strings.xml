@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">ECE_452_Project</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="app_title">Time²Gather</string>
     <string name="welcome_back">Welcome Back!</string>
-    <string name="login_to_your_account">Log Into Your Account</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
@@ -34,4 +34,5 @@
     <string name="invite_friends">Invite your Friends</string>
     <string name="view_schedule">View Schedule</string>
     <string name="save_event">Save Event</string>
+    <string name="leaves_content_description">Leaves Logo</string>
 </resources>
