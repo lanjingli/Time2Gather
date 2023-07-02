@@ -93,7 +93,7 @@ fun ScheduleScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SchedulePreview(){
+fun ScheduleExtraPreview(){
     ScheduleScreen(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),

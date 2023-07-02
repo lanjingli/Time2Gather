@@ -24,6 +24,7 @@ import com.example.ece_452_project.ui.theme.SolidGreen
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
+import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
 

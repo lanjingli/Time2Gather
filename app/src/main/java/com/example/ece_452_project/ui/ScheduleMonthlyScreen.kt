@@ -1,5 +1,6 @@
 package com.example.ece_452_project.ui
 
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,7 +34,6 @@ import com.example.ece_452_project.R
 import com.example.ece_452_project.data.DummyPlace
 import com.example.ece_452_project.data.User
 import com.example.ece_452_project.ui.components.Day
-import com.example.ece_452_project.ui.components.DaysOfWeekTitle
 import com.kizitonwose.calendar.compose.ContentHeightMode
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -131,6 +131,21 @@ fun CalendarHeader(
         }
     }
 }
+
+
+@Composable
+fun DaysOfWeekTitle(modifier: Modifier = Modifier, daysOfWeek: List<DayOfWeek>) {
+    Row(modifier = modifier.fillMaxWidth()) {
+        for (dayOfWeek in daysOfWeek) {
+            Text(
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+                text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+            )
+        }
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable

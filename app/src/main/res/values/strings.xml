@@ -35,4 +35,15 @@
     <string name="view_schedule">View Schedule</string>
     <string name="save_event">Save Event</string>
     <string name="leaves_content_description">Leaves Logo</string>
+    <string name="my_schedules">My Schedules</string>
+    <string name="personal">Personal</string>
+    <string name="shared">Shared</string>
+    <string name="plus">+</string>
+    <string name="friends">Friends</string>
+    <string name="updates">Updates</string>
+    <string name="right_arrow"><![CDATA[>]]></string>
+    <string name="left_arrow"><![CDATA[<]]></string>
+    <string name="createScreenTEMP">createScreenTEMP</string>
+    <string name="personalListTEMP">personalListTEMP</string>
+    <string name="sharedListTEMP">sharedListTEMP</string>
 </resources>
