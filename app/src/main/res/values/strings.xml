@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">ECE_452_Project</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="app_title">Time²Gather</string>
     <string name="welcome_back">Welcome Back!</string>
-    <string name="login_to_your_account">Log Into Your Account</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
@@ -22,15 +22,17 @@
     <string name="upcoming_meets">Upcoming Meets</string>
     <string name="in_discussion">In Discussion</string>
     <string name="no_events">No Events</string>
-    <string name="my_schedules">My Schedules</string>
-    <string name="friends">Friends</string>
-    <string name="updates">Updates</string>
-    <string name="personal">Personal</string>
-    <string name="shared">Shared</string>
-    <string name="plus">+</string>
-    <string name="personalListTEMP">Schedule Personal List Screen TODO</string>
-    <string name="sharedListTEMP">Schedule Shared List Screen TODO</string>
-    <string name="createScreenTEMP">Schedule Create Screen TODO</string>
-    <string name="left_arrow"><![CDATA[<]]></string>
-    <string name="right_arrow"><![CDATA[>]]></string>
+    <string name="new_event">Add Event</string>
+    <string name="next">Next</string>
+    <string name="event_details">Event Details</string>
+    <string name="newline">\n</string>
+    <string name="select_time">Select Time</string>
+    <string name="select_place">Select Place</string>
+    <string name="back_to_invite_friends">Back to Select Friends</string>
+    <string name="event_description">Description</string>
+    <string name="deadline_date">Decision Deadline</string>
+    <string name="invite_friends">Invite your Friends</string>
+    <string name="view_schedule">View Schedule</string>
+    <string name="save_event">Save Event</string>
+    <string name="leaves_content_description">Leaves Logo</string>
 </resources>

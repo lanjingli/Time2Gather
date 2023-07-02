@@ -4,32 +4,43 @@ import java.time.LocalDateTime
 
 data class DummyPlace (
     val name: String = "",
-    val options: List<String> = listOf<String>()
+    val options: List<String> = listOf<String>(),
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
 )
 object DummyData {
-    val users = listOf<User>(
+    var users = mutableListOf<User>(
         User(
             username = "alpha",
             password = "pass",
             name = "Alice",
             email = "a@mail.com",
             dietary = listOf("Halal"),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
-                start = LocalDateTime.of(2023, 6, 26, 8, 30),
-                end = LocalDateTime.of(2023, 6, 26, 16, 30)
+                    name = "Lectures",
+                    start = LocalDateTime.of(2023, 6, 26, 8, 30),
+                    end = LocalDateTime.of(2023, 6, 26, 16, 30)
                 ),
                 Event(
-                    start = LocalDateTime.of(2023, 6, 27, 8, 30),
+                    name = "Labs",
+                    start = LocalDateTime.of(2023, 6, 27, 9, 30),
+                    end = LocalDateTime.of(2023, 6, 27, 11, 30)
+                ),
+                Event(
+                    name = "Tutorials",
+                    start = LocalDateTime.of(2023, 6, 27, 13, 30),
                     end = LocalDateTime.of(2023, 6, 27, 16, 30)
                 ),
                 Event(
-                    start = LocalDateTime.of(2023, 6, 28, 8, 30),
-                    end = LocalDateTime.of(2023, 6, 28, 16, 30)
+                    name = "Social",
+                    start = LocalDateTime.of(2023, 6, 28, 10, 30),
+                    end = LocalDateTime.of(2023, 6, 28, 18, 30)
                 ),
                 Event(
-                    start = LocalDateTime.of(2023, 6, 30, 8, 30),
-                    end = LocalDateTime.of(2023, 6, 30, 16, 30)
+                    name = "Job Fair",
+                    start = LocalDateTime.of(2023, 6, 30, 11, 30),
+                    end = LocalDateTime.of(2023, 6, 30, 14, 30)
                 )
             )
         ),
@@ -39,7 +50,7 @@ object DummyData {
             name = "Bob",
             email = "b@mail.com",
             dietary = listOf<String>(),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
                     start = LocalDateTime.of(2023, 6, 29, 7, 30),
                     end = LocalDateTime.of(2023, 6, 29, 10, 30)
@@ -56,7 +67,7 @@ object DummyData {
             name = "Charlie",
             email = "c@mail.com",
             dietary = listOf<String>("Vegetarian"),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
                     start = LocalDateTime.of(2023, 6, 27, 15, 0),
                     end = LocalDateTime.of(2023, 6, 27, 17, 30)
@@ -73,13 +84,15 @@ object DummyData {
             name = "Dahlia",
             email = "d@mail.com",
             dietary = listOf<String>(""),
-            schedule = listOf(
+            schedule = mutableListOf(
                 Event(
+                    name = "FYDP Brainstorming",
                     start = LocalDateTime.of(2023, 7, 1, 15, 0),
                     end = LocalDateTime.of(2023, 7, 1, 17, 30),
                     shared = true
                 ),
                 Event(
+                    name = "Ice Cream Meet",
                     start = LocalDateTime.of(2023, 7, 5, 15, 30),
                     end = LocalDateTime.of(2023, 7, 5, 16, 0),
                     shared = true
@@ -87,31 +100,30 @@ object DummyData {
             )
         )
     )
-
     val places = listOf<DummyPlace>(
         DummyPlace(
-            name = "Pizza Boy",
-            options = listOf("Vegetarian", "Halal")
+            name = "Campus Pizza",
+            options = listOf("Vegetarian", "Halal"),
+            latitude = 43.4721753,
+            longitude = -80.5405827
+    ),
+        DummyPlace(
+            name = "Kismet",
+            options = listOf("Gluten-Free", "Vegetarian", "Halal"),
+            latitude = 43.472623,
+            longitude = -80.5397511
         ),
         DummyPlace(
-            name = "Cafe 101",
-            options = listOf("Vegan")
-        ),
-        DummyPlace(
-            name = "Robinson's BBQ",
-            options = listOf("Halal")
-        ),
-        DummyPlace(
-            name = "WackDonald's",
-            options = listOf("Gluten-Free", "Vegetarian")
-        ),
-        DummyPlace(
-            name = "Stan's Meat Shack",
-            options = listOf("Halal")
-        ),
-        DummyPlace(
-            name = "Freshburg",
-            options = listOf("Vegetarian", "Halal", "Kosher")
+            name = "Subway",
+            options = listOf("Vegetarian"),
+            latitude = 43.4722921,
+            longitude = -80.5404086
         )
+    )
+
+    val times = listOf<LocalDateTime>(
+        LocalDateTime.of(2023, 6, 28, 18, 0),
+        LocalDateTime.of(2023, 6, 30, 19, 0),
+        LocalDateTime.of(2023, 7, 2, 15, 0)
     )
 }
