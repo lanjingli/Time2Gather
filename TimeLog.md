@@ -20,4 +20,5 @@
 | 2023/06/25 |   4    |  8  |   10    |   2   |   5   |  5    |     App Demo Development     |
 | 2023/06/26 |        |     |         |       |   7   |       |     App Demo Development     |
 | 2023/06/30 |        |     |         |   1   |       |       |    Status Report Document    |
-| 2023/07/12 |        | 3.5 |         |       |       |       |D4: Architectural Examples    |   
+| 2023/07/12 |        | 3.5 |         |       |       |       |  D4: Architectural Examples  |   
+| 2023/07/12 |        | 3   |         |       |       |       |  D4: Architectural Examples  |  
