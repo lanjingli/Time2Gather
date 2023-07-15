@@ -62,8 +62,7 @@ import java.time.format.DateTimeFormatter
 fun DashboardScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
-    onNewEventButtonClicked: () -> Unit,
-    onViewScheduleButtonClicked: () -> Unit
+    onNewEventButtonClicked: () -> Unit
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -75,6 +74,9 @@ fun DashboardScreen(
             style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(16.dp))
+
+        // Calendar
+
         Card(
             modifier = Modifier
                 .wrapContentHeight()
@@ -205,7 +207,6 @@ fun DashboardPreview(){
     DashboardScreen(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
-        onNewEventButtonClicked = {},
-        onViewScheduleButtonClicked = {}
+        onNewEventButtonClicked = {}
     )
 }

@@ -66,9 +66,9 @@ fun DashNavGraph(
                     onNewEventButtonClicked = {
                         navController.navigate(DashScreen.EventSetting.name)
                     },
-                    onViewScheduleButtonClicked = {
-                        navController.navigate(DashScreen.ViewSchedule.name)
-                    }
+//                    onViewScheduleButtonClicked = {
+//                        navController.navigate(DashScreen.ViewSchedule.name)
+//                    }
                 )
             }
             composable(route = DashScreen.EventSetting.name){
