@@ -14,6 +14,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,9 +25,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.ece_452_project.ui.theme.SolidGreen
+import com.kizitonwose.calendar.compose.CalendarLayoutInfo
+import com.kizitonwose.calendar.compose.CalendarState
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
+import kotlinx.coroutines.flow.filterNotNull
 import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
@@ -44,11 +51,8 @@ fun Day(day: CalendarDay, isSelected: Boolean = false, onClick: (CalendarDay) ->
     ) {
         Text(
             text = day.date.dayOfMonth.toString(),
-
             // to shade calendar dates that are for previous / next month
-            color = if (day.position == DayPosition.MonthDate)
-                        Color.Black
-                    else Color.Gray
+            color = if (day.position == DayPosition.MonthDate) Color.Black else Color.Gray
         )
     }
 }
@@ -76,3 +80,36 @@ fun CalendarHeader(modifier: Modifier = Modifier, month: CalendarMonth) {
         }
     }
 }
+
+@Composable
+fun rememberFirstCompletelyVisibleMonth(state: CalendarState): CalendarMonth {
+    val visibleMonth = remember(state) { mutableStateOf(state.firstVisibleMonth) }
+    // Only take non-null values as null will be produced when the
+    // list is mid-scroll as no index will be completely visible.
+    LaunchedEffect(state) {
+        snapshotFlow { state.layoutInfo.completelyVisibleMonths.firstOrNull() }
+            .filterNotNull()
+            .collect { month -> visibleMonth.value = month }
+    }
+    return visibleMonth.value
+}
+
+
+private val CalendarLayoutInfo.completelyVisibleMonths: List<CalendarMonth>
+    get() {
+        val visibleItemsInfo = this.visibleMonthsInfo.toMutableList()
+        return if (visibleItemsInfo.isEmpty()) {
+            emptyList()
+        } else {
+            val lastItem = visibleItemsInfo.last()
+            val viewportSize = this.viewportEndOffset + this.viewportStartOffset
+            if (lastItem.offset + lastItem.size > viewportSize) {
+                visibleItemsInfo.removeLast()
+            }
+            val firstItem = visibleItemsInfo.firstOrNull()
+            if (firstItem != null && firstItem.offset < this.viewportStartOffset) {
+                visibleItemsInfo.removeFirst()
+            }
+            visibleItemsInfo.map { it.month }
+        }
+    }

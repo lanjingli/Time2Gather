@@ -19,28 +19,28 @@ object DummyData {
             schedule = mutableListOf(
                 Event(
                     name = "Lectures",
-                    start = LocalDateTime.of(2023, 6, 26, 8, 30),
-                    end = LocalDateTime.of(2023, 6, 26, 16, 30)
+                    start = LocalDateTime.of(2023, 7, 26, 8, 30),
+                    end = LocalDateTime.of(2023, 7, 26, 16, 30)
                 ),
                 Event(
                     name = "Labs",
-                    start = LocalDateTime.of(2023, 6, 27, 9, 30),
-                    end = LocalDateTime.of(2023, 6, 27, 11, 30)
+                    start = LocalDateTime.of(2023, 7, 27, 9, 30),
+                    end = LocalDateTime.of(2023, 7, 27, 11, 30)
                 ),
                 Event(
                     name = "Tutorials",
-                    start = LocalDateTime.of(2023, 6, 27, 13, 30),
-                    end = LocalDateTime.of(2023, 6, 27, 16, 30)
+                    start = LocalDateTime.of(2023, 7, 27, 13, 30),
+                    end = LocalDateTime.of(2023, 7, 27, 16, 30)
                 ),
                 Event(
                     name = "Social",
-                    start = LocalDateTime.of(2023, 6, 28, 10, 30),
-                    end = LocalDateTime.of(2023, 6, 28, 18, 30)
+                    start = LocalDateTime.of(2023, 7, 28, 10, 30),
+                    end = LocalDateTime.of(2023, 7, 28, 18, 30)
                 ),
                 Event(
                     name = "Job Fair",
-                    start = LocalDateTime.of(2023, 6, 30, 11, 30),
-                    end = LocalDateTime.of(2023, 6, 30, 14, 30)
+                    start = LocalDateTime.of(2023, 7, 30, 11, 30),
+                    end = LocalDateTime.of(2023, 7, 30, 14, 30)
                 )
             )
         ),
@@ -52,12 +52,12 @@ object DummyData {
             dietary = listOf<String>(),
             schedule = mutableListOf(
                 Event(
-                    start = LocalDateTime.of(2023, 6, 29, 7, 30),
-                    end = LocalDateTime.of(2023, 6, 29, 10, 30)
+                    start = LocalDateTime.of(2023, 7, 29, 7, 30),
+                    end = LocalDateTime.of(2023, 7, 29, 10, 30)
                 ),
                 Event(
-                    start = LocalDateTime.of(2023, 6, 29, 20, 30),
-                    end = LocalDateTime.of(2023, 6, 29, 22, 0)
+                    start = LocalDateTime.of(2023, 7, 29, 20, 30),
+                    end = LocalDateTime.of(2023, 7, 29, 22, 0)
                 ),
             )
         ),
@@ -69,12 +69,12 @@ object DummyData {
             dietary = listOf<String>("Vegetarian"),
             schedule = mutableListOf(
                 Event(
-                    start = LocalDateTime.of(2023, 6, 27, 15, 0),
-                    end = LocalDateTime.of(2023, 6, 27, 17, 30)
+                    start = LocalDateTime.of(2023, 7, 27, 15, 0),
+                    end = LocalDateTime.of(2023, 7, 27, 17, 30)
                 ),
                 Event(
-                    start = LocalDateTime.of(2023, 6, 29, 15, 30),
-                    end = LocalDateTime.of(2023, 6, 29, 16, 0)
+                    start = LocalDateTime.of(2023, 7, 29, 15, 30),
+                    end = LocalDateTime.of(2023, 7, 29, 16, 0)
                 ),
             )
         ),
@@ -122,8 +122,8 @@ object DummyData {
     )
 
     val times = listOf<LocalDateTime>(
-        LocalDateTime.of(2023, 6, 28, 18, 0),
-        LocalDateTime.of(2023, 6, 30, 19, 0),
-        LocalDateTime.of(2023, 7, 2, 15, 0)
+        LocalDateTime.of(2023, 7, 28, 18, 0),
+        LocalDateTime.of(2023, 7, 30, 19, 0),
+        LocalDateTime.of(2023, 7, 29, 15, 0)
     )
 }
