@@ -23,3 +23,4 @@
 | 2023/07/12 |        | 3.5 |         |       |       |       |  D4: Architectural Examples  |   
 | 2023/07/13 |        | 3   |         |       |       |       |  D4: Architectural Examples  |  
 | 2023/07/14 |   3    |     |         |       |       |       |  D4: Architectural Examples  |  
+| 2023/07/15 |        |     |         |   7   |       |       |  App Dev - Clickable calendar events  |  
