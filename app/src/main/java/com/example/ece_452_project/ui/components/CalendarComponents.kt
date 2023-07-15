@@ -41,7 +41,11 @@ fun Day(day: CalendarDay, isSelected: Boolean = false, onClick: (CalendarDay) ->
             ),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = day.date.dayOfMonth.toString())
+        Text(
+            text = day.date.dayOfMonth.toString(),
+            // to shade calendar dates that are for previous / next month
+            color = if (day.position == DayPosition.MonthDate) Color.Black else Color.Gray
+        )
     }
 }
 
