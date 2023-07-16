@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,6 +29,7 @@ import java.time.format.FormatStyle
 import com.example.ece_452_project.ui.ListSelectScreen
 import com.example.ece_452_project.ui.ScheduleScreen
 import com.example.ece_452_project.ui.MapScreen
+import com.example.ece_452_project.ui.TimeSelectionScreen
 import java.time.format.TextStyle
 
 enum class DashScreen(){
@@ -121,16 +123,13 @@ fun DashNavGraph(
             composable(route = DashScreen.Schedule.name){
                 val options = DummyData.times.map{it.format(DateTimeFormatter.ofLocalizedDateTime(
                     FormatStyle.MEDIUM))}
-                ListSelectScreen(
+                TimeSelectionScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
-                    title = "Times",
-                    exclusive = true,
-                    options = options,
+                    title = stringResource(R.string.select_time),
                     onNextButtonClicked = {
-                        val selected = DummyData.times.filterIndexed {index, _ -> it[index]}
-                        viewModel.updateSelectedTime(selected[0], selected[0].plusHours(1))
+                        viewModel.updateSelectedTime(it[0], it[1])
                         navController.navigate(DashScreen.TimePlaceSelect.name)
                     }
                 )
