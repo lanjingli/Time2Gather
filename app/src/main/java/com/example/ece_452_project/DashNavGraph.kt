@@ -127,7 +127,7 @@ fun DashNavGraph(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
-                    title = stringResource(R.string.select_time),
+                    users = DummyData.users,
                     onNextButtonClicked = {
                         viewModel.updateSelectedTime(it[0], it[1])
                         navController.navigate(DashScreen.TimePlaceSelect.name)
@@ -179,23 +179,6 @@ fun DashNavGraph(
                         user.schedule.add(uiState.selectedEvent)
                         viewModel.updateUser(user)
                         navController.navigate(DashScreen.Dashboard.name)
-                    }
-                )
-            }
-            composable(route = DashScreen.Schedule.name){
-                val options = DummyData.times.map{it.format(DateTimeFormatter.ofLocalizedDateTime(
-                    FormatStyle.MEDIUM))}
-                ListSelectScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    title = "Times",
-                    exclusive = true,
-                    options = options,
-                    onNextButtonClicked = {
-                        val selected = DummyData.times.filterIndexed {index, _ -> it[index]}
-                        viewModel.updateSelectedTime(selected[0], selected[0].plusHours(1))
-                        navController.navigate(DashScreen.TimePlaceSelect.name)
                     }
                 )
             }
