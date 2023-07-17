@@ -76,7 +76,7 @@ fun TimeSelectionScreen(
 
     Column(
             modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.Start
     ){
         var dateState by remember {
@@ -144,6 +144,8 @@ fun TimeSelectionScreen(
                 .background(color = Color(0xFF6750A4))
                 .fillMaxWidth()
                 .wrapContentSize()
+        val dailyCalendarFormat = DateTimeFormatter.ofPattern("HH:mm")
+        var dailyCalendarTime = LocalDateTime.of(dateState.year, dateState.month, dateState.dayOfMonth, 0, 0, 0)
         LazyVerticalGrid(
                 columns = GridCells.Fixed(numCols),
                 modifier = Modifier.fillMaxSize()
@@ -164,20 +166,42 @@ fun TimeSelectionScreen(
                     }
                 } else {
                     if (it % numCols == 0) {
-                        val dailyCalendarFormat = DateTimeFormatter.ofPattern("HH:mm")
-                        var dailyCalendarTime = LocalDateTime.of(dateState.year, dateState.month, dateState.dayOfMonth, 0, 0, 0)
-                        Box(modifier = itemModifier) {
+                        if (it != numCols) dailyCalendarTime = dailyCalendarTime.plusMinutes(15)
+                        Box(
+                            modifier = Modifier
+                                .background(color =
+                                    if (isAvailable(currentUser,dailyCalendarTime, dailyCalendarTime.plusMinutes(15)) &&
+                                        isAvailable(friends, dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
+                                        Color(0XFF006400)
+                                    } else {
+                                        Color(0XFF800000)
+                                    }
+                                )
+                                .fillMaxWidth()
+                                .wrapContentSize()
+                        ) {
                             Text(
                                 color = Color.White,
-                                text = dailyCalendarFormat
-                                    .format(dailyCalendarTime
-                                        .plusMinutes(
-                                            (
-                                                (it / numCols - 1) * 15
-                                            ).toLong()
-                                        )
-                                    )
+                                text = dailyCalendarFormat.format(dailyCalendarTime)
                             )
+                        }
+                    } else {
+                        if (it % numCols == 1) {
+                            if (!isAvailable(currentUser, dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
+                                Box(
+                                    modifier = Modifier
+                                        .background(color = Color.Gray)
+                                        .fillMaxWidth()
+                                )
+                            }
+                        } else {
+                            if (!isAvailable(friends[it % numCols - 2], dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
+                                Box(
+                                    modifier = Modifier
+                                        .background(color = Color.Gray)
+                                        .fillMaxWidth()
+                                )
+                            }
                         }
                     }
                 }
@@ -208,6 +232,33 @@ fun TimeSelectionScreen(
             }
         }
     }
+}
+
+fun isAvailable(
+    user: User,
+    startTime: LocalDateTime,
+    endTime: LocalDateTime
+) : Boolean {
+    user.schedule.forEach { event ->
+        if ((event.start < startTime && event.end > endTime) ||
+            (event.start > startTime && event.end < endTime) ||
+            (event.start < startTime && event.end > startTime) ||
+            (event.start < endTime && event.end > endTime))
+            return false
+    }
+    return true
+}
+
+fun isAvailable(
+    users: List<User>,
+    startTime: LocalDateTime,
+    endTime: LocalDateTime
+) : Boolean {
+    users.forEach { user ->
+        if (!isAvailable(user, startTime, endTime))
+            return false
+    }
+    return true
 }
 
 @Preview(showBackground = true)
