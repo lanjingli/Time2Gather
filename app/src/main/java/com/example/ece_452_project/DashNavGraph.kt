@@ -124,10 +124,11 @@ fun DashNavGraph(
                 val options = DummyData.times.map{it.format(DateTimeFormatter.ofLocalizedDateTime(
                     FormatStyle.MEDIUM))}
                 TimeSelectionScreen(
+                    currentUser = DummyData.users.first { it.username == uiState.user.username },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
-                    users = DummyData.users,
+                    friends = DummyData.users.filter {it.username != uiState.user.username},
                     onNextButtonClicked = {
                         viewModel.updateSelectedTime(it[0], it[1])
                         navController.navigate(DashScreen.TimePlaceSelect.name)
