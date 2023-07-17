@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -70,24 +71,74 @@ fun TimeSelectionScreen(
     currentUser: User,
     friends: List<User>,
     modifier: Modifier = Modifier,
+    onBackToEventInfoClicked: () -> Unit,
     onNextButtonClicked: (List<LocalDateTime>) -> Unit
 ){
     var selected by rememberSaveable { mutableStateOf(List<LocalDateTime>(2){LocalDateTime.now()})}
+
+    var dateState by remember {
+        mutableStateOf(LocalDateTime.now())
+    }
+    val simpleDateFormat = DateTimeFormatter.ofPattern("EE MMM dd, yyyy")
+
+    val numCols = minOf(friends.size + 1, 5)
+    val headerList = (0 until numCols).toList()
+    val numList = (0 until numCols * 96).toList()
+    val itemList: MutableList<String> = MutableList(numCols * 96) { "" }
+    val itemsList = (0 until numCols * 96).toList()
+    val dailyCalendarFormat = DateTimeFormatter.ofPattern("HH:mm")
+    var dailyCalendarTime = LocalDateTime.of(dateState.year, dateState.month, dateState.dayOfMonth, 0, 0, 0)
+    for (num in numList) {
+        var result = "";
+        if (num % numCols == 0) {
+            if (num != 0) dailyCalendarTime = dailyCalendarTime.plusMinutes(15)
+            result = if (isAvailable(currentUser, dailyCalendarTime, dailyCalendarTime.plusMinutes(15)) &&
+                    isAvailable(friends, dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
+                "G";
+            } else {
+                "R";
+            }
+            result += 'T' + dailyCalendarFormat.format(dailyCalendarTime)
+        } else {
+            if (num % numCols == 1) {
+                if (!isAvailable(currentUser, dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
+                    result = "U"
+                }
+            } else {
+                if (!isAvailable(friends[num % numCols - 2], dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
+                    result = "U"
+                }
+            }
+        }
+        itemList[num] = result
+    }
 
     Column(
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.Start
     ){
-        var dateState by remember {
-            mutableStateOf(LocalDateTime.now())
+        TextButton(
+                onClick = onBackToEventInfoClicked,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp),
+        ) {
+            Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+            ) {
+                Icon(
+                        modifier = Modifier.size(42.dp),
+                        imageVector = Icons.Default.KeyboardArrowLeft,
+                        contentDescription = ""
+                )
+                Text(
+                        text = stringResource(R.string.back_to_event_details),
+                        style = MaterialTheme.typography.titleMedium
+                )
+            }
         }
-        val simpleDateFormat = DateTimeFormatter.ofPattern("EE MMM dd, yyyy")
-        Text(
-                text = stringResource(R.string.select_time),
-                modifier = Modifier.padding(16.dp),
-                style = MaterialTheme.typography.headlineMedium
-        )
+
         Box(
                 modifier = Modifier.padding(bottom = 10.dp)
         ) {
@@ -98,12 +149,13 @@ fun TimeSelectionScreen(
                             .height(30.dp)
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(15.dp))
-                            .background(color = Color(0xFF6750A4))
+                            .background(color = MaterialTheme.colorScheme.primary)
             ) {
                 Button(
                         modifier = Modifier.fillMaxHeight(),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         onClick = {
-                            dateState = dateState.plusDays(-1)
+                            dateState = dateState.minusDays(1)
                         }) {
                     Icon(
                             imageVector = Icons.Default.ArrowBack,
@@ -112,12 +164,14 @@ fun TimeSelectionScreen(
                     )
                 }
                 Text(
-                        text = "${simpleDateFormat.format(dateState).replaceRange(8, 9, "")}",
+                        text = "${simpleDateFormat.format(dateState)}",
+                        style = MaterialTheme.typography.bodySmall,
                         fontSize = 24.sp,
                         color = Color.White
                 )
                 Button(
                         modifier = Modifier.fillMaxHeight(),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         onClick = {
                             dateState = dateState.plusDays(1)
                         }) {
@@ -130,79 +184,77 @@ fun TimeSelectionScreen(
             }
         }
 
-        val numCols = minOf(friends.size + 1, 5)
-        //val lazyGridState = rememberLazyGridState()
-        val itemsList = (0 until numCols * 97).toList()
-        val itemModifier = Modifier
-                //.border(1.dp, Color(0xFF6750A4))
-                .border(
-                        BorderStroke(
-                                width = Dp.Hairline,
-                                color = Color.White
+        LazyVerticalGrid(
+                columns = GridCells.Fixed(numCols),
+                modifier = Modifier.fillMaxWidth()
+        ) {
+            items(headerList) {
+                Box(modifier = Modifier
+                        .border(
+                                BorderStroke(
+                                        width = Dp.Hairline,
+                                        color = Color.White
+                                )
                         )
-                )
-                .background(color = Color(0xFF6750A4))
-                .fillMaxWidth()
-                .wrapContentSize()
-        val dailyCalendarFormat = DateTimeFormatter.ofPattern("HH:mm")
-        var dailyCalendarTime = LocalDateTime.of(dateState.year, dateState.month, dateState.dayOfMonth, 0, 0, 0)
+                        .background(color = MaterialTheme.colorScheme.primary)
+                        .fillMaxWidth()
+                        .wrapContentSize()
+                ) {
+                    Text(
+                        color = Color.White,
+                        text = when (it) {
+                            0 -> {
+                                "Time"
+                            }
+
+                            1 -> {
+                                currentUser.name
+                            }
+
+                            else -> {
+                                friends[it - 2].name
+                            }
+                        }
+                    )
+                }
+            }
+        }
         LazyVerticalGrid(
                 columns = GridCells.Fixed(numCols),
                 modifier = Modifier.fillMaxSize()
         ) {
-            items(itemsList) {
-                if (it < numCols) {
-                    Box(modifier = itemModifier) {
+            items(itemList) {
+                if (it == "U") {
+                    Box(
+                            modifier = Modifier
+                                    .background(color = Color.Gray)
+                                    .fillMaxWidth()
+                    ) {
+                        Text("")
+                    }
+                } else if (it.length > 1) {
+                    Box(
+                        modifier = Modifier
+                            .border(
+                                BorderStroke(
+                                    width = Dp.Hairline,
+                                    color = Color.White
+                                )
+                            )
+                            .background(color =
+                                if (it.get(0) == 'G') {
+                                    Color(0XFF006400)
+                                } else {
+                                    Color(0XFF800000)
+                                }
+                            )
+                            .fillMaxWidth()
+                            .wrapContentSize()
+                    ) {
                         Text(
                             color = Color.White,
-                            text = when(it) {
-                                0 -> {"Time"}
-                                1 -> {currentUser.name}
-                                else -> {
-                                    friends[it - 2].name
-                                }
-                            }
+                            text = it.substringAfterLast('T')
                         )
-                    }
-                } else {
-                    if (it % numCols == 0) {
-                        if (it != numCols) dailyCalendarTime = dailyCalendarTime.plusMinutes(15)
-                        Box(
-                            modifier = Modifier
-                                .background(color =
-                                    if (isAvailable(currentUser,dailyCalendarTime, dailyCalendarTime.plusMinutes(15)) &&
-                                        isAvailable(friends, dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
-                                        Color(0XFF006400)
-                                    } else {
-                                        Color(0XFF800000)
-                                    }
-                                )
-                                .fillMaxWidth()
-                                .wrapContentSize()
-                        ) {
-                            Text(
-                                color = Color.White,
-                                text = dailyCalendarFormat.format(dailyCalendarTime)
-                            )
-                        }
-                    } else {
-                        if (it % numCols == 1) {
-                            if (!isAvailable(currentUser, dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
-                                Box(
-                                    modifier = Modifier
-                                        .background(color = Color.Gray)
-                                        .fillMaxWidth()
-                                )
-                            }
-                        } else {
-                            if (!isAvailable(friends[it % numCols - 2], dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
-                                Box(
-                                    modifier = Modifier
-                                        .background(color = Color.Gray)
-                                        .fillMaxWidth()
-                                )
-                            }
-                        }
                     }
                 }
             }
@@ -270,6 +322,7 @@ fun TimeSelectionPreview(){
                     .fillMaxSize()
                     .padding(16.dp),
             friends = DummyData.users.filter {it.username != "alpha"},
+            onBackToEventInfoClicked = {},
             onNextButtonClicked = {selected: List<LocalDateTime> -> Unit}
     )
 }

@@ -129,6 +129,7 @@ fun DashNavGraph(
                         .fillMaxSize()
                         .padding(16.dp),
                     friends = DummyData.users.filter {it.username != uiState.user.username},
+                    onBackToEventInfoClicked = {navController.navigate(DashScreen.TimePlaceSelect.name)},
                     onNextButtonClicked = {
                         viewModel.updateSelectedTime(it[0], it[1])
                         navController.navigate(DashScreen.TimePlaceSelect.name)
