@@ -120,7 +120,9 @@ fun TimeSelectionScreen(
     ){
         TextButton(
                 onClick = onBackToEventInfoClicked,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp),
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 5.dp),
         ) {
             Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -233,28 +235,50 @@ fun TimeSelectionScreen(
                         Text("")
                     }
                 } else if (it.length > 1) {
-                    Box(
-                        modifier = Modifier
-                            .border(
-                                BorderStroke(
-                                    width = Dp.Hairline,
-                                    color = Color.White
+                    if (it.get(0) == 'R') {
+                        Box(
+                            modifier = Modifier
+                                .border(
+                                    BorderStroke(
+                                        width = Dp.Hairline,
+                                        color = Color.White
+                                    )
                                 )
+                                .background(color = Color(0XFF800000))
+                                .fillMaxWidth()
+                                .wrapContentSize()
+                        ) {
+                            Text(
+                                color = Color.White,
+                                text = it.substringAfterLast('T')
                             )
-                            .background(color =
-                                if (it.get(0) == 'G') {
-                                    Color(0XFF006400)
-                                } else {
-                                    Color(0XFF800000)
+                        }
+                    } else {
+                        TextButton(
+                            modifier = Modifier
+                                .border(
+                                    BorderStroke(
+                                            width = Dp.Hairline,
+                                            color = Color.White
+                                    )
+                                )
+                                .background(color = Color(0XFF006400))
+                                .fillMaxWidth()
+                                .wrapContentSize(),
+                                onClick = {
+                                    onGreenButtonClick(
+                                            time = dateState,
+                                            strTime = it.substringAfterLast('T'),
+                                            onNextButtonClicked = onNextButtonClicked
+                                    )
                                 }
+                        ) {
+                            Text(
+                                color = Color.White,
+                                text = it.substringAfterLast('T')
                             )
-                            .fillMaxWidth()
-                            .wrapContentSize()
-                    ) {
-                        Text(
-                            color = Color.White,
-                            text = it.substringAfterLast('T')
-                        )
+                        }
+
                     }
                 }
             }
@@ -311,6 +335,23 @@ fun isAvailable(
             return false
     }
     return true
+}
+
+fun onGreenButtonClick(
+    time: LocalDateTime,
+    strTime: String,
+    onNextButtonClicked: (List<LocalDateTime>) -> Unit
+) {
+    val start = LocalDateTime.of(
+            time.year,
+            time.month,
+            time.dayOfMonth,
+            strTime.substringBefore(':').toInt(),
+            strTime.substringAfterLast(':').toInt(),
+            0
+    )
+    val end = start.plusMinutes(15)
+    onNextButtonClicked(listOf(start, end))
 }
 
 @Preview(showBackground = true)
