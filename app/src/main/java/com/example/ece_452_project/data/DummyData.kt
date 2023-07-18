@@ -97,6 +97,18 @@ object DummyData {
                     end = LocalDateTime.of(2023, 7, 5, 16, 0),
                     shared = true
                 ),
+                Event(
+                    name = "Plaza Lunch",
+                    start = LocalDateTime.of(2023, 7, 17, 12, 30),
+                    end = LocalDateTime.of(2023, 7, 17, 1, 30),
+                    shared = true
+                ),
+                Event(
+                    name = "Group Study",
+                    start = LocalDateTime.of(2023, 7, 20, 15, 30),
+                    end = LocalDateTime.of(2023, 7, 20, 16, 0),
+                    shared = true
+                ),
             )
         )
     )
@@ -122,8 +134,8 @@ object DummyData {
     )
 
     val times = listOf<LocalDateTime>(
-        LocalDateTime.of(2023, 6, 28, 18, 0),
-        LocalDateTime.of(2023, 6, 30, 19, 0),
-        LocalDateTime.of(2023, 7, 2, 15, 0)
+        LocalDateTime.of(2023, 7, 28, 18, 0),
+        LocalDateTime.of(2023, 7, 30, 19, 0),
+        LocalDateTime.of(2023, 7, 29, 15, 0)
     )
 }

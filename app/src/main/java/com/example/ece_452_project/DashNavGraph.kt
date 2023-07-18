@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.User
+import com.example.ece_452_project.ui.CalendarMonthlyScreen
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
 import com.example.ece_452_project.ui.EventInfoScreen
@@ -68,7 +69,7 @@ fun DashNavGraph(
                     onNewEventButtonClicked = {
                         navController.navigate(DashScreen.EventSetting.name)
                     },
-                    onViewScheduleButtonClicked = {
+                    onViewCalendarButtonClicked = {
                         navController.navigate(DashScreen.ViewSchedule.name)
                     }
                 )
@@ -208,7 +209,7 @@ fun DashNavGraph(
                 }
             }
             composable(route = DashScreen.ViewSchedule.name){
-                ScheduleScreen(modifier = Modifier.fillMaxSize().padding(16.dp))
+                CalendarMonthlyScreen(user = uiState.user)
             }
         }
     }

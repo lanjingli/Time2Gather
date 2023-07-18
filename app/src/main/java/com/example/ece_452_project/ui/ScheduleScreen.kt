@@ -60,20 +60,20 @@ fun ScheduleScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val state = rememberWeekCalendarState(
-                startDate = startDate,
-                endDate = endDate,
-                firstVisibleWeekDate = currentDate,
+            startDate = startDate,
+            endDate = endDate,
+            firstVisibleWeekDate = currentDate,
         )
         WeekCalendar(
-                modifier = Modifier.background(color = Purple80),
-                state = state,
-                dayContent = { day ->
-                    Day(day.date, isSelected = selection == day.date) { clicked ->
-                        if (selection != clicked) {
-                            selection = clicked
-                        }
+            modifier = Modifier.background(color = Purple80),
+            state = state,
+            dayContent = { day ->
+                Day(day.date, isSelected = selection == day.date) { clicked ->
+                    if (selection != clicked) {
+                        selection = clicked
                     }
-                },
+                }
+            },
         )
     }
 }
@@ -84,45 +84,45 @@ private var currentUser = "alpha";
 @Composable
 private fun Day(date: LocalDate, isSelected: Boolean, onClick: (LocalDate) -> Unit) {
     Column(
-            modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-                modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .background(PurpleGrey40)
-                        .clickable { onClick(date) },
-                contentAlignment = Alignment.TopCenter,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .background(PurpleGrey40)
+                .clickable { onClick(date) },
+            contentAlignment = Alignment.TopCenter,
         ) {
             Column(
-                    modifier = Modifier.padding(vertical = 10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.padding(vertical = 10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Text(
-                        text = date.dayOfWeek.toString().substring(0, 3),
-                        fontSize = 12.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Light,
+                    text = date.dayOfWeek.toString().substring(0, 3),
+                    fontSize = 12.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.Light,
                 )
                 Text(
-                        text = dateFormatter.format(date),
-                        fontSize = 14.sp,
-                        color = if (isSelected) Pink80 else Color.White,
-                        fontWeight = FontWeight.Bold,
+                    text = dateFormatter.format(date),
+                    fontSize = 14.sp,
+                    color = if (isSelected) Pink80 else Color.White,
+                    fontWeight = FontWeight.Bold,
                 )
             }
             if (isSelected) {
                 Box(
-                        modifier = Modifier
-                                .fillMaxWidth()
-                                .height(5.dp)
-                                .background(Pink80)
-                                .align(Alignment.BottomCenter),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(5.dp)
+                        .background(Pink80)
+                        .align(Alignment.BottomCenter),
                 )
             }
         }
@@ -130,19 +130,19 @@ private fun Day(date: LocalDate, isSelected: Boolean, onClick: (LocalDate) -> Un
             var eventEndTime : LocalDateTime = LocalDateTime.of(date.year,date.month,date.dayOfMonth,8,0)
             if (date.dayOfMonth == event.start.dayOfMonth) {
                 Box(
-                        modifier = Modifier
-                                .padding(
-                                        top = ((Duration.between(eventEndTime, event.start).toMinutes().toInt() / 60) * 32).dp
-                                )
-                                .size(((Duration.between(event.start, event.end).toMinutes().toInt() / 60) * 32).dp)
-                                .background(Purple40),
-                        contentAlignment = Alignment.Center
+                    modifier = Modifier
+                        .padding(
+                            top = ((Duration.between(eventEndTime, event.start).toMinutes().toInt() / 60) * 32).dp
+                        )
+                        .size(((Duration.between(event.start, event.end).toMinutes().toInt() / 60) * 32).dp)
+                        .background(Purple40),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
-                            text = "${event.start.hour}:${event.start.minute}\n-\n${event.end.hour}:${event.end.minute}",
-                            fontSize = 12.sp,
-                            color = Color.White,
-                            fontWeight = FontWeight.Light
+                        text = "${event.start.hour}:${event.start.minute}\n-\n${event.end.hour}:${event.end.minute}",
+                        fontSize = 12.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Light
                     )
                 }
             }
@@ -155,6 +155,6 @@ private fun Day(date: LocalDate, isSelected: Boolean, onClick: (LocalDate) -> Un
 @Composable
 fun SchedulePreview(){
     ScheduleScreen(modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp))
+        .fillMaxSize()
+        .padding(16.dp))
 }
