@@ -27,3 +27,4 @@
 | 2023/07/15 |        |  4  |         |       |       |       |App Dev - Event Time Selection Page|
 | 2023/07/16 |        |  8  |         |       |       |       |App Dev - Event Time Selection Page|
 | 2023/07/17 |        |  4  |         |       |       |       |App Dev - Event Time Selection Page|
+| 2023/07/18 |        |     |         |   3   |       |       | App Dev - Merge into master, various small improvements|
