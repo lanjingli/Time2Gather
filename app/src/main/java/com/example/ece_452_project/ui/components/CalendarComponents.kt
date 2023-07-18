@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
@@ -32,6 +34,7 @@ import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
 import kotlinx.coroutines.flow.filterNotNull
 import java.time.DayOfWeek
+import java.time.LocalDateTime
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -113,3 +116,44 @@ private val CalendarLayoutInfo.completelyVisibleMonths: List<CalendarMonth>
             visibleItemsInfo.map { it.month }
         }
     }
+
+
+
+// TODO: possibly add this as a modifier and not a new function
+@Composable
+fun MonthDay(day: CalendarDay, isSelected: Boolean = false, dailyEvents: List<LocalDateTime> = emptyList(), onClick: (CalendarDay) -> Unit = {}) {
+    Box(
+        modifier = Modifier
+            .aspectRatio(1f)
+            .clip(CircleShape)
+            .background(color = if (isSelected) SolidGreen else Color.Transparent)
+            .clickable(
+                enabled = day.position == DayPosition.MonthDate,
+                onClick = { onClick(day) }
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = day.date.dayOfMonth.toString(),
+            // to shade calendar dates that are for previous / next month
+            color = if (day.position == DayPosition.MonthDate) Color.Black else Color.Gray
+        )
+
+        Column(
+            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(bottom = 8.dp)
+        ){
+            if (dailyEvents.isNotEmpty()){
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(5.dp).background(SolidGreen)
+                )
+            }
+
+            // if we want more shading for more events
+//            for (i in dailyEvents){
+//                Box(
+//                    modifier = Modifier.fillMaxWidth().height(5.dp).background(SolidGreen)
+//                )
+//            }
+        }
+    }
+}

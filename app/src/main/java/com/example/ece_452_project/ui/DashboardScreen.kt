@@ -34,7 +34,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,15 +49,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ece_452_project.R
+import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.User
+import com.example.ece_452_project.generateAllEventsMap
 import com.example.ece_452_project.ui.components.CalendarHeader
 import com.example.ece_452_project.ui.components.Day
+import com.example.ece_452_project.ui.components.MonthDay
 import com.example.ece_452_project.ui.theme.SolidGreen
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+
 
 /**
  * Composable for the dashboard
@@ -62,8 +73,13 @@ import java.time.format.DateTimeFormatter
 fun DashboardScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
-    onNewEventButtonClicked: () -> Unit
+    onNewEventButtonClicked: () -> Unit,
+    onViewCalendarButtonClicked: () -> Unit,
 ) {
+
+    val events = generateAllEventsMap(user).groupBy {it.start.toLocalDate()}
+    var selectedDate by remember { mutableStateOf<CalendarDay?>(null) }
+
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
@@ -94,20 +110,31 @@ fun DashboardScreen(
             HorizontalCalendar(
                 modifier = Modifier.padding(16.dp),
                 state = rememberCalendarState(
-                    startMonth = YearMonth.now().minusMonths(12),
-                    endMonth = YearMonth.now().plusMonths(12),
-                    firstVisibleMonth = YearMonth.now().plusMonths(1), /*TODO: Undo this after demo*/
+                    startMonth = YearMonth.now(),
+                    endMonth = YearMonth.now(),
+                    firstVisibleMonth = YearMonth.now(),
                     firstDayOfWeek = firstDayOfWeekFromLocale()
                 ),
-                dayContent = {day ->
-                    Day(day, isSelected = (day.date in sharedDates)) },
-                monthHeader = {month ->
-                    CalendarHeader(month = month)
+                dayContent = { day ->
+
+                    val dailyEvents = if (day.position == DayPosition.MonthDate) {
+                        events[day.date].orEmpty().map {it.start}
+                    } else {
+                        emptyList();
+                    }
+                    MonthDay(day = day, isSelected = selectedDate == day, dailyEvents = dailyEvents,
+                    ) { clicked ->
+                        selectedDate = clicked
+                    }
+                },
+                monthHeader = { month ->
+                    com.example.ece_452_project.ui.components.CalendarHeader(month = month)
                 }
             )
-            sharedEvents.forEach { event ->
+            
+            sharedEvents.take(3).forEachIndexed {_, event ->
                 OutlinedButton(
-                    onClick = { },
+                    onClick = onViewCalendarButtonClicked,
                     border = BorderStroke(
                         width = 4.dp,
                         color = MaterialTheme.colorScheme.primary
@@ -139,12 +166,12 @@ fun DashboardScreen(
             }
 
             if (sharedEvents.isEmpty()){
-                Text(
-                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
-                    text = stringResource(R.string.no_events),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
+                TextButton(onClick = onViewCalendarButtonClicked,
+                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp,)
+                ) { Text (
+                        text = stringResource(R.string.no_shared_events),
+                        style = MaterialTheme.typography.titleMedium)}
+                }
             Button(onClick = onNewEventButtonClicked,
                 modifier= Modifier
                     .padding(start = 16.dp, bottom = 16.dp)
@@ -157,27 +184,6 @@ fun DashboardScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-
-        //TODO: add View Schedule back
-//        Row(horizontalArrangement = Arrangement.Center)
-//        {
-//            Button(
-//                modifier = Modifier,
-//                onClick = onViewScheduleButtonClicked,
-//                colors = ButtonDefaults.buttonColors(containerColor = SolidGreen)
-//            ) {
-//                Row (verticalAlignment = Alignment.CenterVertically) {
-//                    Icon(Icons.Default.DateRange, contentDescription = "Schedule")
-//                    Text(
-//                        modifier = Modifier.padding(2.dp),
-//                        text = stringResource(R.string.view_schedule),
-//                        fontSize = 16.sp,
-//                        textAlign = TextAlign.Left
-//                    )
-//                }
-//
-//            }
-//        }
 
         Spacer(modifier = Modifier.height(16.dp))
         Card(
@@ -207,6 +213,7 @@ fun DashboardPreview(){
     DashboardScreen(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
-        onNewEventButtonClicked = {}
+        onNewEventButtonClicked = {},
+        onViewCalendarButtonClicked = {},
     )
 }

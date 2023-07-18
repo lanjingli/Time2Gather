@@ -42,8 +42,9 @@ import androidx.compose.ui.unit.dp
 import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.Event
 import com.example.ece_452_project.data.User
-import com.example.ece_452_project.generateEventsList
+import com.example.ece_452_project.generateAllEventsMap
 import com.example.ece_452_project.ui.components.rememberFirstCompletelyVisibleMonth
+import com.example.ece_452_project.ui.components.MonthDay
 import com.example.ece_452_project.ui.theme.SolidGreen
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -54,7 +55,7 @@ import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-private val events = generateEventsList(DummyData.users[0]).groupBy {it.start.toLocalDate()}
+private val events = generateAllEventsMap(DummyData.users[0]).groupBy {it.start.toLocalDate()}
 
 /**
  * Composable for the dashboard
@@ -129,37 +130,6 @@ fun CalendarMonthlyScreen(
     }
 }
 
-// TODO: add this as a modifier and not a new function
-@Composable
-fun MonthDay(day: CalendarDay, isSelected: Boolean = false, dailyEvents: List<LocalDateTime> = emptyList(), onClick: (CalendarDay) -> Unit = {}) {
-    Box(
-        modifier = Modifier
-            .aspectRatio(1f)
-            .clip(CircleShape)
-            .background(color = if (isSelected) SolidGreen else Color.Transparent)
-            .clickable(
-                enabled = day.position == DayPosition.MonthDate,
-                onClick = { onClick(day) }
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = day.date.dayOfMonth.toString(),
-            // to shade calendar dates that are for previous / next month
-            color = if (day.position == DayPosition.MonthDate) Color.Black else Color.Gray
-        )
-
-        Column(
-            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(bottom = 8.dp)
-        ){
-            for (i in dailyEvents){
-                Box(
-                    modifier = Modifier.fillMaxWidth().height(5.dp).background(SolidGreen)
-                )
-            }
-        }
-    }
-}
 
 @Composable
 private fun LazyItemScope.EventInformation(event: Event) {

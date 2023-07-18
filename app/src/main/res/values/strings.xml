@@ -46,4 +46,5 @@
     <string name="createScreenTEMP">createScreenTEMP</string>
     <string name="personalListTEMP">personalListTEMP</string>
     <string name="sharedListTEMP">sharedListTEMP</string>
+    <string name="no_shared_events">No Shared Events</string>
 </resources>
