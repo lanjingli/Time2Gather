@@ -89,38 +89,6 @@ fun DashNavGraph(
                     }
                 )
             }
-            composable(route = DashScreen.FriendSelect.name){
-                val friends = DummyData.users.filter {it.username != uiState.user.username}
-                val options = friends.map {it.name + " - " + it.dietary.joinToString( ", " )}
-                ListSelectScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    title = "Friends",
-                    options = options,
-                    onNextButtonClicked = {
-                        val selected = friends.filterIndexed {index, _ -> it[index]}
-                        viewModel.updateSelectedFriends(selected)
-                        navController.navigate(DashScreen.TimePlaceSelect.name)
-                    }
-                )
-            }
-            composable(route = DashScreen.TimePlaceSelect.name){
-                EventInfoScreen(
-                    modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                    onBackToFriendsClicked = {navController.navigate(DashScreen.FriendSelect.name)},
-                    onTimeButtonClicked = {navController.navigate(DashScreen.Schedule.name)},
-                    onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},
-                    onFinishButtonClicked = {
-                        var user = uiState.user
-                        user.schedule.add(uiState.selectedEvent)
-                        viewModel.updateUser(user)
-                        navController.navigate(DashScreen.Dashboard.name)
-                    }
-                )
-            }
             composable(route = DashScreen.Schedule.name){
                 TimeSelectionScreen(
                     currentUser = uiState.user,
@@ -133,22 +101,6 @@ fun DashNavGraph(
                         viewModel.updateSelectedTime(it[0], it[1])
                         navController.navigate(DashScreen.TimePlaceSelect.name)
                     }
-                )
-            }
-            composable(route = DashScreen.Map.name){
-                val options = DummyData.places.map{it.name + " - " + it.options.joinToString ( ", " )}
-                ListSelectScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    title = "Locations",
-                    exclusive = true,
-                    options = options,
-                    onNextButtonClicked = {
-                        val selected = DummyData.places.filterIndexed {index, _ -> it[index]}
-                        viewModel.updateSelectedPlace(selected[0].name)
-                        navController.navigate(DashScreen.TimePlaceSelect.name)
-                    },
                 )
             }
             composable(route = DashScreen.FriendSelect.name){
