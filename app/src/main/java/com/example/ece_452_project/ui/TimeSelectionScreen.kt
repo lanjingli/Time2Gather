@@ -81,7 +81,7 @@ fun TimeSelectionScreen(
     }
     val simpleDateFormat = DateTimeFormatter.ofPattern("EE MMM dd, yyyy")
 
-    val numCols = minOf(friends.size + 1, 5)
+    val numCols = friends.size + 2
     val headerList = (0 until numCols).toList()
     val numList = (0 until numCols * 96).toList()
     val itemList: MutableList<String> = MutableList(numCols * 96) { "" }

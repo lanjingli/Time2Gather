@@ -122,14 +122,12 @@ fun DashNavGraph(
                 )
             }
             composable(route = DashScreen.Schedule.name){
-                val options = DummyData.times.map{it.format(DateTimeFormatter.ofLocalizedDateTime(
-                    FormatStyle.MEDIUM))}
                 TimeSelectionScreen(
-                    currentUser = DummyData.users.first { it.username == uiState.user.username },
+                    currentUser = uiState.user,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
-                    friends = DummyData.users.filter {it.username != uiState.user.username},
+                    friends = uiState.selectedFriends,
                     onBackToEventInfoClicked = {navController.navigate(DashScreen.TimePlaceSelect.name)},
                     onNextButtonClicked = {
                         viewModel.updateSelectedTime(it[0], it[1])
