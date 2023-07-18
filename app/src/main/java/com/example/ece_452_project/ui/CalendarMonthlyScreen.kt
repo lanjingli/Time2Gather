@@ -73,8 +73,8 @@ fun CalendarMonthlyScreen(
     val sharedDates = sharedEvents.map { it.start.toLocalDate() }
 
     val state = rememberCalendarState(
-        startMonth = YearMonth.now(),
-        endMonth = YearMonth.now(),
+        startMonth = YearMonth.now().minusMonths(12),
+        endMonth = YearMonth.now().plusMonths(12),
         firstVisibleMonth = YearMonth.now(),
         firstDayOfWeek = firstDayOfWeekFromLocale()
     )

@@ -110,8 +110,8 @@ fun DashboardScreen(
             HorizontalCalendar(
                 modifier = Modifier.padding(16.dp),
                 state = rememberCalendarState(
-                    startMonth = YearMonth.now(),
-                    endMonth = YearMonth.now(),
+                    startMonth = YearMonth.now().minusMonths(12),
+                    endMonth = YearMonth.now().plusMonths(12),
                     firstVisibleMonth = YearMonth.now(),
                     firstDayOfWeek = firstDayOfWeekFromLocale()
                 ),
