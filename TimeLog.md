@@ -14,7 +14,16 @@
 | 2023/06/16 |        |     |         |  0.5  |   1   |  1    |   Buddy Team’s evaluation    |
 | 2023/06/22 |   8    |     |         |       |       |       |     App Demo Development     |
 | 2023/06/23 |   2    |  2  |    2    |   2   |   2   |   2   |     App Demo Discussion      |
-| 2023/06/23 |   6    |     |         |       |       |       |     App Demo Development     |
+| 2023/06/23 |   6    |     |         |   3   |       |       |     App Demo Development     |
 | 2023/06/23 |        | 0.5 |         |  0.5  |       |       |  App Schedule View Dicussion |
-| 2023/06/24 |   4    |     |         |       |   4   |   6   |     App Demo Development     |
-| 2023/06/25 |   4    |     |         |       |   5   |  5    |     App Demo Development     |
+| 2023/06/24 |   4    |  6  |   12    |   6   |   4   |   6   |     App Demo Development     |
+| 2023/06/25 |   4    |  8  |   10    |   2   |   5   |  5    |     App Demo Development     |
+| 2023/06/26 |        |     |         |       |   7   |       |     App Demo Development     |
+| 2023/06/30 |        |     |         |   1   |       |       |    Status Report Document    |
+| 2023/07/12 |        | 3.5 |         |       |       |       |  D4: Architectural Examples  |   
+| 2023/07/13 |        |     |         |   3   |       |       |  D4: Architectural Examples  |  
+| 2023/07/14 |   3    |     |         |       |       |       |  D4: Architectural Examples  |  
+| 2023/07/15 |        |     |         |   7   |       |       |  App Dev - Clickable calendar events  |  
+| 2023/07/15 |        |  4  |         |       |       |       |App Dev - Event Time Selection Page|
+| 2023/07/16 |        |  8  |         |       |       |       |App Dev - Event Time Selection Page|
+| 2023/07/17 |        |  4  |         |       |       |       |App Dev - Event Time Selection Page|

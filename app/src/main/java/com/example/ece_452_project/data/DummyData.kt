@@ -19,8 +19,8 @@ object DummyData {
             schedule = mutableListOf(
                 Event(
                     name = "Lectures",
-                    start = LocalDateTime.of(2023, 7, 26, 8, 30),
-                    end = LocalDateTime.of(2023, 7, 26, 16, 30)
+                    start = LocalDateTime.of(2023, 7, 17, 8, 30),
+                    end = LocalDateTime.of(2023, 7, 17, 16, 30)
                 ),
                 Event(
                     name = "Labs",
@@ -52,8 +52,8 @@ object DummyData {
             dietary = listOf<String>(),
             schedule = mutableListOf(
                 Event(
-                    start = LocalDateTime.of(2023, 7, 29, 7, 30),
-                    end = LocalDateTime.of(2023, 7, 29, 10, 30)
+                    start = LocalDateTime.of(2023, 7, 17, 7, 30),
+                    end = LocalDateTime.of(2023, 7, 17, 10, 30)
                 ),
                 Event(
                     start = LocalDateTime.of(2023, 7, 29, 20, 30),
@@ -69,8 +69,8 @@ object DummyData {
             dietary = listOf<String>("Vegetarian"),
             schedule = mutableListOf(
                 Event(
-                    start = LocalDateTime.of(2023, 7, 27, 15, 0),
-                    end = LocalDateTime.of(2023, 7, 27, 17, 30)
+                    start = LocalDateTime.of(2023, 7, 17, 15, 0),
+                    end = LocalDateTime.of(2023, 7, 17, 17, 30)
                 ),
                 Event(
                     start = LocalDateTime.of(2023, 7, 29, 15, 30),
