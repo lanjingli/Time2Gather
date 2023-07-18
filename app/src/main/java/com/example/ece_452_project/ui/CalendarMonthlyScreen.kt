@@ -3,6 +3,7 @@ package com.example.ece_452_project.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -55,8 +56,6 @@ import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-private val events = generateAllEventsMap(DummyData.users[0]).groupBy {it.start.toLocalDate()}
-
 /**
  * Composable for the dashboard
  */
@@ -67,6 +66,8 @@ fun CalendarMonthlyScreen(
     user: User = User(),
 
 ) {
+
+    val events = generateAllEventsMap(user).groupBy {it.start.toLocalDate()}
 
     val sharedEvents = user.schedule.filter { it.shared }
     val sharedDates = sharedEvents.map { it.start.toLocalDate() }
@@ -133,20 +134,25 @@ fun CalendarMonthlyScreen(
 
 @Composable
 private fun LazyItemScope.EventInformation(event: Event) {
+    val sb = StringBuilder()
+    sb.append(event.start.format(DateTimeFormatter.ofPattern("hh:mm")));
+    sb.append(" to ");
+    sb.append(event.end.format(DateTimeFormatter.ofPattern("hh:mm")));
+
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         Text(
             modifier = Modifier.weight(4f),
             text = event.name + " - " + event.start.format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
             style = MaterialTheme.typography.titleMedium
         )
-        Icon(
-            modifier = Modifier
-                .size(35.dp)
-                .weight(1f),
-            imageVector = Icons.Default.KeyboardArrowRight,
-            contentDescription = ""
+        Text(
+            modifier = Modifier.weight(4f),
+            text = String(sb),
+            style = MaterialTheme.typography.titleMedium
         )
     }
 }

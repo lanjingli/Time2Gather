@@ -209,7 +209,7 @@ fun DashNavGraph(
                 }
             }
             composable(route = DashScreen.ViewSchedule.name){
-                CalendarMonthlyScreen()
+                CalendarMonthlyScreen(user = uiState.user)
             }
         }
     }
