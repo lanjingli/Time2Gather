@@ -97,7 +97,7 @@ fun DashNavGraph(
                         .padding(16.dp),
                     friends = uiState.selectedFriends,
                     onBackToEventInfoClicked = {navController.navigate(DashScreen.TimePlaceSelect.name)},
-                    onNextButtonClicked = {
+                    onDoneButtonClicked = {
                         viewModel.updateSelectedTime(it[0], it[1])
                         navController.navigate(DashScreen.TimePlaceSelect.name)
                     }
@@ -147,7 +147,7 @@ fun DashNavGraph(
                         options = options,
                         onNextButtonClicked = {
                             val selected = DummyData.places.filterIndexed {index, _ -> it[index]}
-                            viewModel.updateSelectedPlace(selected[0].name)
+                            if (selected.isNotEmpty()) viewModel.updateSelectedPlace(selected[0].name)
                             navController.navigate(DashScreen.TimePlaceSelect.name)
                         }
                     )
