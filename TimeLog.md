@@ -28,3 +28,5 @@
 | 2023/07/16 |        |  8  |         |       |       |       |App Dev - Event Time Selection Page|
 | 2023/07/17 |        |  4  |         |       |       |       |App Dev - Event Time Selection Page|
 | 2023/07/18 |        |     |         |   3   |       |       | App Dev - Merge into master, various small improvements|
+| 2023/07/18 |        |  3  |         |       |       |       |Bug fixes, testing, and improving the event time selection page|
+| 2023/07/19 |        |  5  |         |       |       |       |Adding additional screens to the event time selection page|
