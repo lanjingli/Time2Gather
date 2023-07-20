@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "617179980080",
+    "project_id": "time2gather",
+    "storage_bucket": "time2gather.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617179980080:android:d58d29bdeabfef6f7628f5",
+        "android_client_info": {
+          "package_name": "com.example.ece_452_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617179980080-m0bb7mo9agjn8hio80ph2cre66ojvj1b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu-rJtQnDvGNPTg1e4lppblPC60mj4djg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617179980080-m0bb7mo9agjn8hio80ph2cre66ojvj1b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
