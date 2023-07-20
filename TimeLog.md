@@ -33,3 +33,4 @@
 | 2023/07/19 |        |     |         |       |       |   4   |Map search feature|
 | 2023/07/19 |        |  5  |         |       |       |       |Adding additional screens to the event time selection page|
 | 2023/07/19 |        |  2  |    2.5  |       |       |   2   |Online Discussion|
+| 2023/07/20 |        |     | 2       |       |       |       |D5: Design Pattern Examples|
