@@ -30,5 +30,6 @@
 | 2023/07/18 |        |     |         |   3   |       |       | App Dev - Merge into master, various small improvements|
 | 2023/07/18 |        |  3  |         |       |       |       |Bug fixes, testing, and improving the event time selection page|
 | 2023/07/18 |        |     |         |       |       |   2   |Map search feature|
-| 2023/07/19 |        |     |         |       |       |   3   |Map search feature|
+| 2023/07/19 |        |     |         |       |       |   4   |Map search feature|
 | 2023/07/19 |        |  5  |         |       |       |       |Adding additional screens to the event time selection page|
+| 2023/07/19 |        |     |         |       |       |   2   |Online Discussion|
