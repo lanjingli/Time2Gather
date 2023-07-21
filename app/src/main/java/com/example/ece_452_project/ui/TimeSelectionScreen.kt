@@ -98,6 +98,10 @@ fun TimeSelectionScreen(
         mutableStateOf(15)
     }
 
+    var availabilityState by remember {
+        mutableStateOf(true)
+    }
+
     if (screenState == ScreenState.Default) {
         val numCols = friends.size + 2
         val headerList = (0 until numCols).toList()
@@ -108,8 +112,7 @@ fun TimeSelectionScreen(
             var result = "";
             if (num % numCols == 0) {
                 if (num != 0) dailyCalendarTime = dailyCalendarTime.plusMinutes(15)
-                result = if (isAvailable(currentUser, dailyCalendarTime, dailyCalendarTime.plusMinutes(15)) &&
-                        isAvailable(friends, dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
+                result = if (isAvailable(friends + currentUser, dailyCalendarTime, dailyCalendarTime.plusMinutes(15))) {
                     "G";
                 } else {
                     "R";
@@ -526,7 +529,10 @@ fun TimeSelectionScreen(
             ) {
                 Button(
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        onClick = {dateState = dateState.minusMinutes(15)}
+                        onClick = {
+                            dateState = dateState.minusMinutes(15)
+                            availabilityState = isAvailable(friends + currentUser, dateState, dateState.plusMinutes(durationState.toLong()))
+                        }
                 ) {
                     Icon(
                             modifier = Modifier.size(30.dp),
@@ -548,7 +554,10 @@ fun TimeSelectionScreen(
                 }
                 Button(
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        onClick = {dateState = dateState.plusMinutes(15)}
+                        onClick = {
+                            dateState = dateState.plusMinutes(15)
+                            availabilityState = isAvailable(friends + currentUser, dateState, dateState.plusMinutes(durationState.toLong()))
+                        }
                 ) {
                     Icon(
                             modifier = Modifier.size(30.dp),
@@ -569,6 +578,7 @@ fun TimeSelectionScreen(
                         onClick = {
                             if (durationState < 15) 0
                             else durationState -= 15
+                            availabilityState = isAvailable(friends + currentUser, dateState, dateState.plusMinutes(durationState.toLong()))
                         }
                 ) {
                     Icon(
@@ -591,7 +601,10 @@ fun TimeSelectionScreen(
                 }
                 Button(
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        onClick = {durationState += 15}
+                        onClick = {
+                            durationState += 15
+                            availabilityState = isAvailable(friends + currentUser, dateState, dateState.plusMinutes(durationState.toLong()))
+                        }
                 ) {
                     Icon(
                             modifier = Modifier.size(30.dp),
@@ -642,8 +655,13 @@ fun TimeSelectionScreen(
             ) {
                 Button(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        onClick = {onDoneButtonClicked(listOf(dateState, dateState.plusMinutes(durationState.toLong())))}
+                        colors = ButtonDefaults.buttonColors(containerColor =
+                            if (availabilityState) MaterialTheme.colorScheme.primary
+                            else Color.Gray
+                        ),
+                        onClick = {
+                            if (availabilityState) onDoneButtonClicked(listOf(dateState, dateState.plusMinutes(durationState.toLong())))
+                        }
                 ) {
                     Icon(
                             imageVector = Icons.Default.Check,
@@ -654,6 +672,27 @@ fun TimeSelectionScreen(
                             text = "Done",
                             fontSize = 20.sp,
                             color = Color.White
+                    )
+                }
+            }
+            if (!availabilityState) {
+                Row(
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                        top = 12.dp,
+                                        start = 12.dp,
+                                        end = 12.dp
+                                ),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                            text = "A timing conflict exists for the selected start time and duration. " +
+                                "Please refer to the previous screen by pressing the \"Back\" button " +
+                                "to check you and your friends' availability.",
+                            fontSize = 20.sp,
+                            color = Color(0XFFC00000)
                     )
                 }
             }
