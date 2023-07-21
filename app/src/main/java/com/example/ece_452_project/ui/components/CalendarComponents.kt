@@ -53,7 +53,7 @@ fun Day(day: CalendarDay, isSelected: Boolean = false, onClick: (CalendarDay) ->
         Text(
             text = day.date.dayOfMonth.toString(),
             // to shade calendar dates that are for previous / next month
-            color = if (day.position == DayPosition.MonthDate) Color.Black else Color.Gray
+            color = if (day.position == DayPosition.MonthDate) MaterialTheme.colorScheme.onBackground else Color.Gray
         )
     }
 }
@@ -134,7 +134,7 @@ fun MonthDay(day: CalendarDay, isSelected: Boolean = false, dailyEvents: List<Lo
         Text(
             text = day.date.dayOfMonth.toString(),
             // to shade calendar dates that are for previous / next month
-            color = if (day.position == DayPosition.MonthDate) Color.Black else Color.Gray
+            color = if (day.position == DayPosition.MonthDate) MaterialTheme.colorScheme.onBackground else Color.Gray
         )
 
         Column(
