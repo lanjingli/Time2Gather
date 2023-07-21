@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,18 +36,33 @@ fun PreferencesScreen(
     modifier: Modifier = Modifier,
     dietaryOptions: List<String> = MenuData.dietaryOptions,
     nameText: String = "",
-    emailText: String = "",
+    usernameText: String = "",
     onNameChange: (String) -> Unit,
-    onEmailChange: (String) -> Unit,
+    onUsernameChange: (String) -> Unit,
     checkboxStates: List<Boolean> = List(MenuData.dietaryOptions.size) {false},
     onCheckboxChange: (Boolean, Int) -> Unit,
-    onSaveButtonClicked: () -> Unit
+    onSaveButtonClicked: () -> Unit,
+    openDialog: Boolean = false,
+    onDialogDismiss: () -> Unit
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start
     ) {
+        if (openDialog){
+            AlertDialog(
+                onDismissRequest = onDialogDismiss,
+                confirmButton = { Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = onDialogDismiss
+                ) {
+                    Text("Dismiss")
+                }
+                },
+                text = {Text(stringResource(id = R.string.username_already_exists), textAlign = TextAlign.Center)}
+            )
+        }
         Text(
             text = stringResource(R.string.user_info),
             style = MaterialTheme.typography.headlineMedium
@@ -63,13 +79,13 @@ fun PreferencesScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextField(
-            value = emailText,
-            onValueChange = onEmailChange,
+            value = usernameText,
+            onValueChange = onUsernameChange,
             singleLine = true,
             shape = MaterialTheme.shapes.large,
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.surface),
-            label = { Text(stringResource(R.string.email_address)) }
+            label = { Text(stringResource(R.string.username)) }
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
@@ -109,8 +125,9 @@ fun PreferencesPreview(){
         .fillMaxSize()
         .padding(16.dp),
         onNameChange = {new: String -> Unit},
-        onEmailChange = {new: String -> Unit},
+        onUsernameChange = { new: String -> Unit},
         onCheckboxChange = {new: Boolean, index: Int -> Unit},
-        onSaveButtonClicked = {}
+        onSaveButtonClicked = {},
+        onDialogDismiss = {}
     )
 }

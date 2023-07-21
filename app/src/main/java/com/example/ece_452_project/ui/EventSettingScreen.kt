@@ -55,11 +55,8 @@ fun EventSettingScreen(
     eventDescText: String = "",
     onEventNameChange: (String) -> Unit,
     onEventDescChange: (String) -> Unit,
-    onDeadlineChange: (String) -> Unit,
-    onInviteFriendClicked: (String) -> Unit
+    onInviteFriendClicked: () -> Unit
 ){
-    var deadlineDate by rememberSaveable { mutableStateOf("DD/MM/YYYY") }
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.Start,
@@ -94,52 +91,11 @@ fun EventSettingScreen(
             label = { Text(stringResource(R.string.event_description)) },
         )
 
-        // DatePicker: user select decision deadline
-        val context = LocalContext.current
-        val calendar = Calendar.getInstance()
-        // Fetching current year, month and day
-        val year = calendar[Calendar.YEAR]
-        val month = calendar[Calendar.MONTH]
-        val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
-        val datePicker = DatePickerDialog(
-            context,
-            R.style.DatePickTheme,
-            { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->
-                deadlineDate = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
-            }, year, month, dayOfMonth
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(
-            value = deadlineDate,
-            onValueChange = onDeadlineChange,
-            readOnly = true,
-            singleLine = true,
-            label = { Text(stringResource(R.string.deadline_date)) },
-            modifier = Modifier.fillMaxWidth(),
-            interactionSource = remember { MutableInteractionSource() }
-                .also { interactionSource ->
-                    LaunchedEffect(interactionSource) {
-                        interactionSource.interactions.collect {
-                            if (it is PressInteraction.Release) {
-                                datePicker.show()
-                            }
-                        }
-                    }
-                },
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(16.dp)
-                )
-            }
-        )
         Spacer(modifier = Modifier.height(16.dp))
 
         // Button: invite your friends. Saves state to selectedEvent. Navigate to friend selection view
         Button(
-            onClick = {onInviteFriendClicked(deadlineDate)},
+            onClick = onInviteFriendClicked,
             modifier = Modifier.fillMaxWidth(),
         ) {
             Row(
@@ -164,14 +120,13 @@ fun EventSettingScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun ventSettingPreview(){
+fun EventSettingPreview(){
     EventSettingScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         onEventNameChange = { new: String -> Unit },
         onEventDescChange = { new: String -> Unit },
-        onDeadlineChange = {new: String -> Unit},
-        onInviteFriendClicked = {deadlineDate: String -> Unit}
+        onInviteFriendClicked = {}
         )
 }
