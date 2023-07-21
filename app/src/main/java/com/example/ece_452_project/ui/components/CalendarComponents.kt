@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.ece_452_project.ui.theme.SolidGreen
 import com.kizitonwose.calendar.compose.CalendarLayoutInfo
 import com.kizitonwose.calendar.compose.CalendarState
 import com.kizitonwose.calendar.core.CalendarDay
@@ -45,7 +44,6 @@ fun Day(day: CalendarDay, isSelected: Boolean = false, onClick: (CalendarDay) ->
             .aspectRatio(1f)
             .clip(CircleShape)
             .background(color = if (isSelected)  MaterialTheme.colorScheme.outlineVariant else Color.Transparent)
-//            .background(color = if (isSelected) SolidGreen else Color.Transparent)
             .clickable(
                 enabled = day.position == DayPosition.MonthDate,
                 onClick = { onClick(day) }
@@ -55,7 +53,7 @@ fun Day(day: CalendarDay, isSelected: Boolean = false, onClick: (CalendarDay) ->
         Text(
             text = day.date.dayOfMonth.toString(),
             // to shade calendar dates that are for previous / next month
-            color = if (day.position == DayPosition.MonthDate) Color.Black else Color.Gray
+            color = if (day.position == DayPosition.MonthDate) MaterialTheme.colorScheme.onBackground else Color.Gray
         )
     }
 }
@@ -126,7 +124,7 @@ fun MonthDay(day: CalendarDay, isSelected: Boolean = false, dailyEvents: List<Lo
         modifier = Modifier
             .aspectRatio(1f)
             .clip(CircleShape)
-            .background(color = if (isSelected) SolidGreen else Color.Transparent)
+            .background(color = if (isSelected) MaterialTheme.colorScheme.secondary else Color.Transparent)
             .clickable(
                 enabled = day.position == DayPosition.MonthDate,
                 onClick = { onClick(day) }
@@ -136,7 +134,7 @@ fun MonthDay(day: CalendarDay, isSelected: Boolean = false, dailyEvents: List<Lo
         Text(
             text = day.date.dayOfMonth.toString(),
             // to shade calendar dates that are for previous / next month
-            color = if (day.position == DayPosition.MonthDate) Color.Black else Color.Gray
+            color = if (day.position == DayPosition.MonthDate) MaterialTheme.colorScheme.onBackground else Color.Gray
         )
 
         Column(
@@ -144,14 +142,14 @@ fun MonthDay(day: CalendarDay, isSelected: Boolean = false, dailyEvents: List<Lo
         ){
             if (dailyEvents.isNotEmpty()){
                 Box(
-                    modifier = Modifier.fillMaxWidth().height(5.dp).background(SolidGreen)
+                    modifier = Modifier.fillMaxWidth().height(5.dp).background(MaterialTheme.colorScheme.primary)
                 )
             }
 
             // if we want more shading for more events
 //            for (i in dailyEvents){
 //                Box(
-//                    modifier = Modifier.fillMaxWidth().height(5.dp).background(SolidGreen)
+//                    modifier = Modifier.fillMaxWidth().height(5.dp).background(MaterialTheme.colorScheme.primary)
 //                )
 //            }
         }
