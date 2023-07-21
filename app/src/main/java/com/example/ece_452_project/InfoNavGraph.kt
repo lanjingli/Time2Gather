@@ -19,6 +19,7 @@ import com.example.ece_452_project.ui.InfoViewModel
 import com.example.ece_452_project.ui.LoginScreen
 import com.example.ece_452_project.ui.PreferencesScreen
 import com.example.ece_452_project.ui.RegisterScreen
+import com.example.ece_452_project.ui.navigation.AppNavigationBar
 
 enum class InfoScreen(){
     Login,
@@ -34,7 +35,9 @@ fun InfoNavGraph(
     viewModel: InfoViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    Scaffold(){ innerPadding ->
+    Scaffold(
+       // bottomBar = {AppNavigationBar(navController = navController)}
+    ){ innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
 
         NavHost(
@@ -44,7 +47,9 @@ fun InfoNavGraph(
         ){
             composable(route = InfoScreen.Login.name) {
                 LoginScreen(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
                     onLoginButtonClicked = {
                         viewModel.fetchDummyUser()
                         navController.navigate(InfoScreen.Dashboard.name) },
@@ -57,7 +62,9 @@ fun InfoNavGraph(
             }
             composable(route = InfoScreen.Register.name) {
                 RegisterScreen(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
                     usernameText = viewModel.username,
                     passwordText = viewModel.password,
                     cpasswordText = viewModel.cpassword,
@@ -69,7 +76,9 @@ fun InfoNavGraph(
             }
             composable(route = InfoScreen.Preferences.name) {
                 PreferencesScreen(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
                     nameText = viewModel.name,
                     emailText = viewModel.email,
                     onNameChange = { viewModel.updateName(it) },

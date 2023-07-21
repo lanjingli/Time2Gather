@@ -18,7 +18,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             ECE_452_ProjectTheme {
                 InfoNavGraph()
-//                MapNavGraph()
             }
         }
     }
