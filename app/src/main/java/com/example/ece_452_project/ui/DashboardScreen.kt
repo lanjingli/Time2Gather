@@ -74,7 +74,6 @@ fun DashboardScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
     onNewEventButtonClicked: () -> Unit,
-    onViewCalendarButtonClicked: () -> Unit,
 ) {
 
     val events = generateAllEventsMap(user).groupBy {it.start.toLocalDate()}
@@ -131,10 +130,10 @@ fun DashboardScreen(
                     com.example.ece_452_project.ui.components.CalendarHeader(month = month)
                 }
             )
-            
+
             sharedEvents.take(3).forEachIndexed {_, event ->
                 OutlinedButton(
-                    onClick = onViewCalendarButtonClicked,
+                    onClick = { },
                     border = BorderStroke(
                         width = 4.dp,
                         color = MaterialTheme.colorScheme.primary
@@ -166,12 +165,12 @@ fun DashboardScreen(
             }
 
             if (sharedEvents.isEmpty()){
-                TextButton(onClick = onViewCalendarButtonClicked,
-                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp,)
-                ) { Text (
-                        text = stringResource(R.string.no_shared_events),
-                        style = MaterialTheme.typography.titleMedium)}
-                }
+                Text (
+                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp,),
+                    text = stringResource(R.string.no_shared_events),
+                    style = MaterialTheme.typography.titleMedium)
+            }
+
             Button(onClick = onNewEventButtonClicked,
                 modifier= Modifier
                     .padding(start = 16.dp, bottom = 16.dp)
@@ -214,6 +213,5 @@ fun DashboardPreview(){
         .fillMaxSize()
         .padding(16.dp),
         onNewEventButtonClicked = {},
-        onViewCalendarButtonClicked = {},
     )
 }

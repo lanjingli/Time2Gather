@@ -46,9 +46,9 @@
     <string name="right_arrow"><![CDATA[>]]></string>
     <string name="left_arrow"><![CDATA[<]]></string>
     <string name="createScreenTEMP">createScreenTEMP</string>
-    <string name="personalListTEMP">personalListTEMP</string>
-    <string name="sharedListTEMP">sharedListTEMP</string>
     <string name="no_shared_events">No Shared Events</string>
+    <string name="add_new_friend">Add a new friend</string>
+    <string name="enter_their_username">Enter their username:</string>
     <string name="incorrect_email_or_password">Incorrect Email or Password</string>
     <string name="username_already_exists">Username Invalid or Already Exists</string>
 </resources>

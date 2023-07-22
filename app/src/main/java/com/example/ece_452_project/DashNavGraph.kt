@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,14 +24,13 @@ import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
 import com.example.ece_452_project.ui.EventInfoScreen
 import com.example.ece_452_project.ui.EventSettingScreen
+import com.example.ece_452_project.ui.FriendMainScreen
 import com.example.ece_452_project.ui.ListSelectScreen
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import com.example.ece_452_project.ui.ListSelectScreen
-import com.example.ece_452_project.ui.ScheduleScreen
 import com.example.ece_452_project.ui.MapScreen
+import com.example.ece_452_project.ui.PreferencesScreen
 import com.example.ece_452_project.ui.TimeSelectionScreen
-import java.time.format.TextStyle
+import com.example.ece_452_project.ui.navigation.AppNavigationBar
+import com.example.ece_452_project.ui.navigation.NavBarItem
 
 enum class DashScreen(){
     Dashboard,
@@ -41,7 +39,6 @@ enum class DashScreen(){
     TimePlaceSelect,
     Map,
     Schedule,
-    ViewSchedule
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,15 +50,17 @@ fun DashNavGraph(
     user: User = User()
 ) {
     viewModel.updateUser(user)
-    Scaffold(){ innerPadding ->
+    Scaffold(
+        bottomBar = { AppNavigationBar(navController = navController) }
+    ){ innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
 
         NavHost(
             navController = navController,
-            startDestination = DashScreen.Dashboard.name,
+            startDestination = NavBarItem.Home.route,
             modifier = Modifier.padding(innerPadding)
         ){
-            composable(route = DashScreen.Dashboard.name){
+            composable(route = NavBarItem.Home.route){
                 DashboardScreen(
                     modifier = Modifier
                         .fillMaxSize()
@@ -69,15 +68,14 @@ fun DashNavGraph(
                     user = uiState.user,
                     onNewEventButtonClicked = {
                         navController.navigate(DashScreen.EventSetting.name)
-                    },
-                    onViewCalendarButtonClicked = {
-                        navController.navigate(DashScreen.ViewSchedule.name)
                     }
                 )
             }
             composable(route = DashScreen.EventSetting.name){
                 EventSettingScreen(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
                     user = uiState.user,
                     eventNameText = viewModel.eventName,
                     eventDescText = viewModel.eventDesc,
@@ -128,10 +126,10 @@ fun DashNavGraph(
                     onTimeButtonClicked = {navController.navigate(DashScreen.Schedule.name)},
                     onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},
                     onFinishButtonClicked = {
-                        var user = uiState.user
+                        val user = uiState.user
                         user.schedule.add(uiState.selectedEvent)
                         viewModel.updateUser(user)
-                        navController.navigate(DashScreen.Dashboard.name)
+                        navController.navigate(NavBarItem.Home.route)
                     }
                 )
             }
@@ -158,8 +156,19 @@ fun DashNavGraph(
                         locations = DummyData.places)
                 }
             }
-            composable(route = DashScreen.ViewSchedule.name){
+            composable(route = NavBarItem.Calendar.route){
                 CalendarMonthlyScreen(user = uiState.user)
+            }
+            composable(route = NavBarItem.Friends.route){
+                FriendMainScreen()
+            }
+            composable(route = NavBarItem.Settings.route){
+                PreferencesScreen(
+                    onNameChange = {new: String -> Unit},
+                    onEmailChange = {new: String -> Unit},
+                    onCheckboxChange = {new: Boolean, index: Int -> Unit},
+                    onSaveButtonClicked = {navController.navigate(NavBarItem.Home.route)}
+                )
             }
         }
     }
