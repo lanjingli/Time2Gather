@@ -37,3 +37,4 @@
 | 2023/07/20 |   10   |     |         |       |       |       |App Dev - Network Utilities and User Authentication/Registration|
 | 2023/07/21 |        | 1.5 |         |       |       |       |Event Time Selection Page: Added the ability to warn user on availability status|
 | 2023/07/21 |   10   |     |         |       |       |       |App Dev - Network Utilities and User Authentication/Registration|
+| 2023/07/21 |        |     |         |   4   |       |       |App Dev - Navigation Bar and merge|
