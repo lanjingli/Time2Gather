@@ -42,7 +42,6 @@ fun InfoNavGraph(
     navController: NavHostController = rememberNavController()
 ) {
     Scaffold(
-       // bottomBar = {AppNavigationBar(navController = navController)}
     ){ innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
 
