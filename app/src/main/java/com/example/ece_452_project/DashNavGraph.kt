@@ -17,8 +17,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.data.DummyData
+import com.example.ece_452_project.data.MenuData
 import com.example.ece_452_project.data.User
 import com.example.ece_452_project.remote.FirestoreUtils
+import com.example.ece_452_project.remote.RemoteUser
 import com.example.ece_452_project.ui.CalendarMonthlyScreen
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
@@ -162,14 +164,55 @@ fun DashNavGraph(
             composable(route = NavBarItem.Friends.route){
                 FriendMainScreen()
             }
-            composable(route = NavBarItem.Settings.route){
-                PreferencesScreen(
-                    onNameChange = {new: String -> Unit},
-                    onEmailChange = {new: String -> Unit},
-                    onCheckboxChange = {new: Boolean, index: Int -> Unit},
-                    onSaveButtonClicked = {navController.navigate(NavBarItem.Home.route)}
-                )
-            }
+//            composable(route = NavBarItem.Settings.route){
+//                PreferencesScreen(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .padding(16.dp),
+//                    nameText = viewModel.name,
+//                    usernameText = viewModel.username,
+//                    onNameChange = { viewModel.updateName(it) },
+//                    onUsernameChange = { viewModel.updateUsername(it) },
+//                    checkboxStates = viewModel.dietary,
+//                    onCheckboxChange = {new: Boolean, i: Int -> viewModel.updateDietary(new, i)},
+//                    onSaveButtonClicked = {
+//                        if (viewModel.username.isEmpty()){
+//                            viewModel.updateDialog(true)
+//                        }
+//                        else {
+//                            FirestoreUtils.usernameExists(viewModel.username) {
+//                                if (!it){
+//                                    val auth = FirestoreUtils.auth()
+//                                    val firestore = FirestoreUtils.firestore()
+//                                    viewModel.updateUserFromInputs()
+//                                    // re-update for remote
+//                                    val tmp_dietary = mutableListOf<String>()
+//                                    viewModel.dietary.forEachIndexed(){i,it->
+//                                        if (it) tmp_dietary.add(MenuData.dietaryOptions[i])
+//                                    }
+//                                    val userData = RemoteUser(
+//                                        username = viewModel.username,
+//                                        email = viewModel.email,
+//                                        password = viewModel.password,
+//                                        name = viewModel.name,
+//                                        dietary = tmp_dietary
+//                                    )
+//                                    auth.currentUser?.let{authUser ->
+//                                        firestore.collection("users").document(authUser.uid)
+//                                            .set(userData)
+//                                        navController.navigate(InfoScreen.Dashboard.name)
+//                                    }
+//                                }
+//                                else{
+//                                    viewModel.updateDialog(true)
+//                                }
+//                            }
+//                        }
+//                    },
+//                    openDialog = viewModel.openDialog,
+//                    onDialogDismiss = { viewModel.updateDialog(false) }
+//                )
+//            }
         }
     }
 }
