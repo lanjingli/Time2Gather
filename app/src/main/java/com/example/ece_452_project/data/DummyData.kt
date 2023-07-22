@@ -12,7 +12,7 @@ object DummyData {
     var users = mutableListOf<User>(
         User(
             username = "alpha",
-            password = "pass",
+            password = "password",
             name = "Alice",
             email = "a@mail.com",
             dietary = listOf("Halal"),
@@ -46,7 +46,7 @@ object DummyData {
         ),
         User(
             username = "bravo",
-            password = "pass",
+            password = "password",
             name = "Bob",
             email = "b@mail.com",
             dietary = listOf<String>(),
@@ -63,7 +63,7 @@ object DummyData {
         ),
         User(
             username = "charlie",
-            password = "pass",
+            password = "password",
             name = "Charlie",
             email = "c@mail.com",
             dietary = listOf<String>("Vegetarian"),
@@ -80,34 +80,38 @@ object DummyData {
         ),
         User(
             username = "delta",
-            password = "pass",
+            password = "password",
             name = "Dahlia",
             email = "d@mail.com",
-            dietary = listOf<String>(""),
+            dietary = listOf<String>(),
             schedule = mutableListOf(
                 Event(
                     name = "FYDP Brainstorming",
                     start = LocalDateTime.of(2023, 7, 1, 15, 0),
                     end = LocalDateTime.of(2023, 7, 1, 17, 30),
-                    shared = true
+                    shared = true,
+                    users = listOf("alpha", "beta")
                 ),
                 Event(
                     name = "Ice Cream Meet",
                     start = LocalDateTime.of(2023, 7, 5, 15, 30),
                     end = LocalDateTime.of(2023, 7, 5, 16, 0),
-                    shared = true
+                    shared = true,
+                    users = listOf("alpha")
                 ),
                 Event(
                     name = "Plaza Lunch",
                     start = LocalDateTime.of(2023, 7, 17, 12, 30),
-                    end = LocalDateTime.of(2023, 7, 17, 1, 30),
-                    shared = true
+                    end = LocalDateTime.of(2023, 7, 17, 13, 30),
+                    shared = true,
+                    users = listOf("charlie")
                 ),
                 Event(
                     name = "Group Study",
                     start = LocalDateTime.of(2023, 7, 20, 15, 30),
                     end = LocalDateTime.of(2023, 7, 20, 16, 0),
-                    shared = true
+                    shared = true,
+                    users = listOf("alpha", "charlie")
                 ),
             )
         )

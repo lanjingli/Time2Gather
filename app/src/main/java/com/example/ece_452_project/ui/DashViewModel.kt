@@ -69,13 +69,12 @@ class DashViewModel : ViewModel() {
         deadlineDate = value
     }
 
-    fun updateEventSetting(deadline: String) {
+    fun updateEventSetting() {
         var tmp = _uiState.value.selectedEvent.copy()
         tmp.name = eventName
         tmp.description = eventDesc
-        tmp.deadlineDate = deadline
-//        _uiState.update { currentState ->
-//            currentState.copy(selectedEvent = tmp)
-//        }
+        _uiState.update { currentState ->
+            currentState.copy(selectedEvent = tmp)
+        }
     }
 }

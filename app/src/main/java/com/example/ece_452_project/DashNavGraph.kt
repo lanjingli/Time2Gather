@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.User
+import com.example.ece_452_project.remote.FirestoreUtils
 import com.example.ece_452_project.ui.CalendarMonthlyScreen
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
@@ -80,9 +81,8 @@ fun DashNavGraph(
                     eventDescText = viewModel.eventDesc,
                     onEventNameChange = { viewModel.updateEventName(it) },
                     onEventDescChange = { viewModel.updateEventDescription(it) },
-                    onDeadlineChange = {viewModel.updateDeadlineDate(it)},
                     onInviteFriendClicked = {
-                        viewModel.updateEventSetting(it)
+                        viewModel.updateEventSetting()
                         navController.navigate(DashScreen.FriendSelect.name)
                     }
                 )
@@ -102,7 +102,7 @@ fun DashNavGraph(
                 )
             }
             composable(route = DashScreen.FriendSelect.name){
-                val friends = DummyData.users.filter {it.username != uiState.user.username}
+                val friends = DummyData.users.filter {it.email != uiState.user.email}
                 val options = friends.map {it.name + " - " + it.dietary.joinToString( ", " )}
                 ListSelectScreen(
                     modifier = Modifier

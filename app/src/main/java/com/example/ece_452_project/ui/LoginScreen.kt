@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -22,10 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ece_452_project.R
+
 
 /**
  * Composable for the initial login screen
@@ -34,18 +37,34 @@ import com.example.ece_452_project.R
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    usernameText: String = "",
+    emailText: String = "",
     passwordText: String = "",
-    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginButtonClicked: () -> Unit,
-    onSignupButtonClicked: () -> Unit
+    onSignupButtonClicked: () -> Unit,
+    openDialog: Boolean = false,
+    onDialogDismiss: () -> Unit
 ){
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (openDialog){
+            AlertDialog(
+                onDismissRequest = onDialogDismiss,
+                confirmButton = { Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = onDialogDismiss
+                    ) {
+                        Text("Dismiss")
+                    }
+                },
+                title = {Text(stringResource(id = R.string.incorrect_email_or_password), textAlign = TextAlign.Center)}
+            )
+        }
+
         Image(
             painter = painterResource(id = R.drawable.leaves),
             contentDescription = stringResource(id = R.string.leaves_content_description)
@@ -62,13 +81,13 @@ fun LoginScreen(
 //        )
         Spacer(modifier = Modifier.height(32.dp))
         TextField(
-            value = usernameText,
-            onValueChange = onUsernameChange,
+            value = emailText,
+            onValueChange = onEmailChange,
             singleLine = true,
             shape = MaterialTheme.shapes.large,
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.surface),
-            label = { Text(stringResource(R.string.username)) },
+            label = { Text(stringResource(R.string.email_address)) },
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextField(
@@ -118,8 +137,9 @@ fun LoginPreview(){
         .padding(16.dp),
         onLoginButtonClicked = { },
         onSignupButtonClicked = { },
-        onUsernameChange = {new: String -> Unit },
-        onPasswordChange = {new: String -> Unit }
+        onEmailChange = { new: String -> Unit },
+        onPasswordChange = {new: String -> Unit },
+        onDialogDismiss = { }
     )
 }
 

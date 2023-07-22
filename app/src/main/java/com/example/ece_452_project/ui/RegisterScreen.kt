@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,19 +34,35 @@ import com.example.ece_452_project.R
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
-    usernameText: String = "",
+    emailText: String = "",
     passwordText: String = "",
     cpasswordText: String = "",
-    onUsernameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onCPasswordChange: (String) -> Unit,
-    onSignupButtonClicked: () -> Unit
+    onSignupButtonClicked: () -> Unit,
+    openDialog: Boolean = false,
+    onDialogDismiss: () -> Unit,
+    dialogText: String = ""
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (openDialog){
+            AlertDialog(
+                onDismissRequest = onDialogDismiss,
+                confirmButton = { Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = onDialogDismiss
+                ) {
+                    Text("Dismiss")
+                }
+                },
+                text = {Text(dialogText, textAlign = TextAlign.Center)}
+            )
+        }
         Text(
             text = stringResource(R.string.register),
             style = MaterialTheme.typography.headlineLarge
@@ -56,13 +74,13 @@ fun RegisterScreen(
         )
         Spacer(modifier = Modifier.height(32.dp))
         TextField(
-            value = usernameText,
-            onValueChange = onUsernameChange,
+            value = emailText,
+            onValueChange = onEmailChange,
             singleLine = true,
             shape = MaterialTheme.shapes.large,
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.surface),
-            label = { Text(stringResource(R.string.username)) }
+            label = { Text(stringResource(R.string.email_address)) }
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextField(
@@ -107,10 +125,12 @@ fun RegisterPreview(){
     RegisterScreen(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
-        onUsernameChange = {new: String -> Unit },
+        onEmailChange = { new: String -> Unit },
         onPasswordChange = {new: String -> Unit },
         onCPasswordChange = {new: String -> Unit },
-        onSignupButtonClicked = { }
+        onSignupButtonClicked = { },
+        onDialogDismiss = { },
+        dialogText = "test"
     )
 }
 

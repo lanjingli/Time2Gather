@@ -31,6 +31,13 @@ class InfoViewModel : ViewModel() {
     var email by mutableStateOf("")
         private set
 
+    // State of Incorrect Username/Password dialog
+    var openDialog by mutableStateOf(false)
+        private set
+
+    var dialogText by mutableStateOf("")
+        private set
+
     // Update input values
     fun updateUsername(value: String) { username = value }
     fun updatePassword(value: String) { password = value }
@@ -43,6 +50,13 @@ class InfoViewModel : ViewModel() {
             temp[i] = value
             dietary = temp.toList()
         }
+    }
+    fun updateDialog(value: Boolean) {
+        openDialog = value
+    }
+
+    fun updateDialogText(value: String) {
+        dialogText = value
     }
 
     fun resetInfo(){
@@ -74,7 +88,7 @@ class InfoViewModel : ViewModel() {
 
     fun fetchDummyUser(){
         DummyData.users.forEach{it->
-            if (it.username == username) {
+            if (it.email == email) {
                 updateUser(it)
             }
         }
