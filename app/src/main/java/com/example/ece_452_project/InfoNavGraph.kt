@@ -91,11 +91,7 @@ fun InfoNavGraph(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
-<<<<<<< app/src/main/java/com/example/ece_452_project/InfoNavGraph.kt
-                    usernameText = viewModel.username,
-=======
                     emailText = viewModel.email,
->>>>>>> app/src/main/java/com/example/ece_452_project/InfoNavGraph.kt
                     passwordText = viewModel.password,
                     cpasswordText = viewModel.cpassword,
                     onEmailChange = { viewModel.updateEmail(it) },
