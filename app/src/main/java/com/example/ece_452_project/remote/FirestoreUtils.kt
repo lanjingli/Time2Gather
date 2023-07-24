@@ -98,6 +98,7 @@ object FirestoreUtils{
                     result.user?.let{
                         firestore.collection("users").document(it.uid)
                             .set(userData)
+                            .addOnFailureListener {Log.d("myTag1", it.toString())}
                     }
                 }
         }
@@ -111,6 +112,7 @@ object FirestoreUtils{
                 val eventData = RemoteEvent(event, user)
                 firestore.collection("events").document("dummy-$count")
                     .set(eventData)
+                    .addOnFailureListener {Log.d("myTag2", it.toString())}
                 count += 1
             }
         }

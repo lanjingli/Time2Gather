@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.sp
 import com.example.ece_452_project.R
 import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.User
-import com.example.ece_452_project.generateAllEventsMap
+import com.example.ece_452_project.generateAllEventsList
 import com.example.ece_452_project.ui.components.CalendarHeader
 import com.example.ece_452_project.ui.components.Day
 import com.example.ece_452_project.ui.components.MonthDay
@@ -76,7 +76,7 @@ fun DashboardScreen(
     onNewEventButtonClicked: () -> Unit,
 ) {
 
-    val events = generateAllEventsMap(user).groupBy {it.start.toLocalDate()}
+    val events = generateAllEventsList(user).groupBy {it.start.toLocalDate()}
     var selectedDate by remember { mutableStateOf<CalendarDay?>(null) }
 
     Column(

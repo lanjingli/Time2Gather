@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.Event
 import com.example.ece_452_project.data.User
-import com.example.ece_452_project.generateAllEventsMap
+import com.example.ece_452_project.generateAllEventsList
 import com.example.ece_452_project.ui.components.rememberFirstCompletelyVisibleMonth
 import com.example.ece_452_project.ui.components.MonthDay
 import com.example.ece_452_project.ui.theme.SolidGreen
@@ -67,7 +67,7 @@ fun CalendarMonthlyScreen(
 
 ) {
 
-    val events = generateAllEventsMap(user).groupBy {it.start.toLocalDate()}
+    val events = generateAllEventsList(user).groupBy {it.start.toLocalDate()}
 
     val sharedEvents = user.schedule.filter { it.shared }
     val sharedDates = sharedEvents.map { it.start.toLocalDate() }

@@ -4,13 +4,18 @@ import com.example.ece_452_project.data.Event
 import com.example.ece_452_project.data.User
 import java.time.YearMonth
 
-fun generateAllEventsMap( User: User  ): List<Event> = buildList{
-
+fun generateAllEventsList( User: User  ): List<Event> = buildList{
     for (events in User.schedule){
         add(events)
     }
-
 }
+
+fun generateAllEventsNamesOnly( User: User  ): List<String> = buildList{
+    for (events in User.schedule){
+        add(events.name)
+    }
+}
+
 
 fun generateSharedEventsMap( User: User  ): List<Event> = buildList{
 

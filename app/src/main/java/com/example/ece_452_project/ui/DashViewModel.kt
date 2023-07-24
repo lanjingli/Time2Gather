@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ece_452_project.data.DashUiState
 import com.example.ece_452_project.data.User
+import com.example.ece_452_project.generateAllEventsList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +27,8 @@ class DashViewModel : ViewModel() {
     fun resetDash() {
         _uiState.value = DashUiState()
     }
+
+    val events = generateAllEventsList(user).groupBy {it.start.toLocalDate()}
 
     fun updateUser(user: User) {
         _uiState.update { currentState ->
