@@ -76,7 +76,6 @@ fun DashboardScreen(
     onNewEventButtonClicked: () -> Unit,
 ) {
 
-    val events = generateAllEventsMap(user).groupBy {it.start.toLocalDate()}
     var selectedDate by remember { mutableStateOf<CalendarDay?>(null) }
 
     Column(
@@ -104,8 +103,8 @@ fun DashboardScreen(
                 style = MaterialTheme.typography.headlineSmall
             )
             Spacer(modifier = Modifier.height(8.dp))
-            val sharedEvents = user.schedule.filter {it.shared}
-            val sharedDates = sharedEvents.map {it.start.toLocalDate()}
+            val sharedEvents = user.schedule.filter {it.shared}.sortedWith(compareBy { it.start })
+            val sharedEventsMap = sharedEvents.groupBy {it.start.toLocalDate()}
             HorizontalCalendar(
                 modifier = Modifier.padding(16.dp),
                 state = rememberCalendarState(
@@ -117,7 +116,7 @@ fun DashboardScreen(
                 dayContent = { day ->
 
                     val dailyEvents = if (day.position == DayPosition.MonthDate) {
-                        events[day.date].orEmpty().map {it.start}
+                        sharedEventsMap[day.date].orEmpty().map {it.start}
                     } else {
                         emptyList();
                     }
@@ -140,7 +139,7 @@ fun DashboardScreen(
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(all = 16.dp),
+                        .padding(all = 8.dp),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Row(
@@ -169,6 +168,9 @@ fun DashboardScreen(
                     modifier = Modifier.padding(start = 16.dp, bottom = 16.dp,),
                     text = stringResource(R.string.no_shared_events),
                     style = MaterialTheme.typography.titleMedium)
+            }
+            else{
+                Spacer(modifier = Modifier.height(8.dp))
             }
 
             Button(onClick = onNewEventButtonClicked,
