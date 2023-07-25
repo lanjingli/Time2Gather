@@ -41,3 +41,5 @@
 | 2023/07/22 |        |     |   9     |       |       |       | App Dev - Event Options Page|
 | 2023/07/23 |        |     |  4.5    |       |       |       | App Dev - Event Options Page and add event to remote db |
 | 2023/07/24 |        |     |  6.5    |       |       |       | App Dev - Event Options Page flow testing |
+| 2023/07/24 |   3    |     |         |       |       |       | App Dev - Bug Fixes |
+| 2023/07/24 |   8    |     |         |       |       |       | App Dev - Discussion Database Utilities |
