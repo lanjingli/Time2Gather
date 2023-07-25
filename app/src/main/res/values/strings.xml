@@ -32,7 +32,7 @@
     <string name="back_to_invite_friends">Back to Select Friends</string>
     <string name="back_to_event_details">Back to Event Details</string>
     <string name="event_description">Description</string>
-    <string name="deadline_date">Decision Deadline</string>
+    <string name="deadline_date">Discussion Deadline</string>
     <string name="invite_friends">Invite your Friends</string>
     <string name="view_schedule">View Schedule</string>
     <string name="save_event">Save Event</string>
@@ -51,4 +51,9 @@
     <string name="enter_their_username">Enter their username:</string>
     <string name="incorrect_email_or_password">Incorrect Email or Password</string>
     <string name="username_already_exists">Username Invalid or Already Exists</string>
+    <string name="timeslot_ranking">View Timeslots</string>
+    <string name="location_ranking">View Locations</string>
+    <string name="event_options">Event Options</string>
+    <string name="done">Done</string>
+    <string name="finalize">Finalize</string>
 </resources>

@@ -20,11 +20,14 @@ import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.MenuData
 import com.example.ece_452_project.data.User
 import com.example.ece_452_project.remote.FirestoreUtils
+import com.example.ece_452_project.remote.RemoteEvent
 import com.example.ece_452_project.remote.RemoteUser
 import com.example.ece_452_project.ui.CalendarMonthlyScreen
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
+import com.example.ece_452_project.ui.EventFinalScreen
 import com.example.ece_452_project.ui.EventInfoScreen
+import com.example.ece_452_project.ui.EventOptionScreen
 import com.example.ece_452_project.ui.EventSettingScreen
 import com.example.ece_452_project.ui.FriendMainScreen
 import com.example.ece_452_project.ui.ListSelectScreen
@@ -33,6 +36,10 @@ import com.example.ece_452_project.ui.PreferencesScreen
 import com.example.ece_452_project.ui.TimeSelectionScreen
 import com.example.ece_452_project.ui.navigation.AppNavigationBar
 import com.example.ece_452_project.ui.navigation.NavBarItem
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 enum class DashScreen(){
     Dashboard,
@@ -41,6 +48,8 @@ enum class DashScreen(){
     TimePlaceSelect,
     Map,
     Schedule,
+    EventOption,
+    EventFinal
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,6 +79,10 @@ fun DashNavGraph(
                     user = uiState.user,
                     onNewEventButtonClicked = {
                         navController.navigate(DashScreen.EventSetting.name)
+                    },
+                    onEventClick = {
+                        viewModel.updateSelectedEvent(it)
+                        navController.navigate(DashScreen.EventOption.name)
                     }
                 )
             }
@@ -86,6 +99,44 @@ fun DashNavGraph(
                     onInviteFriendClicked = {
                         viewModel.updateEventSetting()
                         navController.navigate(DashScreen.FriendSelect.name)
+                    }
+                )
+            }
+            composable(route = DashScreen.EventOption.name){
+                EventOptionScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    user = uiState.user,
+                    event = uiState.selectedEvent,
+                    onTimeButtonClicked = {},
+                    onPlaceButtonClicked = {},
+                    onFinishButtonClicked = {
+                        navController.navigate(DashScreen.EventFinal.name)
+                    }
+                )
+            }
+            composable(route = DashScreen.EventFinal.name){
+                EventFinalScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    user = uiState.user,
+                    event = uiState.selectedEvent,
+                    friends = uiState.selectedFriends,
+                    onFinishButtonClicked = {
+                        if(it) {
+                            viewModel.updateEventAttend(user.username)
+                            viewModel.updateUserSchedule(uiState.selectedEvent)
+                            val db = FirestoreUtils.firestore()
+                            val newEventRef = db.collection("events").document(uiState.selectedEvent.id)
+                            newEventRef.update("attend", FieldValue.arrayUnion(user.username))
+                            viewModel.updateUser(user)
+                        }
+                        navController.navigate(NavBarItem.Home.route)
+                    },
+                    onDoneButtonClicked = {
+                        navController.navigate(NavBarItem.Home.route)
                     }
                 )
             }
@@ -127,10 +178,40 @@ fun DashNavGraph(
                     onBackToFriendsClicked = {navController.navigate(DashScreen.FriendSelect.name)},
                     onTimeButtonClicked = {navController.navigate(DashScreen.Schedule.name)},
                     onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},
+                    onDeadlineChange = {viewModel.updateDeadlineDate(it)},
                     onFinishButtonClicked = {
+                        val db = FirestoreUtils.firestore()
+                        val newEventRef = db.collection("events").document()
+                        val eventId = newEventRef.id
                         val user = uiState.user
+                        viewModel.updateDeadlineDate(it)
+                        uiState.selectedEvent.deadline = viewModel.deadlineDate
+                        uiState.selectedEvent.eventOwner = user.username
+                        uiState.selectedEvent.id = eventId
+
+                        // Add new event to uiState
                         user.schedule.add(uiState.selectedEvent)
                         viewModel.updateUser(user)
+                        var listUser = mutableListOf<String>()
+
+                        uiState.selectedFriends.forEach { user ->
+                            listUser.add(user.username)
+                        }
+                        val data = RemoteEvent (
+                            id = eventId,
+                            name = viewModel.eventName,
+                            description = viewModel.eventDesc,
+                            deadline = viewModel.deadlineDate,
+                            location = uiState.selectedEvent.location,
+                            isShared = uiState.selectedEvent.shared,
+                            users = listUser,
+                            attend = uiState.selectedEvent.attend,
+                            eventOwner = uiState.selectedEvent.eventOwner,
+                            start = Timestamp(uiState.selectedEvent.start.toEpochSecond(ZonedDateTime.now().offset), 0),
+                            end = Timestamp(uiState.selectedEvent.end.toEpochSecond(ZonedDateTime.now().offset), 0)
+                            )
+                        newEventRef.set(data)
+                        viewModel.resetSelectedEvent()
                         navController.navigate(NavBarItem.Home.route)
                     }
                 )
