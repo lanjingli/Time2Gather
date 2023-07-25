@@ -114,7 +114,6 @@ object FirestoreUtils{
                         description = itevent.data?.getValue(RemoteDiscussion.FIELD_DESCRIPTION) as String,
                         deadline = itevent.data?.getValue(RemoteDiscussion.FIELD_DEADLINE) as Timestamp,
                         users = itevent.data?.getValue(RemoteDiscussion.FIELD_USERS) as List<String>,
-                        //options = itevent.data?.getValue(RemoteDiscussion.FIELD_OPTIONS) as List<RemoteTimePlace>,
                         rankings = itevent.data?.getValue(RemoteDiscussion.FIELD_RANKINGS) as List<Int>,
                     )
                     var options = mutableListOf<RemoteTimePlace>()
@@ -134,6 +133,59 @@ object FirestoreUtils{
                 listener(discussions)
             }
     }
+
+    fun addEvent(event: Event, listener: () -> Unit){
+        val newId = firestore.collection("events").document()
+        event.id = newId.id
+        updateEvent(event, listener)
+    }
+
+    fun updateEvent(event: Event, listener: () -> Unit){
+        firestore.collection("events").document(event.id)
+            .set(RemoteEvent(event)).addOnSuccessListener {
+                listener()
+            }
+    }
+
+    fun getDiscussion(id: String, listener: (discussion: Discussion) -> Unit){
+        firestore.collection("discussions").document(id)
+            .get().addOnSuccessListener {
+                val rDiscuss = RemoteDiscussion(
+                    id = it.data?.getValue(RemoteDiscussion.FIELD_ID) as String,
+                    name = it.data?.getValue(RemoteDiscussion.FIELD_NAME) as String,
+                    description = it.data?.getValue(RemoteDiscussion.FIELD_DESCRIPTION) as String,
+                    deadline = it.data?.getValue(RemoteDiscussion.FIELD_DEADLINE) as Timestamp,
+                    users = it.data?.getValue(RemoteDiscussion.FIELD_USERS) as List<String>,
+                    rankings = it.data?.getValue(RemoteDiscussion.FIELD_RANKINGS) as List<Int>,
+                )
+                var options = mutableListOf<RemoteTimePlace>()
+                val op_hashes = it.data?.getValue(RemoteDiscussion.FIELD_OPTIONS) as List<HashMap<String, Object>>
+                op_hashes.forEach{hash->
+                    options.add(
+                        RemoteTimePlace(
+                            start = hash.getValue(RemoteTimePlace.FIELD_START) as Timestamp,
+                            end = hash.getValue(RemoteTimePlace.FIELD_END) as Timestamp,
+                            location = hash.getValue(RemoteTimePlace.FIELD_LOCATION) as String
+                        )
+                    )
+                }
+                listener(Discussion(rDiscuss))
+            }
+    }
+
+    fun addDiscussion(discussion: Discussion, listener: () -> Unit){
+        val newId = firestore.collection("discussions").document()
+        discussion.id = newId.id
+        updateDiscussion(discussion, listener)
+    }
+
+    fun updateDiscussion(discussion: Discussion, listener: () -> Unit){
+        firestore.collection("discussions").document(discussion.id)
+            .set(RemoteDiscussion(discussion)).addOnSuccessListener {
+                listener()
+            }
+    }
+
     fun testDisc(){
         val r = RemoteDiscussion(
             id = "test",

@@ -184,37 +184,17 @@ fun DashNavGraph(
                     onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},
                     onDeadlineChange = {viewModel.updateDeadlineField(it)},
                     onFinishButtonClicked = {
-                        val db = FirestoreUtils.firestore()
-                        val newEventRef = db.collection("events").document()
-                        val eventId = newEventRef.id
                         val user = uiState.user
                         viewModel.updateDeadlineDate(it)
-                        uiState.selectedEvent.deadline = it
-                        uiState.selectedEvent.eventOwner = user.username
-                        uiState.selectedEvent.id = eventId
-
-                        // Add new event to uiState
-                        user.schedule.add(uiState.selectedEvent)
-                        viewModel.updateUser(user)
-                        var listUser = mutableListOf<String>()
-
+                        // Add new discussion to db
+                        var listUser = mutableListOf<String>(user.username)
                         uiState.selectedFriends.forEach { user ->
                             listUser.add(user.username)
                         }
-                        val data = RemoteEvent (
-                            id = eventId,
-                            name = viewModel.eventName,
-                            description = viewModel.eventDesc,
-                            deadline = Timestamp(uiState.selectedEvent.deadline.toEpochSecond(ZonedDateTime.now().offset), 0),
-                            location = uiState.selectedEvent.location,
-                            isShared = uiState.selectedEvent.shared,
-                            users = listUser,
-                            attend = uiState.selectedEvent.attend,
-                            eventOwner = uiState.selectedEvent.eventOwner,
-                            start = Timestamp(uiState.selectedEvent.start.toEpochSecond(ZonedDateTime.now().offset), 0),
-                            end = Timestamp(uiState.selectedEvent.end.toEpochSecond(ZonedDateTime.now().offset), 0)
-                            )
-                        newEventRef.set(data)
+                        val data = Discussion(uiState.selectedEvent)
+                        FirestoreUtils.addDiscussion(data, {})
+                        user.discussions.add(data)
+                        viewModel.updateUser(user)
                         viewModel.resetSelectedEvent()
                         navController.navigate(NavBarItem.Home.route)
                     }

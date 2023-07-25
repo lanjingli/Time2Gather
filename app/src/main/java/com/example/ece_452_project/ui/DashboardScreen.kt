@@ -162,17 +162,6 @@ fun DashboardScreen(
             else{
                 Spacer(modifier = Modifier.height(8.dp))
             }
-
-            Button(onClick = onNewEventButtonClicked,
-                modifier= Modifier
-                    .padding(start = 16.dp, bottom = 16.dp)
-                    .size(40.dp),
-                shape = CircleShape,
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-            ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "content description", modifier = Modifier.size(25.dp), tint = MaterialTheme.colorScheme.surface)
-            }
         }
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -229,6 +218,16 @@ fun DashboardScreen(
             }
             else{
                 Spacer(modifier = Modifier.height(8.dp))
+            }
+            Button(onClick = onNewEventButtonClicked,
+                modifier= Modifier
+                    .padding(start = 16.dp, bottom = 16.dp)
+                    .size(40.dp),
+                shape = CircleShape,
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "content description", modifier = Modifier.size(25.dp), tint = MaterialTheme.colorScheme.surface)
             }
         }
     }

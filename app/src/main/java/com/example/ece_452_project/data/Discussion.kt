@@ -34,6 +34,15 @@ data class Discussion (
         }
     }
 
+    constructor(event: Event) : this(){
+        name = event.name
+        description = event.description
+        deadline = event.deadline
+        users = event.users
+        options = mutableListOf(TimePlace(event))
+        rankings = MutableList<List<Int>>(users.size) {List<Int>(options.size) {UNRANKED} }
+    }
+
     fun addOption(event: Event){
         val tp = TimePlace(event)
         options.add(tp)

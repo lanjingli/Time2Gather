@@ -103,6 +103,14 @@ class DashViewModel : ViewModel() {
         }
     }
 
+    fun updateEventUsers(usernames: List<String>){
+        var tmp = _uiState.value.selectedEvent.copy()
+        tmp.users = usernames
+        _uiState.update { currentState ->
+            currentState.copy(selectedEvent = tmp)
+        }
+    }
+
     fun updateSelectedEvent(value: Event) {
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = value)
