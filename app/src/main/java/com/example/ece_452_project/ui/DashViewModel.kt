@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ece_452_project.data.DashUiState
+import com.example.ece_452_project.data.Event
 import com.example.ece_452_project.data.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +28,12 @@ class DashViewModel : ViewModel() {
         _uiState.value = DashUiState()
     }
 
+    fun resetSelectedEvent() {
+        eventName = ""
+        eventDesc = ""
+        deadlineDate = ""
+    }
+
     fun updateUser(user: User) {
         _uiState.update { currentState ->
             currentState.copy(user = user)
@@ -36,6 +43,16 @@ class DashViewModel : ViewModel() {
     fun updateSelectedFriends(friends: List<User>) {
         _uiState.update { currentState ->
             currentState.copy(selectedFriends = friends)
+        }
+    }
+
+    fun updateEventAttend(userName: String) {
+        var tmp = _uiState.value.selectedEvent.copy()
+        var myList = tmp.attend
+        myList += userName
+        tmp.attend = myList
+        _uiState.update { currentState ->
+            currentState.copy(selectedEvent = tmp)
         }
     }
 
@@ -51,7 +68,6 @@ class DashViewModel : ViewModel() {
     fun updateSelectedPlace(place: String) {
         var tmp = _uiState.value.selectedEvent.copy()
         tmp.location = place
-        tmp.name = place
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = tmp)
         }
@@ -67,6 +83,11 @@ class DashViewModel : ViewModel() {
 
     fun updateDeadlineDate(value: String) {
         deadlineDate = value
+        var tmp = _uiState.value.selectedEvent.copy()
+        tmp.deadline = value
+        _uiState.update { currentState ->
+            currentState.copy(selectedEvent = tmp)
+        }
     }
 
     fun updateEventSetting() {
@@ -75,6 +96,29 @@ class DashViewModel : ViewModel() {
         tmp.description = eventDesc
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = tmp)
+        }
+    }
+
+    fun updateSelectedEvent(value: Event) {
+        _uiState.update { currentState ->
+            currentState.copy(selectedEvent = value)
+        }
+    }
+
+    fun updateUserSchedule(ev: Event) {
+        var tmpSch = _uiState.value.user.schedule
+        tmpSch.forEach{ event ->
+            if (event.id == ev.id) {
+                tmpSch.remove(event)
+            }
+        }
+        tmpSch.add(ev)
+
+        var tmpUser = _uiState.value.user
+        tmpUser.schedule = tmpSch
+
+        _uiState.update { currentState ->
+            currentState.copy(user = tmpUser)
         }
     }
 }

@@ -43,43 +43,57 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ece_452_project.R
+import com.example.ece_452_project.data.Event
+import com.example.ece_452_project.data.User
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventInfoScreen(
+fun EventOptionScreen(
     modifier: Modifier = Modifier,
-    onBackToFriendsClicked: () ->Unit,
+    user: User = User(),
+    event: Event = Event(),
     onTimeButtonClicked: () -> Unit,
     onPlaceButtonClicked: () -> Unit,
-    onDeadlineChange: (String) -> Unit,
-    onFinishButtonClicked: (String) -> Unit,
+    onFinishButtonClicked: () -> Unit,
 ){
-    var deadlineDate by rememberSaveable { mutableStateOf("DD/MM/YYYY") }
-    // Button: go back to select friends button. Navigate to Select Friends view
-    TextButton(
-        onClick = onBackToFriendsClicked,
-        modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-        ) {
-            Icon(
-                modifier = Modifier.size(42.dp),
-                imageVector = Icons.Default.KeyboardArrowLeft,
-                contentDescription = ""
-            )
-            Text(
-                text = stringResource(R.string.back_to_invite_friends),
-                style = MaterialTheme.typography.titleMedium
-            )
+    val current = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val formatted = current.format(formatter)
+    val sb = StringBuilder()
+    var list = event.deadline.split("/")
+    for (i in 0 until list.size) {
+        if (list[i].length < 2) {
+            sb.append("0").append(list[i])
         }
+        else {
+            sb.append(list[i])
+        }
+        if (list[i].length < 4) {
+            sb.append("/")
+        }
+    }
+    val deadlineStr = sb.toString()
+    val sdf = SimpleDateFormat("MM/dd/yyyy")
+    val dateOne: Date = sdf.parse(formatted)
+    val dateTwo: Date = sdf.parse(deadlineStr)
+    val cmp = dateOne.compareTo(dateTwo)
+    var butEnabled = false
+    var butBorderColor = Color(0xFFBDBDBD)
+    // Date has not expired
+    if (cmp < 0) {
+        butBorderColor = MaterialTheme.colorScheme.primary
+        butEnabled = true
     }
     Column(
         modifier = modifier,
@@ -92,20 +106,23 @@ fun EventInfoScreen(
                 .fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
         ) {
-            
-            // Title: "Event Details"
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = stringResource(R.string.event_details),
+                text = event.name,
                 style = MaterialTheme.typography.headlineSmall
             )
-            
-            // Button: to select event time. Navigates to Time selection view
+
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text = event.description,
+                style = MaterialTheme.typography.titleMedium
+            )
             OutlinedButton(
+                enabled = butEnabled,
                 onClick = onTimeButtonClicked,
                 border = BorderStroke(
                     width = 3.dp,
-                    color = MaterialTheme.colorScheme.primary
+                    color = butBorderColor
                 ),
                 modifier = Modifier.fillMaxWidth().padding(all = 16.dp),
                 shape = RoundedCornerShape(8.dp)
@@ -122,7 +139,7 @@ fun EventInfoScreen(
                     Spacer(modifier = Modifier.width(width = 5.dp))
                     Text(
                         modifier = Modifier.weight(5f),
-                        text = stringResource(R.string.select_time),
+                        text = stringResource(R.string.timeslot_ranking),
                         style = MaterialTheme.typography.titleMedium
                     )
                     Icon(
@@ -132,13 +149,12 @@ fun EventInfoScreen(
                     )
                 }
             }
-
-            // Button: to select event place. Navigates to place selection view
             OutlinedButton(
+                enabled = butEnabled,
                 onClick = onPlaceButtonClicked,
                 border = BorderStroke(
                     width = 3.dp,
-                    color = MaterialTheme.colorScheme.primary
+                    color = butBorderColor
                 ),
                 modifier = Modifier.fillMaxWidth().padding(all = 16.dp),
                 shape = RoundedCornerShape(8.dp)
@@ -155,7 +171,7 @@ fun EventInfoScreen(
                     Spacer(modifier = Modifier.width(width = 5.dp))
                     Text(
                         modifier = Modifier.weight(5f),
-                        text = stringResource(R.string.select_place),
+                        text = stringResource(R.string.location_ranking),
                         style = MaterialTheme.typography.titleMedium
                     )
                     Icon(
@@ -165,81 +181,36 @@ fun EventInfoScreen(
                     )
                 }
             }
-
-            // DatePicker: user select decision deadline
-            val context = LocalContext.current
-            val calendar = Calendar.getInstance()
-            // Fetching current year, month and day
-            val year = calendar[Calendar.YEAR]
-            val month = calendar[Calendar.MONTH]
-            val dayOfMonth = calendar[Calendar.DAY_OF_MONTH]
-            val datePicker = DatePickerDialog(
-                context,
-                R.style.DatePickTheme,
-                { _: DatePicker, selectedYear: Int, selectedMonth: Int, selectedDayOfMonth: Int ->
-                    deadlineDate = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
-                }, year, month, dayOfMonth
-            )
-
-            TextField(
-                value = deadlineDate,
-                onValueChange = onDeadlineChange,
-                readOnly = true,
-                singleLine = true,
-                label = { Text(stringResource(R.string.deadline_date)) },
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, end = 16.dp),
-                interactionSource = remember { MutableInteractionSource() }
-                    .also { interactionSource ->
-                        LaunchedEffect(interactionSource) {
-                            interactionSource.interactions.collect {
-                                if (it is PressInteraction.Release) {
-                                    datePicker.show()
-                                }
-                            }
-                        }
-                    },
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(16.dp)
-                    )
-                }
-            )
-
-            Text(
-                text = "Deadline for event participants to make suggestions",
-                fontSize = 12.sp,
-                modifier = Modifier.fillMaxWidth().padding(start = 24.dp),
-            )
             Spacer(modifier = Modifier.height(16.dp))
         }
         Spacer(modifier = Modifier.height(16.dp))
-        // Button: Complete selections. Saves eventSelected to ui state. Navigate back to dashboard view
         Button(
+            enabled = !butEnabled,
             modifier = Modifier.fillMaxWidth(),
-            onClick = {onFinishButtonClicked(deadlineDate)}
+            onClick = onFinishButtonClicked
         ) {
             Text(
-                text = stringResource(R.string.save_event),
+                text = "Final Decision",
                 fontSize = 16.sp
             )
         }
+        Text(
+            modifier = Modifier.padding(4.dp),
+            text = "Deadline for Final Decisions is: \n" + event.deadline,
+            style = MaterialTheme.typography.titleMedium
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun EventInfoPreview(){
-    EventInfoScreen(
+fun EventOptionPreview(){
+    EventOptionScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        onBackToFriendsClicked = {},
         onTimeButtonClicked = {},
         onPlaceButtonClicked = {},
-        onDeadlineChange = {new: String -> Unit},
-        onFinishButtonClicked = {new: String -> Unit}
+        onFinishButtonClicked = {}
     )
 }
