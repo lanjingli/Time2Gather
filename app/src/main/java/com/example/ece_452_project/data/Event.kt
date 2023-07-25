@@ -8,10 +8,10 @@ data class Event (
     var id: String = "",
     var name: String = "",
     var description: String = "",
-    var deadline: String = "",
+    var deadline: LocalDateTime = LocalDateTime.now().plusDays(1),
     var eventOwner: String = "",
-    var start: LocalDateTime = LocalDateTime.MIN,
-    var end: LocalDateTime = LocalDateTime.MIN,
+    var start: LocalDateTime = LocalDateTime.now(),
+    var end: LocalDateTime = LocalDateTime.now(),
     var location: String = "",
     var shared: Boolean = false,
     var users: List<String> = listOf<String>(),
@@ -22,7 +22,7 @@ data class Event (
         event.name?.let{name = it}
         event.description?.let{description = it}
         event.deadline?.let{
-            deadline = it
+            deadline = it.toDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
         }
         event.eventOwner?.let{eventOwner = it}
         event.location?.let{location = it}

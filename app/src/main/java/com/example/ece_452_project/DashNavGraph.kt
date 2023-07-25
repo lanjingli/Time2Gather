@@ -38,8 +38,10 @@ import com.example.ece_452_project.ui.navigation.AppNavigationBar
 import com.example.ece_452_project.ui.navigation.NavBarItem
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 enum class DashScreen(){
     Dashboard,
@@ -178,14 +180,14 @@ fun DashNavGraph(
                     onBackToFriendsClicked = {navController.navigate(DashScreen.FriendSelect.name)},
                     onTimeButtonClicked = {navController.navigate(DashScreen.Schedule.name)},
                     onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},
-                    onDeadlineChange = {viewModel.updateDeadlineDate(it)},
+                    onDeadlineChange = {viewModel.updateDeadlineField(it)},
                     onFinishButtonClicked = {
                         val db = FirestoreUtils.firestore()
                         val newEventRef = db.collection("events").document()
                         val eventId = newEventRef.id
                         val user = uiState.user
                         viewModel.updateDeadlineDate(it)
-                        uiState.selectedEvent.deadline = viewModel.deadlineDate
+                        uiState.selectedEvent.deadline = it
                         uiState.selectedEvent.eventOwner = user.username
                         uiState.selectedEvent.id = eventId
 
@@ -201,7 +203,7 @@ fun DashNavGraph(
                             id = eventId,
                             name = viewModel.eventName,
                             description = viewModel.eventDesc,
-                            deadline = viewModel.deadlineDate,
+                            deadline = Timestamp(uiState.selectedEvent.deadline.toEpochSecond(ZonedDateTime.now().offset), 0),
                             location = uiState.selectedEvent.location,
                             isShared = uiState.selectedEvent.shared,
                             users = listUser,
