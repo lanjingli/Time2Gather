@@ -3,8 +3,10 @@ package com.example.ece_452_project.remote
 import android.content.Context
 import android.util.Log
 import androidx.startup.Initializer
+import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.Event
+import com.example.ece_452_project.data.TimePlace
 import com.example.ece_452_project.data.User
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.time.LocalDateTime
 
 // set to true if using localhost, false if using real remote database
 private val USE_EMULATORS = true
@@ -68,24 +71,84 @@ object FirestoreUtils{
                     result.name = it.data?.getValue(RemoteUser.FIELD_NAME) as String
                     result.password = it.data?.getValue(RemoteUser.FIELD_PASSWORD) as String
                     result.dietary = it.data?.getValue(RemoteUser.FIELD_DIETARY) as List<String>
-                    firestore.collection("events").whereArrayContains(RemoteEvent.FIELD_USERS, result.username)
-                        .get().addOnSuccessListener { query ->
-                            query.documents.forEach {itevent->
-                                val rEvent = RemoteEvent(
-                                    name = itevent.data?.getValue(RemoteEvent.FIELD_NAME) as String,
-                                    description = itevent.data?.getValue(RemoteEvent.FIELD_DESCRIPTION) as String,
-                                    location = itevent.data?.getValue(RemoteEvent.FIELD_LOCATION) as String,
-                                    users = itevent.data?.getValue(RemoteEvent.FIELD_USERS) as List<String>,
-                                    isShared = itevent.data?.getValue(RemoteEvent.FIELD_SHARED) as Boolean,
-                                    start = itevent.data?.getValue(RemoteEvent.FIELD_START) as Timestamp,
-                                    end = itevent.data?.getValue(RemoteEvent.FIELD_END) as Timestamp,
-                                )
-                                result.schedule.add(Event(rEvent))
-                            }
+                    getUserEvents(result){events->
+                        result.schedule = events
+                        getUserDiscussions(result){discussions->
+                            result.discussions = discussions
+                            listener(result)
                         }
-                    listener(result)
+                    }
                 }
         }
+    }
+
+    fun getUserEvents(user: User, listener: (events: MutableList<Event>) -> Unit){
+        var schedule = mutableListOf<Event>()
+        firestore.collection("events").whereArrayContains(RemoteEvent.FIELD_USERS, user.username)
+            .get().addOnSuccessListener { query ->
+                query.documents.forEach {itevent->
+                    val rEvent = RemoteEvent(
+                        id = itevent.data?.getValue(RemoteEvent.FIELD_ID) as String,
+                        name = itevent.data?.getValue(RemoteEvent.FIELD_NAME) as String,
+                        description = itevent.data?.getValue(RemoteEvent.FIELD_DESCRIPTION) as String,
+                        location = itevent.data?.getValue(RemoteEvent.FIELD_LOCATION) as String,
+                        users = itevent.data?.getValue(RemoteEvent.FIELD_USERS) as List<String>,
+                        isShared = itevent.data?.getValue(RemoteEvent.FIELD_SHARED) as Boolean,
+                        start = itevent.data?.getValue(RemoteEvent.FIELD_START) as Timestamp,
+                        end = itevent.data?.getValue(RemoteEvent.FIELD_END) as Timestamp,
+                    )
+                    schedule.add(Event(rEvent))
+                }
+                listener(schedule)
+            }
+    }
+
+    fun getUserDiscussions(user: User, listener: (events: MutableList<Discussion>) -> Unit){
+        var discussions = mutableListOf<Discussion>()
+        firestore.collection("discussions").whereArrayContains(RemoteDiscussion.FIELD_USERS, user.username)
+            .get().addOnSuccessListener { query ->
+                query.documents.forEach {itevent->
+                    val rDiscuss = RemoteDiscussion(
+                        id = itevent.data?.getValue(RemoteDiscussion.FIELD_ID) as String,
+                        name = itevent.data?.getValue(RemoteDiscussion.FIELD_NAME) as String,
+                        description = itevent.data?.getValue(RemoteDiscussion.FIELD_DESCRIPTION) as String,
+                        deadline = itevent.data?.getValue(RemoteDiscussion.FIELD_DEADLINE) as Timestamp,
+                        users = itevent.data?.getValue(RemoteDiscussion.FIELD_USERS) as List<String>,
+                        //options = itevent.data?.getValue(RemoteDiscussion.FIELD_OPTIONS) as List<RemoteTimePlace>,
+                        rankings = itevent.data?.getValue(RemoteDiscussion.FIELD_RANKINGS) as List<Int>,
+                    )
+                    var options = mutableListOf<RemoteTimePlace>()
+                    val op_hashes = itevent.data?.getValue(RemoteDiscussion.FIELD_OPTIONS) as List<HashMap<String, Object>>
+                    op_hashes.forEach{hash->
+                        options.add(
+                            RemoteTimePlace(
+                                start = hash.getValue(RemoteTimePlace.FIELD_START) as Timestamp,
+                                end = hash.getValue(RemoteTimePlace.FIELD_END) as Timestamp,
+                                location = hash.getValue(RemoteTimePlace.FIELD_LOCATION) as String
+                            )
+                        )
+                    }
+                    rDiscuss.options = options
+                    discussions.add(Discussion(rDiscuss))
+                }
+                listener(discussions)
+            }
+    }
+    fun testDisc(){
+        val r = RemoteDiscussion(
+            id = "test",
+            name = "TEST",
+            description = "TEST_DESC",
+            deadline = Timestamp.now(),
+            users = listOf("alpha"),
+            options = listOf(RemoteTimePlace(
+                start = Timestamp.now(),
+                end = Timestamp.now(),
+                location = "foo")),
+            rankings = listOf(1)
+        )
+        firestore.collection("discussions").document("test")
+            .set(r)
     }
 
     fun resetDummyUsers() {
@@ -108,7 +171,8 @@ object FirestoreUtils{
         var count = 0
         DummyData.users.forEach { user ->
             user.schedule.forEach { event ->
-                val eventData = RemoteEvent(event, user)
+                var eventData = RemoteEvent(event, user)
+                eventData.id = "dummy-$count"
                 firestore.collection("events").document("dummy-$count")
                     .set(eventData)
                 count += 1

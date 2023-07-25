@@ -90,14 +90,14 @@ object DummyData {
                     start = LocalDateTime.of(2023, 7, 1, 15, 0),
                     end = LocalDateTime.of(2023, 7, 1, 17, 30),
                     shared = true,
-                    users = listOf("alpha", "beta")
+                    users = listOf("alpha")
                 ),
                 Event(
                     name = "Ice Cream Meet",
                     start = LocalDateTime.of(2023, 7, 5, 15, 30),
                     end = LocalDateTime.of(2023, 7, 5, 16, 0),
                     shared = true,
-                    users = listOf("alpha")
+                    users = listOf("bravo")
                 ),
                 Event(
                     name = "Plaza Lunch",
@@ -111,7 +111,7 @@ object DummyData {
                     start = LocalDateTime.of(2023, 7, 20, 15, 30),
                     end = LocalDateTime.of(2023, 7, 20, 16, 0),
                     shared = true,
-                    users = listOf("alpha", "charlie")
+                    users = listOf("alpha")
                 ),
             )
         )

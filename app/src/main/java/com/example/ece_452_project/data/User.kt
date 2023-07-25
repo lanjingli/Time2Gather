@@ -8,7 +8,8 @@ data class User (
     var name: String = "",
     var email: String = "",
     var dietary: List<String> = listOf<String>(),
-    var schedule: MutableList<Event> = mutableListOf<Event>()
+    var schedule: MutableList<Event> = mutableListOf<Event>(),
+    var discussions: MutableList<Discussion> = mutableListOf<Discussion>()
 ) {
     constructor(user: RemoteUser) : this() {
         user.email?.let{email = it}
