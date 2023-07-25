@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DashViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(DashUiState())
@@ -80,9 +81,12 @@ class DashViewModel : ViewModel() {
     fun updateEventDescription(value: String) {
         eventDesc = value
     }
-
-    fun updateDeadlineDate(value: String) {
+    fun updateDeadlineField(value: String) {
         deadlineDate = value
+    }
+
+    fun updateDeadlineDate(value: LocalDateTime) {
+        //val date = LocalDateTime.parse(value, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
         var tmp = _uiState.value.selectedEvent.copy()
         tmp.deadline = value
         _uiState.update { currentState ->

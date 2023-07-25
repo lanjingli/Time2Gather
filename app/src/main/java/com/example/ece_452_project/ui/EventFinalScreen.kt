@@ -33,6 +33,7 @@ import com.example.ece_452_project.data.Event
 import com.example.ece_452_project.data.User
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,23 +46,11 @@ fun EventFinalScreen(
     onDoneButtonClicked: () -> Unit,
 ){
     var selected by rememberSaveable { mutableStateOf(false)}
-
-    val start = event.start
-    val end = event.end
-    var startMin = start.minute.toString()
-    var endMin = end.minute.toString()
-    var startStr = intToMonth(start.monthValue) + " " + start.dayOfMonth.toString() + ", " + start.year.toString()
-
-    if (start.minute < 10) {
-        startMin = "0$startMin"
-    }
-
-    if (end.minute < 10) {
-       endMin = "0$endMin"
-    }
-
-    var startTime = start.hour.toString() + ":" + startMin
-    var endTime = end.hour.toString() + ":" + endMin
+    val dateFormat = DateTimeFormatter.ofPattern("MMM dd, yyyy")
+    val timeFormat = DateTimeFormatter.ofPattern("HH:mm")
+    val startDate = dateFormat.format(event.start)
+    val startTime = timeFormat.format(event.start)
+    val endTime = timeFormat.format(event.end)
 
     var listFriend = mutableListOf<String>()
     friends.forEach { friend ->
@@ -112,7 +101,7 @@ fun EventFinalScreen(
             )
             Text(
                 modifier = Modifier.weight(2f),
-                text = startStr,
+                text = startDate,
                 style = MaterialTheme.typography.titleMedium
             )
 

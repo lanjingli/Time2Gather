@@ -67,27 +67,12 @@ fun EventOptionScreen(
     onPlaceButtonClicked: () -> Unit,
     onFinishButtonClicked: () -> Unit,
 ){
-    val current = LocalDate.now()
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    val formatted = current.format(formatter)
-    val sb = StringBuilder()
-    var list = event.deadline.split("/")
-    for (i in 0 until list.size) {
-        if (list[i].length < 2) {
-            sb.append("0").append(list[i])
-        }
-        else {
-            sb.append(list[i])
-        }
-        if (list[i].length < 4) {
-            sb.append("/")
-        }
-    }
-    val deadlineStr = sb.toString()
-    val sdf = SimpleDateFormat("MM/dd/yyyy")
-    val dateOne: Date = sdf.parse(formatted)
-    val dateTwo: Date = sdf.parse(deadlineStr)
-    val cmp = dateOne.compareTo(dateTwo)
+    val current = LocalDateTime.now()
+    val compDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+    val compDate1 = compDateFormat.format(current)
+    val compDate2 = compDateFormat.format(event.deadline)
+    val cmp = compDate1.compareTo(compDate2)
+
     var butEnabled = false
     var butBorderColor = Color(0xFFBDBDBD)
     // Date has not expired
@@ -196,7 +181,7 @@ fun EventOptionScreen(
         }
         Text(
             modifier = Modifier.padding(4.dp),
-            text = "Deadline for Final Decisions is: \n" + event.deadline,
+            text = "Deadline for Final Decisions is: \n$compDate2",
             style = MaterialTheme.typography.titleMedium
         )
     }

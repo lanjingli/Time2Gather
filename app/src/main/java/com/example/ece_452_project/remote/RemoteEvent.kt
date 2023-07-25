@@ -14,7 +14,7 @@ data class RemoteEvent (
     var id: String? = null,
     var name : String? = null,
     var description : String? = null,
-    var deadline : String? = null,
+    var deadline : Timestamp? = null,
     var eventOwner: String? = null,
     var start : Timestamp? = null,
     var end : Timestamp? = null,
@@ -28,7 +28,7 @@ data class RemoteEvent (
         id = event.id
         name = event.name
         description = event.description
-        deadline = event.deadline
+        deadline = Timestamp(event.deadline.toEpochSecond(ZonedDateTime.now().offset), 0)
         eventOwner = event.eventOwner
         start = Timestamp(event.start.toEpochSecond(ZonedDateTime.now().offset), 0)
         end = Timestamp(event.end.toEpochSecond(ZonedDateTime.now().offset), 0)

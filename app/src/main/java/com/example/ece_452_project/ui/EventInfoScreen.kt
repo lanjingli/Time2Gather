@@ -1,5 +1,6 @@
 package com.example.ece_452_project.ui
 
+import android.annotation.SuppressLint
 import java.util.Calendar
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.LaunchedEffect
@@ -48,7 +49,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ece_452_project.R
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventInfoScreen(
@@ -57,9 +61,12 @@ fun EventInfoScreen(
     onTimeButtonClicked: () -> Unit,
     onPlaceButtonClicked: () -> Unit,
     onDeadlineChange: (String) -> Unit,
-    onFinishButtonClicked: (String) -> Unit,
+    onFinishButtonClicked: (LocalDateTime) -> Unit,
 ){
-    var deadlineDate by rememberSaveable { mutableStateOf("DD/MM/YYYY") }
+    val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+    val current = LocalDateTime.now()
+    val tmp = dateFormat.format(current)
+    var deadlineDate by rememberSaveable { mutableStateOf(tmp) }
     // Button: go back to select friends button. Navigate to Select Friends view
     TextButton(
         onClick = onBackToFriendsClicked,
@@ -216,10 +223,41 @@ fun EventInfoScreen(
             Spacer(modifier = Modifier.height(16.dp))
         }
         Spacer(modifier = Modifier.height(16.dp))
-        // Button: Complete selections. Saves eventSelected to ui state. Navigate back to dashboard view
+
+        val sb = StringBuilder()
+        var list1 = deadlineDate.split(" ")
+        deadlineDate = list1[0]
+        var list = deadlineDate.split("/")
+        for (i in 0 until list.size) {
+            if (list[i].length < 2) {
+                sb.append("0").append(list[i])
+            }
+            else {
+                sb.append(list[i])
+            }
+            if (list[i].length < 4) {
+                sb.append("/")
+            }
+        }
+        val current = LocalDateTime.now()
+        var currentMin = current.minute.toString()
+        if (current.minute < 10) {
+            currentMin = "0$currentMin"
+        }
+        var currentHour = current.hour.toString()
+        if (current.hour < 10) {
+            currentHour = "0$currentHour"
+        }
+        sb.append(" $currentHour:$currentMin")
+        val deadlineStr = sb.toString()
+        val deadlineDateTime = LocalDateTime.parse(deadlineStr, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+
+        Text(
+            text = deadlineDateTime.toString()
+        )
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = {onFinishButtonClicked(deadlineDate)}
+            onClick = {onFinishButtonClicked(deadlineDateTime)}
         ) {
             Text(
                 text = stringResource(R.string.save_event),
@@ -240,6 +278,6 @@ fun EventInfoPreview(){
         onTimeButtonClicked = {},
         onPlaceButtonClicked = {},
         onDeadlineChange = {new: String -> Unit},
-        onFinishButtonClicked = {new: String -> Unit}
+        onFinishButtonClicked = {new: LocalDateTime -> Unit}
     )
 }
