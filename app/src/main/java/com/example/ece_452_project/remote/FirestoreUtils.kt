@@ -137,15 +137,15 @@ object FirestoreUtils{
     fun testDisc(){
         val r = RemoteDiscussion(
             id = "test",
-            name = "TEST",
-            description = "TEST_DESC",
+            name = "Bird Watching",
+            description = "Watching Birds",
             deadline = Timestamp.now(),
-            users = listOf("alpha"),
+            users = listOf("alpha", "bravo"),
             options = listOf(RemoteTimePlace(
                 start = Timestamp.now(),
                 end = Timestamp.now(),
-                location = "foo")),
-            rankings = listOf(1)
+                location = "Columbia Lake")),
+            rankings = listOf(Discussion.UNRANKED, Discussion.UNRANKED)
         )
         firestore.collection("discussions").document("test")
             .set(r)

@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.MenuData
 import com.example.ece_452_project.data.User
@@ -85,7 +86,8 @@ fun DashNavGraph(
                     onEventClick = {
                         viewModel.updateSelectedEvent(it)
                         navController.navigate(DashScreen.EventOption.name)
-                    }
+                    },
+                    onDiscussionClick = { disc: Discussion -> Unit } // TODO: Make this go somewhere
                 )
             }
             composable(route = DashScreen.EventSetting.name){
