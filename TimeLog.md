@@ -32,8 +32,8 @@
 | 2023/07/18 |        |     |         |       |       |   2   |Map search feature|
 | 2023/07/19 |        |     |         |       |       |   4   |Map search feature|
 | 2023/07/19 |        |  5  |         |       |       |       |Adding additional screens to the event time selection page|
-| 2023/07/19 |        |  2.5|    2.5  |  1.5  |       |   2   |Online Discussion|
-| 2023/07/20 |        |     | 2       |       |       |   3   |D5: Design Pattern Examples|
+| 2023/07/19 |        |  2.5|    2.5  |  1.5  |  2.5  |   2   |Online Discussion - Trello/Firebase|
+| 2023/07/20 |        |     | 2       |       |   3   |   3   |D5: Design Pattern Examples|
 | 2023/07/20 |   10   |     |         |       |       |       |App Dev - Network Utilities and User Authentication/Registration|
 | 2023/07/21 |        | 1.5 |         |       |       |       |Event Time Selection Page: Added the ability to warn user on availability status|
 | 2023/07/21 |   10   |     |         |       |       |       |App Dev - Network Utilities and User Authentication/Registration|
