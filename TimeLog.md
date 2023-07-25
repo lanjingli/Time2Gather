@@ -39,3 +39,5 @@
 | 2023/07/21 |   10   |     |         |       |       |       |App Dev - Network Utilities and User Authentication/Registration|
 | 2023/07/21 |        |     |         |   4   |       |       |App Dev - Navigation Bar and merge|
 | 2023/07/22 |        |     |   9     |       |       |       | App Dev - Event Options Page|
+| 2023/07/23 |        |     |  4.5    |       |       |       | App Dev - Event Options Page and add event to remote db |
+| 2023/07/24 |        |     |  6.5    |       |       |       | App Dev - Event Options Page flow testing |
