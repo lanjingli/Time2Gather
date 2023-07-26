@@ -97,6 +97,16 @@ fun DiscussionOptionScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
+            //modifier = Modifier.fillMaxWidth(),
+            onClick = { }
+        ) {
+            Text(
+                text = "Suggest Option",
+                fontSize = 16.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
             enabled = !butEnabled,
             //modifier = Modifier.fillMaxWidth(),
             onClick = onFinishButtonClicked
