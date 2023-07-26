@@ -61,6 +61,75 @@ data class Discussion (
         return rankings[i]
     }
 
+    // assumes -1 is veto, 0 unranked, 1 is first choice, 2,3,4,etc. are worse choices
+    // also requires that if rankings exist (e.g. not all -1 or 0), ranking descends
+    // from 1 without gaps or duplicates. e.g. (3,0) or (1,4) invalid; (2,1,0,3) valid.
+    fun finalize() : Event{
+        // instant runoff voting
+        var final = -1
+        var votes = MutableList<Int>(options.size) {0}
+        var eliminated = MutableList<Boolean>(options.size) {false}
+        while (final == -1){
+            //if only one not eliminated, choose as winner
+            if (eliminated.count{!it} == 1){
+                final = eliminated.indexOf(false)
+                break
+            }
+            // retotal votes
+            votes = MutableList<Int>(options.size) {0}
+            rankings.forEach{ranking->
+                var rank_count = 1
+                var op_i = -1
+                ranking.forEachIndexed{i, it->
+                    if (it == rank_count) op_i = i
+                }
+                while (op_i != -1){
+                    if (!eliminated[op_i]){
+                        votes[op_i] += 1
+                        break
+                    }
+                    rank_count += 1
+                    op_i = -1
+                    ranking.forEach{
+                        if (it == rank_count) op_i = it
+                    }
+                }
+            }
+            // if candidate reaches majority, wins
+            votes.forEachIndexed{i,count->
+                if (count > users.size/2) final = i
+            }
+
+            // eliminate one
+            var worst = votes.max()
+            var worst_i = 0
+            votes.forEachIndexed{i,count->
+                if (!eliminated[i] && count < worst){
+                    worst = count
+                    worst_i = i
+                }
+            }
+            eliminated[worst_i] = true
+        }
+        // clear any vetoing users from final event
+        if (final == -1) final = 0
+        var attending = MutableList<Boolean>(users.size) {true}
+        rankings.forEachIndexed { i, ranking ->
+            if (ranking[i] == VETO_RANK){
+                attending[i] = false
+            }
+        }
+        return Event(
+            name = name,
+            description = description,
+            start = options[final].start,
+            end = options[final].end,
+            location = options[final].location,
+            shared = true,
+            users = users.filterIndexed{i, _-> attending[i]}
+        )
+    }
+
     companion object {
         const val VETO_RANK = -1
         const val UNRANKED = 0
