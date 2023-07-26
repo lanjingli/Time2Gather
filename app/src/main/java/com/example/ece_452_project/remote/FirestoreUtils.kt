@@ -71,6 +71,7 @@ object FirestoreUtils{
                     result.name = it.data?.getValue(RemoteUser.FIELD_NAME) as String
                     result.password = it.data?.getValue(RemoteUser.FIELD_PASSWORD) as String
                     result.dietary = it.data?.getValue(RemoteUser.FIELD_DIETARY) as List<String>
+                    result.friends = it.data?.getValue(RemoteUser.FIELD_FRIENDS) as List<String>
                     getUserEvents(result){events->
                         result.schedule = events
                         getUserDiscussions(result){discussions->
@@ -80,6 +81,38 @@ object FirestoreUtils{
                     }
                 }
         }
+    }
+
+    fun getUserFriends(user: User, addedFriends: MutableList<User>, listener: (friends: MutableList<User>) -> Unit){
+        var friendUsernames = addedFriends.map { it.username }
+        if (friendUsernames.isEmpty()) friendUsernames = listOf<String>("_");
+        firestore
+            .collection("users")
+            .whereArrayContains(RemoteUser.FIELD_FRIENDS, user.username)
+            .whereNotIn(RemoteUser.FIELD_USERNAME, friendUsernames)
+            .get()
+            .addOnSuccessListener { query ->
+                if (query.documents.size == 0) {
+                    listener(addedFriends)
+                } else {
+                    var tempDoc = query.documents.first()
+                    var tempUser = User(
+                        email = tempDoc.data?.getValue(RemoteUser.FIELD_EMAIL) as String,
+                        username = tempDoc.data?.getValue(RemoteUser.FIELD_USERNAME) as String,
+                        name = tempDoc.data?.getValue(RemoteUser.FIELD_NAME) as String,
+                        dietary = tempDoc.data?.getValue(RemoteUser.FIELD_DIETARY) as List<String>,
+                        friends = tempDoc.data?.getValue(RemoteUser.FIELD_FRIENDS) as List<String>
+                    )
+                    getUserEvents(tempUser) { events ->
+                        tempUser.schedule = events
+                        getUserDiscussions(tempUser) { discussions ->
+                            tempUser.discussions = discussions
+                            addedFriends.add(tempUser)
+                            getUserFriends(user, addedFriends, listener)
+                        }
+                    }
+                }
+            }
     }
 
     fun getUserEvents(user: User, listener: (events: MutableList<Event>) -> Unit){

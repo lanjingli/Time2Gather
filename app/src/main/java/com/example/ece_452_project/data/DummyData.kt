@@ -16,6 +16,7 @@ object DummyData {
             name = "Alice",
             email = "a@mail.com",
             dietary = listOf("Halal"),
+            friends = listOf("bravo", "charlie", "delta"),
             schedule = mutableListOf(
                 Event(
                     name = "Lectures",
@@ -50,6 +51,7 @@ object DummyData {
             name = "Bob",
             email = "b@mail.com",
             dietary = listOf<String>(),
+            friends = listOf("alpha", "charlie"),
             schedule = mutableListOf(
                 Event(
                     start = LocalDateTime.of(2023, 7, 17, 7, 30),
@@ -67,6 +69,7 @@ object DummyData {
             name = "Charlie",
             email = "c@mail.com",
             dietary = listOf<String>("Vegetarian"),
+            friends = listOf("alpha", "bravo"),
             schedule = mutableListOf(
                 Event(
                     start = LocalDateTime.of(2023, 7, 17, 15, 0),
@@ -84,6 +87,7 @@ object DummyData {
             name = "Dahlia",
             email = "d@mail.com",
             dietary = listOf<String>(),
+            friends = listOf("alpha"),
             schedule = mutableListOf(
                 Event(
                     name = "FYDP Brainstorming",

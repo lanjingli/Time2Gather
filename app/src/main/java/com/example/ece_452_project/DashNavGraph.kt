@@ -1,5 +1,6 @@
 package com.example.ece_452_project
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -77,8 +78,8 @@ fun DashNavGraph(
             composable(route = NavBarItem.Home.route){
                 DashboardScreen(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                            .fillMaxSize()
+                            .padding(16.dp),
                     user = uiState.user,
                     onNewEventButtonClicked = {
                         navController.navigate(DashScreen.EventSetting.name)
@@ -93,8 +94,8 @@ fun DashNavGraph(
             composable(route = DashScreen.EventSetting.name){
                 EventSettingScreen(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                            .fillMaxSize()
+                            .padding(16.dp),
                     user = uiState.user,
                     eventNameText = viewModel.eventName,
                     eventDescText = viewModel.eventDesc,
@@ -109,8 +110,8 @@ fun DashNavGraph(
             composable(route = DashScreen.EventOption.name){
                 EventOptionScreen(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                            .fillMaxSize()
+                            .padding(16.dp),
                     user = uiState.user,
                     event = uiState.selectedEvent,
                     onTimeButtonClicked = {},
@@ -123,8 +124,8 @@ fun DashNavGraph(
             composable(route = DashScreen.EventFinal.name){
                 EventFinalScreen(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                            .fillMaxSize()
+                            .padding(16.dp),
                     user = uiState.user,
                     event = uiState.selectedEvent,
                     friends = uiState.selectedFriends,
@@ -148,8 +149,8 @@ fun DashNavGraph(
                 TimeSelectionScreen(
                     currentUser = uiState.user,
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                            .fillMaxSize()
+                            .padding(16.dp),
                     friends = uiState.selectedFriends,
                     onBackToEventInfoClicked = {navController.navigate(DashScreen.TimePlaceSelect.name)},
                     onDoneButtonClicked = {
@@ -159,26 +160,33 @@ fun DashNavGraph(
                 )
             }
             composable(route = DashScreen.FriendSelect.name){
-                val friends = DummyData.users.filter {it.email != uiState.user.email}
-                val options = friends.map {it.name + " - " + it.dietary.joinToString( ", " )}
-                ListSelectScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    title = "Friends",
-                    options = options,
-                    onNextButtonClicked = {
-                        val selected = friends.filterIndexed {index, _ -> it[index]}
-                        viewModel.updateSelectedFriends(selected)
-                        navController.navigate(DashScreen.TimePlaceSelect.name)
+                var friends = mutableListOf<User>()
+                FirestoreUtils.getUserFriends(uiState.user, mutableListOf<User>()) { userList ->
+                    for (user in userList) {
+                        friends.add(User(user))
                     }
+                    Log.d("gettingFriends", "size of friends before: ${friends.size}")
+                }
+                Log.d("gettingFriends", "size of friends after: ${friends.size}")
+                val options = friends.map { it.name + " - " + it.dietary.joinToString(", ") }
+                ListSelectScreen(
+                        modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                        title = "Friends",
+                        options = options,
+                        onNextButtonClicked = {
+                            val selected = friends.filterIndexed { index, _ -> it[index] }
+                            viewModel.updateSelectedFriends(selected)
+                            navController.navigate(DashScreen.TimePlaceSelect.name)
+                        }
                 )
             }
             composable(route = DashScreen.TimePlaceSelect.name){
                 EventInfoScreen(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                            .fillMaxSize()
+                            .padding(16.dp),
                     onBackToFriendsClicked = {navController.navigate(DashScreen.FriendSelect.name)},
                     onTimeButtonClicked = {navController.navigate(DashScreen.Schedule.name)},
                     onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},

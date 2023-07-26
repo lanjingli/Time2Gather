@@ -9,7 +9,8 @@ data class RemoteUser (
     var password : String? = null,
     var username: String? = null,
     var name : String? = null,
-    var dietary : List<String>? = null
+    var dietary : List<String>? = null,
+    var friends: List<String>? = null
 ) {
     constructor(user: User) : this() {
         email = user.email
@@ -17,6 +18,7 @@ data class RemoteUser (
         username = user.username
         name = user.name
         dietary = user.dietary
+        friends = user.friends
     }
 
     companion object {
@@ -25,6 +27,7 @@ data class RemoteUser (
         const val FIELD_NAME = "name"
         const val FIELD_EMAIL = "email"
         const val FIELD_DIETARY = "dietary"
+        const val FIELD_FRIENDS = "friends"
     }
 }
 
