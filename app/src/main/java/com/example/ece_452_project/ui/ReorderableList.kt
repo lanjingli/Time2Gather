@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -74,17 +77,25 @@ fun ReorderableList(
                         .background(MaterialTheme.colorScheme.surface)
 
                 ) {
+                    Card() {
                         Row(
                             Modifier
                                 .padding(vertical = 16.dp)
                                 .detectReorder(state),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Image(
-                                Icons.Default.List,
-                                "",
-                                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
-                                //modifier = Modifier.detectReorder(state)
+//                            Image(
+//                                Icons.Default.List,
+//                                "",
+//                                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
+//                                //modifier = Modifier.detectReorder(state)
+//                            )
+                            Icon(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .weight(1f),
+                                imageVector = Icons.Default.List,
+                                contentDescription = ""
                             )
 //                        Image(
 //                            painter = rememberAsyncImagePainter(item),
@@ -93,7 +104,7 @@ fun ReorderableList(
 //                        )
                             Text(
                                 text = obj.location,
-                                modifier = Modifier.padding(16.dp).weight(4f),
+                                modifier = Modifier.padding(16.dp).weight(5f),
                                 style = MaterialTheme.typography.bodyLarge
                             )
 //                            Text(
@@ -101,6 +112,7 @@ fun ReorderableList(
 //                            )
                         }
 //                    Divider()
+                    }
                 }
             }
         }

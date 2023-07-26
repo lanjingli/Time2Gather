@@ -71,13 +71,13 @@ fun DiscussionOptionScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(modifier = Modifier.height(104.dp))
-        Card(
-            modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
-        ) {
+//        Spacer(modifier = Modifier.height(104.dp))
+//        Card(
+//            modifier = Modifier
+//                .wrapContentHeight()
+//                .fillMaxWidth(),
+//            elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+//        ) {
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = discussion.name,
@@ -89,109 +89,25 @@ fun DiscussionOptionScreen(
                 text = discussion.description,
                 style = MaterialTheme.typography.titleMedium
             )
-            OutlinedButton(
-                enabled = butEnabled,
-                onClick = onTimeButtonClicked,
-                border = BorderStroke(
-                    width = 3.dp,
-                    color = butBorderColor
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .weight(1f),
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = ""
-                    )
-                    Spacer(modifier = Modifier.width(width = 5.dp))
-                    Text(
-                        modifier = Modifier.weight(5f),
-                        text = stringResource(R.string.timeslot_ranking),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Icon(
-                        modifier = Modifier
-                            .size(25.dp)
-                            .weight(1f),
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = ""
-                    )
-                }
-            }
-            OutlinedButton(
-                enabled = butEnabled,
-                onClick = onPlaceButtonClicked,
-                border = BorderStroke(
-                    width = 3.dp,
-                    color = butBorderColor
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .weight(1f),
-                        imageVector = Icons.Default.Place,
-                        contentDescription = ""
-                    )
-                    Spacer(modifier = Modifier.width(width = 5.dp))
-                    Text(
-                        modifier = Modifier.weight(5f),
-                        text = stringResource(R.string.location_ranking),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Icon(
-                        modifier = Modifier
-                            .size(25.dp)
-                            .weight(1f),
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = ""
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Box(){
-            Button(
-                enabled = !butEnabled,
-                modifier = Modifier.fillMaxWidth(),
-                onClick = onFinishButtonClicked
-            ) {
-                Text(
-                    text = "Final Decision",
-                    fontSize = 16.sp
-                )
-            }
+//        }
+//        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            enabled = !butEnabled,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onFinishButtonClicked
+        ) {
             Text(
-                modifier = Modifier.padding(4.dp),
-                text = "Deadline for Final Decisions is: \n$compDate2",
-                style = MaterialTheme.typography.titleMedium
+                text = "Final Decision",
+                fontSize = 16.sp
             )
         }
+        Text(
+            modifier = Modifier.padding(4.dp),
+            text = "Deadline for Final Decisions is: \n$compDate2",
+            style = MaterialTheme.typography.titleMedium
+        )
         ReorderableList(
-            Modifier.weight(weight=0.9f, fill=false),
-//            newItems = listOf(
-//                "Waterloo",
-//                "Paradise City",
-//                "Highway to Hell"
-//            ),
+            Modifier.weight(weight=1f),//, fill=false),
             newItems = discussion.options.map { gson.toJson(it)}
             //listTitle = "Rank Locations"
         )}
