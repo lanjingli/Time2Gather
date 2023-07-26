@@ -1,18 +1,6 @@
 package com.example.ece_452_project.ui
 
-import java.util.Calendar
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
-import android.app.DatePickerDialog
-import android.widget.DatePicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,7 +16,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -38,8 +25,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,20 +34,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ece_452_project.R
-import com.example.ece_452_project.data.Event
+import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.User
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventOptionScreen(
+fun DiscussionOptionScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
-    event: Event = Event(),
+//    event: Event = Event(),
+    discussion: Discussion = Discussion(),
     onTimeButtonClicked: () -> Unit,
     onPlaceButtonClicked: () -> Unit,
     onFinishButtonClicked: () -> Unit,
@@ -70,7 +53,7 @@ fun EventOptionScreen(
     val current = LocalDateTime.now()
     val compDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy")
     val compDate1 = compDateFormat.format(current)
-    val compDate2 = compDateFormat.format(event.deadline)
+    val compDate2 = compDateFormat.format(discussion.deadline)
     val cmp = compDate1.compareTo(compDate2)
 
     var butEnabled = false
@@ -93,13 +76,13 @@ fun EventOptionScreen(
         ) {
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = event.name,
+                text = discussion.name,
                 style = MaterialTheme.typography.headlineSmall
             )
 
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = event.description,
+                text = discussion.description,
                 style = MaterialTheme.typography.titleMedium
             )
             OutlinedButton(
@@ -190,7 +173,7 @@ fun EventOptionScreen(
 @Preview(showBackground = true)
 @Composable
 fun EventOptionPreview(){
-    EventOptionScreen(
+    DiscussionOptionScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),

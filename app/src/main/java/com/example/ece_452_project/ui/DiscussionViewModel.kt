@@ -1,11 +1,11 @@
-package com.example.ece_452_project.ui
+package com.example.ece_452_project.ui;
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.ece_452_project.data.DashUiState
 import com.example.ece_452_project.data.Discussion
+import com.example.ece_452_project.data.DiscussionUiState
 import com.example.ece_452_project.data.Event
 import com.example.ece_452_project.data.User
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,11 +13,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
-class DashViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(DashUiState())
-    val uiState: StateFlow<DashUiState> = _uiState.asStateFlow()
+class DiscussionViewModel : ViewModel(){
+
+    private val _uiState = MutableStateFlow(DiscussionUiState())
+    val uiState: StateFlow<DiscussionUiState> = _uiState.asStateFlow()
 
     var eventName by mutableStateOf("")
         private set
@@ -27,7 +27,7 @@ class DashViewModel : ViewModel() {
         private set
 
     fun resetDash() {
-        _uiState.value = DashUiState()
+        _uiState.value = DiscussionUiState()
     }
 
     fun resetSelectedEvent() {
