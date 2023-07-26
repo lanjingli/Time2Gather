@@ -48,5 +48,5 @@
 | 2023/07/25 |   8    |     |         |       |       |       | App Dev - Discussion Database Utilities |
 | 2023/07/25 |        |  2  |         |       |       |       | App Dev - Features relating to friends |
 | 2023/07/26 |        |  6  |         |       |       |       | App Dev - Features relating to friends |
-| 2023/07/25 |        |     |         |       |   8   |       | App Dev - Rankings integration |
-
+| 2023/07/26 |        |     |         |       |   8   |       | App Dev - Rankings integration |
+| 2023/07/26 |   8    |     |         |       |       |       | App Dev - Demo Preparation |
