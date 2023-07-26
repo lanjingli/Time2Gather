@@ -217,7 +217,7 @@ object FirestoreUtils{
             id = "test",
             name = "Bird Watching",
             description = "Watching Birds",
-            deadline = Timestamp(LocalDateTime.of(2023, 7, 28, 17,0 ).toEpochSecond(ZonedDateTime.now().offset), 0),
+            deadline = Timestamp(LocalDateTime.of(2023, 7, 26, 17,0 ).toEpochSecond(ZonedDateTime.now().offset), 0),
             users = listOf("alpha", "bravo"),
             options = listOf(
                 RemoteTimePlace(op1),
