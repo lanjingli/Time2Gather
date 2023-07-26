@@ -33,6 +33,7 @@ import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorder
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ReorderableList(
@@ -47,6 +48,7 @@ fun ReorderableList(
     }
 
     val state = rememberReorderableLazyListState(onMove = vm::onMove, canDragOver = vm::canDragOver)
+    val formatter = DateTimeFormatter.ofPattern("MMMM-dd-yy")
     LazyColumn(
         state = state.listState,
         modifier = modifier
@@ -107,6 +109,16 @@ fun ReorderableList(
                                 modifier = Modifier.padding(16.dp).weight(5f),
                                 style = MaterialTheme.typography.bodyLarge
                             )
+                            Column(
+                            ){
+                                Text(
+                                    text = obj.start.format(formatter)
+                                )
+                                Text(
+                                    text = obj.end.format(formatter)
+                                )
+                            }
+
 //                            Text(
 //                                text = (index + 1).toString(),
 //                            )

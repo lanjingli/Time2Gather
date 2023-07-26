@@ -97,7 +97,7 @@ fun DiscussionOptionScreen(
             onClick = onFinishButtonClicked
         ) {
             Text(
-                text = "Final Decision",
+                text = "Finalize Decision",
                 fontSize = 16.sp
             )
         }
