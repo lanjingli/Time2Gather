@@ -32,6 +32,7 @@ import com.example.ece_452_project.ui.EventInfoScreen
 import com.example.ece_452_project.ui.EventOptionScreen
 import com.example.ece_452_project.ui.EventSettingScreen
 import com.example.ece_452_project.ui.FriendMainScreen
+import com.example.ece_452_project.ui.FriendRegisterScreen
 import com.example.ece_452_project.ui.ListSelectScreen
 import com.example.ece_452_project.ui.MapScreen
 import com.example.ece_452_project.ui.PreferencesScreen
@@ -49,6 +50,7 @@ enum class DashScreen(){
     Dashboard,
     EventSetting,
     FriendSelect,
+    FriendRegister,
     TimePlaceSelect,
     Map,
     Schedule,
@@ -66,7 +68,11 @@ fun DashNavGraph(
 ) {
     viewModel.updateUser(user)
     Scaffold(
-        bottomBar = { AppNavigationBar(navController = navController) }
+        bottomBar = { AppNavigationBar(
+            viewModel = viewModel,
+            navController = navController,
+            user = user
+        ) }
     ){ innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
 
@@ -244,7 +250,18 @@ fun DashNavGraph(
                 CalendarMonthlyScreen(user = uiState.user)
             }
             composable(route = NavBarItem.Friends.route){
-                FriendMainScreen()
+                FriendMainScreen(
+                    user = uiState.user,
+                    friends = uiState.selectedFriends,
+                    onAddNewFriendClicked = {navController.navigate(DashScreen.FriendRegister.name)}
+                )
+            }
+            composable(route = DashScreen.FriendRegister.name){
+                FriendRegisterScreen(
+                    onUsernameChange = {},
+                    onSignupButtonClicked = {},
+                    onBackToEventInfoClicked = {navController.navigate(NavBarItem.Friends.route)}
+                )
             }
 //            composable(route = NavBarItem.Settings.route){
 //                PreferencesScreen(

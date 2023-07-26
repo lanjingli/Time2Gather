@@ -30,6 +30,7 @@
     <string name="select_time">Select Time</string>
     <string name="select_place">Select Place</string>
     <string name="back_to_invite_friends">Back to Select Friends</string>
+    <string name="back_to_friends_page">Back to Friends Page</string>
     <string name="back_to_event_details">Back to Event Details</string>
     <string name="event_description">Description</string>
     <string name="deadline_date">Discussion Deadline</string>
