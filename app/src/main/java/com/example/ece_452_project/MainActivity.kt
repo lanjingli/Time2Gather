@@ -17,9 +17,9 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // uncomment these statements to create/reset db state
-        //FirestoreUtils.testDisc()
-//        FirestoreUtils.resetDummyUsers()
-//        FirestoreUtils.resetDummyEvents()
+        FirestoreUtils.testDisc()
+        FirestoreUtils.resetDummyUsers()
+        FirestoreUtils.resetDummyEvents()
         super.onCreate(savedInstanceState)
         setContent {
             ECE_452_ProjectTheme {

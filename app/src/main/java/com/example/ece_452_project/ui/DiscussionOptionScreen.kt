@@ -3,6 +3,7 @@ package com.example.ece_452_project.ui
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,11 +34,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ece_452_project.R
 import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.User
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import com.google.gson.Gson
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,13 +51,15 @@ fun DiscussionOptionScreen(
     discussion: Discussion = Discussion(),
     onTimeButtonClicked: () -> Unit,
     onPlaceButtonClicked: () -> Unit,
-    onFinishButtonClicked: () -> Unit,
+    onFinishButtonClicked: (List<String>) -> Unit,
 ){
     val current = LocalDateTime.now()
     val compDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy")
     val compDate1 = compDateFormat.format(current)
     val compDate2 = compDateFormat.format(discussion.deadline)
     val cmp = compDate1.compareTo(compDate2)
+    val gson = Gson()
+    var vm : ReorderableListViewModel = viewModel()
 
     var butEnabled = false
     var butBorderColor = Color(0xFFBDBDBD)
@@ -64,16 +69,17 @@ fun DiscussionOptionScreen(
         butEnabled = true
     }
     Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(modifier = Modifier.height(104.dp))
-        Card(
-            modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
-        ) {
+//        Spacer(modifier = Modifier.height(104.dp))
+//        Card(
+//            modifier = Modifier
+//                .wrapContentHeight()
+//                .fillMaxWidth(),
+//            elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+//        ) {
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = discussion.name,
@@ -85,90 +91,34 @@ fun DiscussionOptionScreen(
                 text = discussion.description,
                 style = MaterialTheme.typography.titleMedium
             )
-            OutlinedButton(
-                enabled = butEnabled,
-                onClick = onTimeButtonClicked,
-                border = BorderStroke(
-                    width = 3.dp,
-                    color = butBorderColor
-                ),
-                modifier = Modifier.fillMaxWidth().padding(all = 16.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        modifier = Modifier.size(36.dp).weight(1f),
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = ""
-                    )
-                    Spacer(modifier = Modifier.width(width = 5.dp))
-                    Text(
-                        modifier = Modifier.weight(5f),
-                        text = stringResource(R.string.timeslot_ranking),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Icon(
-                        modifier = Modifier.size(25.dp).weight(1f),
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = ""
-                    )
-                }
-            }
-            OutlinedButton(
-                enabled = butEnabled,
-                onClick = onPlaceButtonClicked,
-                border = BorderStroke(
-                    width = 3.dp,
-                    color = butBorderColor
-                ),
-                modifier = Modifier.fillMaxWidth().padding(all = 16.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        modifier = Modifier.size(36.dp).weight(1f),
-                        imageVector = Icons.Default.Place,
-                        contentDescription = ""
-                    )
-                    Spacer(modifier = Modifier.width(width = 5.dp))
-                    Text(
-                        modifier = Modifier.weight(5f),
-                        text = stringResource(R.string.location_ranking),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Icon(
-                        modifier = Modifier.size(25.dp).weight(1f),
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = ""
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+//        }
+        Text(
+            modifier = Modifier.padding(4.dp),
+            text = "Deadline for Final Decisions is: $compDate2",
+            style = MaterialTheme.typography.titleMedium
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            enabled = !butEnabled,
-            modifier = Modifier.fillMaxWidth(),
-            onClick = onFinishButtonClicked
+            enabled = true,
+            //modifier = Modifier.fillMaxWidth(),
+            onClick = {onFinishButtonClicked(vm.items)}
         ) {
             Text(
-                text = "Final Decision",
+                text = "Save Ranking",
                 fontSize = 16.sp
             )
         }
-        Text(
-            modifier = Modifier.padding(4.dp),
-            text = "Deadline for Final Decisions is: \n$compDate2",
-            style = MaterialTheme.typography.titleMedium
-        )
+
+        ReorderableList(
+            Modifier.weight(weight=1f),//, fill=false),
+            vm = vm,
+            newItems = discussion.options.map { gson.toJson(it)}
+            //listTitle = "Rank Locations"
+        )}
+        //Spacer(modifier = Modifier.height(16.dp))
+
     }
-}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -179,6 +129,6 @@ fun EventOptionPreview(){
             .padding(16.dp),
         onTimeButtonClicked = {},
         onPlaceButtonClicked = {},
-        onFinishButtonClicked = {}
+        onFinishButtonClicked = {items: List<String> -> Unit }
     )
 }
