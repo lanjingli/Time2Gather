@@ -97,18 +97,9 @@ fun DashNavGraph(
                 )
             }
             composable(route = DashScreen.DiscussionOption.name){
-                DiscussionOptionScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                DiscussionNavGraph(
                     user = uiState.user,
-                    discussion = uiState.selectedDiscussion,
-                    onTimeButtonClicked = {},
-                    onPlaceButtonClicked = {},
-                    onFinishButtonClicked = {
-                        navController.navigate(DashScreen.EventFinal.name)
-                    }
-                )
+                    discussion = uiState.selectedDiscussion)
             }
             composable(route = DashScreen.EventFinal.name){
                 EventFinalScreen(
