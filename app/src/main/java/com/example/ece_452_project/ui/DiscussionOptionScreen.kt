@@ -90,10 +90,15 @@ fun DiscussionOptionScreen(
                 style = MaterialTheme.typography.titleMedium
             )
 //        }
-//        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            modifier = Modifier.padding(4.dp),
+            text = "Deadline for Final Decisions is: $compDate2",
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             enabled = !butEnabled,
-            modifier = Modifier.fillMaxWidth(),
+            //modifier = Modifier.fillMaxWidth(),
             onClick = onFinishButtonClicked
         ) {
             Text(
@@ -101,11 +106,7 @@ fun DiscussionOptionScreen(
                 fontSize = 16.sp
             )
         }
-        Text(
-            modifier = Modifier.padding(4.dp),
-            text = "Deadline for Final Decisions is: \n$compDate2",
-            style = MaterialTheme.typography.titleMedium
-        )
+
         ReorderableList(
             Modifier.weight(weight=1f),//, fill=false),
             newItems = discussion.options.map { gson.toJson(it)}
