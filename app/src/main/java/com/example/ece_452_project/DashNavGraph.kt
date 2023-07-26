@@ -174,6 +174,13 @@ fun DashNavGraph(
                         }
                         val data = Discussion(uiState.selectedEvent)
                         data.users = listUser
+
+                        // BASED ON CURRENT LOGIC:
+                        // initialize the list of lists to just one 0
+                        // bc theres only one option.
+                        // but change this if its not always going to be just one option
+
+                        data.rankings = mutableListOf(listOf(0))
                         FirestoreUtils.addDiscussion(data, {})
                         user.discussions.add(data)
                         viewModel.updateUser(user)
