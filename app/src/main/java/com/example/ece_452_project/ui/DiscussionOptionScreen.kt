@@ -109,7 +109,6 @@ fun DiscussionOptionScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            enabled = !butEnabled,
             enabled = true,
             //modifier = Modifier.fillMaxWidth(),
             onClick = {onFinishButtonClicked(vm.items)}
