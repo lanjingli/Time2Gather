@@ -45,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.location.LocationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.fragment.app.viewModels
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -60,9 +61,8 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.example.ece_452_project.BuildConfig
-//import com.ikanshy.oshm.R
-//import com.ikanshy.oshm.utils.clickWithRipple
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.ece_452_project.R
+//import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 class LocationFragment : Fragment() {
@@ -177,13 +177,13 @@ class LocationFragment : Fragment() {
                                     cameraPositionState.animate(CameraUpdateFactory.newLatLng(it))
                                 }
                             })
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_marker),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(24.dp)
-                                .align(Alignment.Center)
-                        )
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.current_position_tennis_ball),
+//                            contentDescription = null,
+//                            modifier = Modifier
+//                                .size(24.dp)
+//                                .align(Alignment.Center)
+//                        )
 
                         Surface(
                             modifier = Modifier
