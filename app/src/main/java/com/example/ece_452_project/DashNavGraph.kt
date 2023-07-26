@@ -38,9 +38,9 @@ import com.example.ece_452_project.ui.TimeSelectionScreen
 import com.example.ece_452_project.ui.navigation.AppNavigationBar
 import com.example.ece_452_project.ui.navigation.NavBarItem
 import com.google.firebase.firestore.FieldValue
-import java.time.LocalDateTime
 
 enum class DashScreen(){
+    Dashboard,
     EventSetting,
     FriendSelect,
     TimePlaceSelect,
@@ -174,32 +174,12 @@ fun DashNavGraph(
                         val data = Discussion(uiState.selectedEvent)
                         data.users = listUser
 
-                        // hard coding some other options
+                        // BASED ON CURRENT LOGIC:
+                        // initialize the list of lists to just one 0
+                        // bc theres only one option.
+                        // but change this if its not always going to be just one option
 
-                        val op1 = TimePlace (uiState.selectedEvent.start, uiState.selectedEvent.end, uiState.selectedEvent.location)
-
-                        val op2 = TimePlace(
-                            start = LocalDateTime.of(2023, 7, 27, 11, 30),
-                            end = LocalDateTime.of(2023, 7, 27, 12, 30),
-                            location = "iPotato"
-                        )
-
-                        val op3 = TimePlace(
-                            start = LocalDateTime.of(2023, 7, 27, 12, 0),
-                            end = LocalDateTime.of(2023, 7, 27, 13, 0),
-                            location = "Kismet"
-                        )
-
-                        val op4 = TimePlace(
-                            start = LocalDateTime.of(2023, 7, 27, 12, 0),
-                            end = LocalDateTime.of(2023, 7, 27, 13, 0),
-                            location = "Fresh Burrito"
-                        )
-
-
-                        data.options = mutableListOf<TimePlace>(op1, op2, op3, op4)
-
-                        data.rankings = mutableListOf(listOf(0, 0, 0, 0))
+                        data.rankings = mutableListOf(listOf(0))
                         FirestoreUtils.addDiscussion(data, {})
                         user.discussions.add(data)
                         viewModel.updateUser(user)
