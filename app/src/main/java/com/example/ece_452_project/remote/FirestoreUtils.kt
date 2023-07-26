@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import java.time.LocalDateTime
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import java.time.ZonedDateTime
 
 // set to true if using localhost, false if using real remote database
 private val USE_EMULATORS = true
@@ -227,17 +228,51 @@ object FirestoreUtils{
             }
     }
 
+    fun deleteDiscussion(id: String, listener: () -> Unit){
+        firestore.collection("discussions").document(id)
+            .delete().addOnSuccessListener {
+                listener()
+            }
+    }
+
     fun testDisc(){
+
+        val op1 =  TimePlace(
+            start = LocalDateTime.of(2023, 7, 29, 12, 30),
+            end = LocalDateTime.of(2023, 7, 29, 14, 30),
+            location = "Columbia Lake"
+        )
+
+        val op2 = TimePlace(
+            start = LocalDateTime.of(2023, 7, 29, 12, 30),
+            end = LocalDateTime.of(2023, 7, 29, 14, 30),
+            location = "Waterloo Park"
+        )
+
+        val op3 = TimePlace(
+            start = LocalDateTime.of(2023, 7, 30, 13, 0),
+            end = LocalDateTime.of(2023, 7, 30, 15, 0),
+            location = "Victoria Park"
+        )
+
+        val op4 = TimePlace(
+            start = LocalDateTime.of(2023, 7, 30, 11,30 ),
+            end = LocalDateTime.of(2023, 7, 30, 14, 0),
+            location = "Laurel Creek"
+        )
+
         val r = RemoteDiscussion(
             id = "test",
             name = "Bird Watching",
             description = "Watching Birds",
-            deadline = Timestamp.now(),
+            deadline = Timestamp(LocalDateTime.of(2023, 7, 26, 17,0 ).toEpochSecond(ZonedDateTime.now().offset), 0),
             users = listOf("alpha", "bravo"),
-            options = listOf(RemoteTimePlace(
-                start = Timestamp.now(),
-                end = Timestamp.now(),
-                location = "Columbia Lake")),
+            options = listOf(
+                RemoteTimePlace(op1),
+                RemoteTimePlace(op2),
+                RemoteTimePlace(op3),
+                RemoteTimePlace(op4)
+            ),
             rankings = listOf(Discussion.UNRANKED, Discussion.UNRANKED)
         )
         firestore.collection("discussions").document("test")

@@ -1,5 +1,7 @@
 package com.example.ece_452_project.ui
 
+// First page of new event creation
+
 import android.app.DatePickerDialog
 import android.widget.DatePicker
 import androidx.compose.foundation.interaction.MutableInteractionSource

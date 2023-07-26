@@ -19,32 +19,27 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.DummyData
-import com.example.ece_452_project.data.MenuData
+import com.example.ece_452_project.data.Event
+import com.example.ece_452_project.data.TimePlace
 import com.example.ece_452_project.data.User
 import com.example.ece_452_project.remote.FirestoreUtils
-import com.example.ece_452_project.remote.RemoteEvent
-import com.example.ece_452_project.remote.RemoteUser
 import com.example.ece_452_project.ui.CalendarMonthlyScreen
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
 import com.example.ece_452_project.ui.EventFinalScreen
 import com.example.ece_452_project.ui.EventInfoScreen
-import com.example.ece_452_project.ui.EventOptionScreen
+import com.example.ece_452_project.ui.DiscussionOptionScreen
 import com.example.ece_452_project.ui.EventSettingScreen
 import com.example.ece_452_project.ui.FriendMainScreen
 import com.example.ece_452_project.ui.FriendRegisterScreen
 import com.example.ece_452_project.ui.ListSelectScreen
 import com.example.ece_452_project.ui.MapScreen
+import com.example.ece_452_project.ui.PreferencesNavBarScreen
 import com.example.ece_452_project.ui.PreferencesScreen
 import com.example.ece_452_project.ui.TimeSelectionScreen
 import com.example.ece_452_project.ui.navigation.AppNavigationBar
 import com.example.ece_452_project.ui.navigation.NavBarItem
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 enum class DashScreen(){
     Dashboard,
@@ -54,7 +49,7 @@ enum class DashScreen(){
     TimePlaceSelect,
     Map,
     Schedule,
-    EventOption,
+    DiscussionOption,
     EventFinal
 }
 
@@ -64,9 +59,12 @@ enum class DashScreen(){
 fun DashNavGraph(
     viewModel: DashViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
-    user: User = User()
+    user: User = User(),
+    fromEventFinal: Boolean = false,
+    finalEvent: Event = Event()
 ) {
     viewModel.updateUser(user)
+    viewModel.updateEvent(finalEvent)
     Scaffold(
         bottomBar = { AppNavigationBar(
             viewModel = viewModel,
@@ -78,7 +76,7 @@ fun DashNavGraph(
 
         NavHost(
             navController = navController,
-            startDestination = NavBarItem.Home.route,
+            startDestination = if (!fromEventFinal) NavBarItem.Home.route else DashScreen.EventFinal.name,
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = NavBarItem.Home.route){
@@ -90,11 +88,10 @@ fun DashNavGraph(
                     onNewEventButtonClicked = {
                         navController.navigate(DashScreen.EventSetting.name)
                     },
-                    onEventClick = {
-                        viewModel.updateSelectedEvent(it)
-                        navController.navigate(DashScreen.EventOption.name)
-                    },
-                    onDiscussionClick = { disc: Discussion -> Unit } // TODO: Make this go somewhere
+                    onDiscussionClick = {
+                        viewModel.updateSelectedDiscussion(it)
+                        navController.navigate(DashScreen.DiscussionOption.name)
+                    }
                 )
             }
             composable(route = DashScreen.EventSetting.name){
@@ -120,19 +117,10 @@ fun DashNavGraph(
                     }
                 )
             }
-            composable(route = DashScreen.EventOption.name){
-                EventOptionScreen(
-                    modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
+            composable(route = DashScreen.DiscussionOption.name){
+                DiscussionNavGraph(
                     user = uiState.user,
-                    event = uiState.selectedEvent,
-                    onTimeButtonClicked = {},
-                    onPlaceButtonClicked = {},
-                    onFinishButtonClicked = {
-                        navController.navigate(DashScreen.EventFinal.name)
-                    }
-                )
+                    discussion = uiState.selectedDiscussion)
             }
             composable(route = DashScreen.EventFinal.name){
                 EventFinalScreen(
@@ -143,14 +131,6 @@ fun DashNavGraph(
                     event = uiState.selectedEvent,
                     friends = uiState.selectedFriends,
                     onFinishButtonClicked = {
-                        if(it) {
-                            viewModel.updateEventAttend(user.username)
-                            viewModel.updateUserSchedule(uiState.selectedEvent)
-                            val db = FirestoreUtils.firestore()
-                            val newEventRef = db.collection("events").document(uiState.selectedEvent.id)
-                            newEventRef.update("attend", FieldValue.arrayUnion(user.username))
-                            viewModel.updateUser(user)
-                        }
                         navController.navigate(NavBarItem.Home.route)
                     },
                     onDoneButtonClicked = {
@@ -215,6 +195,14 @@ fun DashNavGraph(
                             listUser.add(user.username)
                         }
                         val data = Discussion(uiState.selectedEvent)
+                        data.users = listUser
+
+                        // BASED ON CURRENT LOGIC:
+                        // initialize the list of lists to just one 0
+                        // bc theres only one option.
+                        // but change this if its not always going to be just one option
+
+                        data.rankings = mutableListOf(listOf(0))
                         FirestoreUtils.addDiscussion(data, {})
                         user.discussions.add(data)
                         viewModel.updateUser(user)
@@ -263,55 +251,20 @@ fun DashNavGraph(
                     onBackToEventInfoClicked = {navController.navigate(NavBarItem.Friends.route)}
                 )
             }
-//            composable(route = NavBarItem.Settings.route){
-//                PreferencesScreen(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(16.dp),
-//                    nameText = viewModel.name,
-//                    usernameText = viewModel.username,
-//                    onNameChange = { viewModel.updateName(it) },
-//                    onUsernameChange = { viewModel.updateUsername(it) },
-//                    checkboxStates = viewModel.dietary,
-//                    onCheckboxChange = {new: Boolean, i: Int -> viewModel.updateDietary(new, i)},
-//                    onSaveButtonClicked = {
-//                        if (viewModel.username.isEmpty()){
-//                            viewModel.updateDialog(true)
-//                        }
-//                        else {
-//                            FirestoreUtils.usernameExists(viewModel.username) {
-//                                if (!it){
-//                                    val auth = FirestoreUtils.auth()
-//                                    val firestore = FirestoreUtils.firestore()
-//                                    viewModel.updateUserFromInputs()
-//                                    // re-update for remote
-//                                    val tmp_dietary = mutableListOf<String>()
-//                                    viewModel.dietary.forEachIndexed(){i,it->
-//                                        if (it) tmp_dietary.add(MenuData.dietaryOptions[i])
-//                                    }
-//                                    val userData = RemoteUser(
-//                                        username = viewModel.username,
-//                                        email = viewModel.email,
-//                                        password = viewModel.password,
-//                                        name = viewModel.name,
-//                                        dietary = tmp_dietary
-//                                    )
-//                                    auth.currentUser?.let{authUser ->
-//                                        firestore.collection("users").document(authUser.uid)
-//                                            .set(userData)
-//                                        navController.navigate(InfoScreen.Dashboard.name)
-//                                    }
-//                                }
-//                                else{
-//                                    viewModel.updateDialog(true)
-//                                }
-//                            }
-//                        }
-//                    },
-//                    openDialog = viewModel.openDialog,
-//                    onDialogDismiss = { viewModel.updateDialog(false) }
-//                )
-//            }
+            composable(route = NavBarItem.Settings.route){
+                PreferencesNavBarScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    checkboxStates = viewModel.dietary,
+                    onCheckboxChange = {new: Boolean, i: Int -> viewModel.updateDietary(new, i)},
+                    onSaveButtonClicked = {
+                        viewModel.updateDialog(true)
+                    },
+                    openDialog = viewModel.openDialog,
+                    onDialogDismiss = { viewModel.updateDialog(false) }
+                )
+            }
         }
     }
 }
