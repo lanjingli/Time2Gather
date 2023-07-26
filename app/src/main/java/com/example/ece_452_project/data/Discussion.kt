@@ -115,11 +115,12 @@ data class Discussion (
         // clear any vetoing users from final event
         if (final == -1) final = 0
         var attending = MutableList<Boolean>(users.size) {true}
-        rankings.forEachIndexed { i, ranking ->
+        // veto not implemented currently
+        /*rankings.forEachIndexed { i, ranking ->
             if (ranking[i] == VETO_RANK){
                 attending[i] = false
             }
-        }
+        }*/
         return Event(
             name = name,
             description = description,

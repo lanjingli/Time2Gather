@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ece_452_project.R
 import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.User
@@ -50,7 +51,7 @@ fun DiscussionOptionScreen(
     discussion: Discussion = Discussion(),
     onTimeButtonClicked: () -> Unit,
     onPlaceButtonClicked: () -> Unit,
-    onFinishButtonClicked: () -> Unit,
+    onFinishButtonClicked: (List<String>) -> Unit,
 ){
     val current = LocalDateTime.now()
     val compDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy")
@@ -58,6 +59,7 @@ fun DiscussionOptionScreen(
     val compDate2 = compDateFormat.format(discussion.deadline)
     val cmp = compDate1.compareTo(compDate2)
     val gson = Gson()
+    var vm : ReorderableListViewModel = viewModel()
 
     var butEnabled = false
     var butBorderColor = Color(0xFFBDBDBD)
@@ -108,17 +110,19 @@ fun DiscussionOptionScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             enabled = !butEnabled,
+            enabled = true,
             //modifier = Modifier.fillMaxWidth(),
-            onClick = onFinishButtonClicked
+            onClick = {onFinishButtonClicked(vm.items)}
         ) {
             Text(
-                text = "Finalize Decision",
+                text = "Save Ranking",
                 fontSize = 16.sp
             )
         }
 
         ReorderableList(
             Modifier.weight(weight=1f),//, fill=false),
+            vm = vm,
             newItems = discussion.options.map { gson.toJson(it)}
             //listTitle = "Rank Locations"
         )}
@@ -136,6 +140,6 @@ fun EventOptionPreview(){
             .padding(16.dp),
         onTimeButtonClicked = {},
         onPlaceButtonClicked = {},
-        onFinishButtonClicked = {}
+        onFinishButtonClicked = {items: List<String> -> Unit }
     )
 }

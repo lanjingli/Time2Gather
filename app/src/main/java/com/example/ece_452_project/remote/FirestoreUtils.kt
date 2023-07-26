@@ -187,6 +187,13 @@ object FirestoreUtils{
             }
     }
 
+    fun deleteDiscussion(id: String, listener: () -> Unit){
+        firestore.collection("discussions").document(id)
+            .delete().addOnSuccessListener {
+                listener()
+            }
+    }
+
     fun testDisc(){
 
         val op1 =  TimePlace(
