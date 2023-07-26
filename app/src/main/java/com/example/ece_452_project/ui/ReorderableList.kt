@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -58,13 +59,20 @@ fun ReorderableList(
             .then(Modifier.reorderable(state))
     ) {
         item() {
-            Text(
-                text = listTitle,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = listTitle,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
         }
-        items(vm.items, { it }) { item ->
+        items(vm.items, { it }) {item ->
             ReorderableItem(state, item) { isDragging ->
                 val elevation = animateDpAsState(if (isDragging) 8.dp else 0.dp)
                 Column(
@@ -74,24 +82,33 @@ fun ReorderableList(
                         .background(MaterialTheme.colorScheme.surface)
 
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            Icons.Default.List,
-                            "",
-                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
-                            modifier = Modifier.detectReorder(state)
-                        )
+                        Row(
+                            Modifier
+                                .padding(vertical = 16.dp)
+                                .detectReorder(state),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                Icons.Default.List,
+                                "",
+                                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
+                                //modifier = Modifier.detectReorder(state)
+                            )
 //                        Image(
 //                            painter = rememberAsyncImagePainter(item),
 //                            contentDescription = null,
 //                            modifier = Modifier.size(128.dp)
 //                        )
-                        Text(
-                            text = item,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                    }
-                    Divider()
+                            Text(
+                                text = item,
+                                modifier = Modifier.padding(16.dp).weight(4f),
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+//                            Text(
+//                                text = (index + 1).toString(),
+//                            )
+                        }
+//                    Divider()
                 }
             }
         }
