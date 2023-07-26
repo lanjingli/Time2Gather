@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.ece_452_project.data.DashUiState
 import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.Event
+import com.example.ece_452_project.data.MenuData
 import com.example.ece_452_project.data.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -138,6 +139,22 @@ class DashViewModel : ViewModel() {
 
         _uiState.update { currentState ->
             currentState.copy(user = tmpUser)
+        }
+    }
+
+    // copying stuff from infoviewmodel to here
+    var openDialog by mutableStateOf(false)
+        private set
+    fun updateDialog(value: Boolean) {
+        openDialog = value
+    }
+    var dietary by mutableStateOf(List<Boolean>(MenuData.dietaryOptions.size) {false})
+        private set
+    fun updateDietary(value: Boolean, i: Int) {
+        if (i >= 0 && i < MenuData.dietaryOptions.size) {
+            var temp = dietary.toMutableList()
+            temp[i] = value
+            dietary = temp.toList()
         }
     }
 }
