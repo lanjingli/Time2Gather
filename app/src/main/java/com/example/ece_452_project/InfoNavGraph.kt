@@ -23,6 +23,7 @@ import com.example.ece_452_project.ui.InfoViewModel
 import com.example.ece_452_project.ui.LoginScreen
 import com.example.ece_452_project.ui.PreferencesScreen
 import com.example.ece_452_project.ui.RegisterScreen
+import com.example.ece_452_project.ui.ReorderableList
 import com.example.ece_452_project.ui.navigation.AppNavigationBar
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
@@ -51,39 +52,47 @@ fun InfoNavGraph(
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = InfoScreen.Login.name) {
-                LoginScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    onLoginButtonClicked = {
-                        var auth = FirestoreUtils.auth()
-                        if (viewModel.email.isNotEmpty() && viewModel.password.isNotEmpty()) {
-                            auth.signInWithEmailAndPassword(viewModel.email, viewModel.password)
-                                .addOnCompleteListener() { task ->
-                                    if (task.isSuccessful) {
-                                        FirestoreUtils.getCurrentUser {
-                                            viewModel.updateUser(it)
-                                            navController.navigate(InfoScreen.Dashboard.name)
-                                        }
-                                    } else {
-                                        viewModel.updateDialog(true)
-                                        Log.d("myTag", task.exception.toString())
-                                    }
-                                }
-                            }
-                        else {
-                            viewModel.updateDialog(true)
-                        }
-                        //viewModel.fetchDummyUser()
-                    },
-                    onSignupButtonClicked = { navController.navigate(InfoScreen.Register.name) },
-                    emailText = viewModel.email,
-                    passwordText = viewModel.password,
-                    onEmailChange = { viewModel.updateEmail(it) },
-                    onPasswordChange = { viewModel.updatePassword(it) },
-                    openDialog = viewModel.openDialog,
-                    onDialogDismiss = { viewModel.updateDialog(false) }
+                ReorderableList(
+                    newItems = listOf(
+                        "Waterloo",
+                        "Paradise City",
+                        "Highway to Hell"
+                    ),
+                    listTitle = "Rank Locations"
                 )
+//                LoginScreen(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .padding(16.dp),
+//                    onLoginButtonClicked = {
+//                        var auth = FirestoreUtils.auth()
+//                        if (viewModel.email.isNotEmpty() && viewModel.password.isNotEmpty()) {
+//                            auth.signInWithEmailAndPassword(viewModel.email, viewModel.password)
+//                                .addOnCompleteListener() { task ->
+//                                    if (task.isSuccessful) {
+//                                        FirestoreUtils.getCurrentUser {
+//                                            viewModel.updateUser(it)
+//                                            navController.navigate(InfoScreen.Dashboard.name)
+//                                        }
+//                                    } else {
+//                                        viewModel.updateDialog(true)
+//                                        Log.d("myTag", task.exception.toString())
+//                                    }
+//                                }
+//                            }
+//                        else {
+//                            viewModel.updateDialog(true)
+//                        }
+//                        //viewModel.fetchDummyUser()
+//                    },
+//                    onSignupButtonClicked = { navController.navigate(InfoScreen.Register.name) },
+//                    emailText = viewModel.email,
+//                    passwordText = viewModel.password,
+//                    onEmailChange = { viewModel.updateEmail(it) },
+//                    onPasswordChange = { viewModel.updatePassword(it) },
+//                    openDialog = viewModel.openDialog,
+//                    onDialogDismiss = { viewModel.updateDialog(false) }
+//                )
             }
             composable(route = InfoScreen.Register.name) {
                 RegisterScreen(
