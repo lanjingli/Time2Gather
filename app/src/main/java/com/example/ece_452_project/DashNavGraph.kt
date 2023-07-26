@@ -103,7 +103,14 @@ fun DashNavGraph(
                     onEventDescChange = { viewModel.updateEventDescription(it) },
                     onInviteFriendClicked = {
                         viewModel.updateEventSetting()
-                        navController.navigate(DashScreen.FriendSelect.name)
+                        FirestoreUtils.getUserFriends(uiState.user, mutableListOf<User>()) { userList ->
+                            var friends = mutableListOf<User>();
+                            for (user in userList) {
+                                friends.add(User(user))
+                            }
+                            viewModel.updateSelectedFriends(friends)
+                            navController.navigate(DashScreen.FriendSelect.name)
+                        }
                     }
                 )
             }
@@ -160,14 +167,7 @@ fun DashNavGraph(
                 )
             }
             composable(route = DashScreen.FriendSelect.name){
-                var friends = mutableListOf<User>()
-                FirestoreUtils.getUserFriends(uiState.user, mutableListOf<User>()) { userList ->
-                    for (user in userList) {
-                        friends.add(User(user))
-                    }
-                    Log.d("gettingFriends", "size of friends before: ${friends.size}")
-                }
-                Log.d("gettingFriends", "size of friends after: ${friends.size}")
+                var friends = uiState.selectedFriends;
                 val options = friends.map { it.name + " - " + it.dietary.joinToString(", ") }
                 ListSelectScreen(
                         modifier = Modifier
@@ -187,7 +187,16 @@ fun DashNavGraph(
                     modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp),
-                    onBackToFriendsClicked = {navController.navigate(DashScreen.FriendSelect.name)},
+                    onBackToFriendsClicked = {
+                        FirestoreUtils.getUserFriends(uiState.user, mutableListOf<User>()) { userList ->
+                            var friends = mutableListOf<User>();
+                            for (user in userList) {
+                                friends.add(User(user))
+                            }
+                            viewModel.updateSelectedFriends(friends)
+                            navController.navigate(DashScreen.FriendSelect.name)
+                        }
+                     },
                     onTimeButtonClicked = {navController.navigate(DashScreen.Schedule.name)},
                     onPlaceButtonClicked = {navController.navigate(DashScreen.Map.name)},
                     onDeadlineChange = {viewModel.updateDeadlineField(it)},

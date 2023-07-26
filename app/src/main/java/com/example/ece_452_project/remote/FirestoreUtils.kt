@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import java.time.LocalDateTime
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 // set to true if using localhost, false if using real remote database
 private val USE_EMULATORS = true
@@ -113,6 +115,12 @@ object FirestoreUtils{
                     }
                 }
             }
+    }
+
+    suspend fun getUserFriends(user: User): MutableList<User>  = suspendCoroutine { continuation ->
+        getUserFriends(user, mutableListOf<User>()) { userList ->
+            continuation.resume(userList)
+        }
     }
 
     fun getUserEvents(user: User, listener: (events: MutableList<Event>) -> Unit){
