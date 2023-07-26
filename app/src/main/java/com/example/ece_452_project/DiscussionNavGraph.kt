@@ -18,11 +18,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.DummyData
 import com.example.ece_452_project.data.User
+import com.example.ece_452_project.remote.FirestoreUtils
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DiscussionOptionScreen
 import com.example.ece_452_project.ui.DiscussionViewModel
 import com.example.ece_452_project.ui.MapScreen
 import com.example.ece_452_project.ui.MapViewModel
+import com.google.gson.Gson
 
 enum class DiscussionOptionScreen(){
     Start,
@@ -38,6 +40,7 @@ fun DiscussionNavGraph(
     user: User = User(),
     discussion: Discussion = Discussion()
 ) {
+    val gson = Gson()
     viewModel.updateUser(user)
     viewModel.updateSelectedDiscussion(discussion)
     Scaffold(){ innerPadding ->
@@ -57,15 +60,25 @@ fun DiscussionNavGraph(
                     discussion = uiState.selectedDiscussion,
                     onTimeButtonClicked = {},
                     onPlaceButtonClicked = {},
-                    onFinishButtonClicked = {
+                    onFinishButtonClicked = {reordered ->
+                        var ranking = uiState.selectedDiscussion.options.map{ reordered.indexOf(gson.toJson(it)) + 1 }
+                        uiState.selectedDiscussion.setRanking(uiState.user, ranking)
+                        val finalEvent = uiState.selectedDiscussion.finalize()
+                        FirestoreUtils.deleteDiscussion(uiState.selectedDiscussion.id) {}
+                        FirestoreUtils.addEvent(finalEvent) {}
+                        var user = uiState.user
+                        user.discussions.remove(uiState.selectedDiscussion)
+                        user.schedule.add(finalEvent)
+                        viewModel.updateEvent(finalEvent)
                         navController.navigate(DiscussionOptionScreen.End.name)
-                        //navController.navigate(DashScreen.EventFinal.name)
                     }
                 )
             }
             composable(route = DiscussionOptionScreen.End.name){
                 DashNavGraph(
-                    user = uiState.user
+                    user = uiState.user,
+                    finalEvent = uiState.selectedEvent,
+                    fromEventFinal = true
                 )
             }
         }

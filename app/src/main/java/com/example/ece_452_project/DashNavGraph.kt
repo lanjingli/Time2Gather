@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.DummyData
+import com.example.ece_452_project.data.Event
 import com.example.ece_452_project.data.TimePlace
 import com.example.ece_452_project.data.User
 import com.example.ece_452_project.remote.FirestoreUtils
@@ -55,9 +56,12 @@ enum class DashScreen(){
 fun DashNavGraph(
     viewModel: DashViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
-    user: User = User()
+    user: User = User(),
+    fromEventFinal: Boolean = false,
+    finalEvent: Event = Event()
 ) {
     viewModel.updateUser(user)
+    viewModel.updateEvent(finalEvent)
     Scaffold(
         bottomBar = { AppNavigationBar(navController = navController) }
     ){ innerPadding ->
@@ -65,7 +69,7 @@ fun DashNavGraph(
 
         NavHost(
             navController = navController,
-            startDestination = NavBarItem.Home.route,
+            startDestination = if (!fromEventFinal) NavBarItem.Home.route else DashScreen.EventFinal.name,
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = NavBarItem.Home.route){
@@ -113,14 +117,6 @@ fun DashNavGraph(
                     event = uiState.selectedEvent,
                     friends = uiState.selectedFriends,
                     onFinishButtonClicked = {
-                        if(it) {
-                            viewModel.updateEventAttend(user.username)
-                            viewModel.updateUserSchedule(uiState.selectedEvent)
-                            val db = FirestoreUtils.firestore()
-                            val newEventRef = db.collection("events").document(uiState.selectedEvent.id)
-                            newEventRef.update("attend", FieldValue.arrayUnion(user.username))
-                            viewModel.updateUser(user)
-                        }
                         navController.navigate(NavBarItem.Home.route)
                     },
                     onDoneButtonClicked = {

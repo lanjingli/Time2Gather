@@ -112,6 +112,12 @@ class DiscussionViewModel : ViewModel(){
         }
     }
 
+    fun updateEvent(event: Event){
+        _uiState.update { currentState ->
+            currentState.copy(selectedEvent = event)
+        }
+    }
+
     fun updateSelectedEvent(value: Event) {
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = value)
