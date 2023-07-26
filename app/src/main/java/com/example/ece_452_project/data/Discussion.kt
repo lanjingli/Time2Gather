@@ -24,10 +24,11 @@ data class Discussion (
         discussion.users?.let{users = it}
         discussion.options?.let{options = it.map {tp->TimePlace(tp)}.toMutableList()}
         discussion.rankings?.let{
-            for (i in 1..users.size){
+            for (i in 1..users.size) {
                 var l = listOf<Int>()
-                for (j in 1..options.size){
-                    l = l.plus(it[(i-1)*options.size + (j-1)])
+                for (j in 1..options.size) {
+                    l = l.plus(0)
+//                    l = l.plus(it[(i - 1) * options.size + (j - 1)])
                 }
                 rankings.add(l)
             }

@@ -173,6 +173,7 @@ fun DashNavGraph(
                             listUser.add(user.username)
                         }
                         val data = Discussion(uiState.selectedEvent)
+                        data.users = listUser
                         FirestoreUtils.addDiscussion(data, {})
                         user.discussions.add(data)
                         viewModel.updateUser(user)

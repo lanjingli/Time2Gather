@@ -62,7 +62,6 @@ fun DashboardScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
     onNewEventButtonClicked: () -> Unit,
-//    onEventClick: (Event) -> Unit,
     onDiscussionClick: (Discussion) -> Unit
 ) {
 
