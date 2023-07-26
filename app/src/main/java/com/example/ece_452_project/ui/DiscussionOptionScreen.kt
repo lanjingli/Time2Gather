@@ -3,6 +3,7 @@ package com.example.ece_452_project.ui
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,7 @@ import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.User
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import com.google.gson.Gson
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +57,7 @@ fun DiscussionOptionScreen(
     val compDate1 = compDateFormat.format(current)
     val compDate2 = compDateFormat.format(discussion.deadline)
     val cmp = compDate1.compareTo(compDate2)
+    val gson = Gson()
 
     var butEnabled = false
     var butBorderColor = Color(0xFFBDBDBD)
@@ -64,8 +67,9 @@ fun DiscussionOptionScreen(
         butEnabled = true
     }
     Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         Spacer(modifier = Modifier.height(104.dp))
         Card(
@@ -92,7 +96,9 @@ fun DiscussionOptionScreen(
                     width = 3.dp,
                     color = butBorderColor
                 ),
-                modifier = Modifier.fillMaxWidth().padding(all = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = 16.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Row (
@@ -100,7 +106,9 @@ fun DiscussionOptionScreen(
                     horizontalArrangement = Arrangement.Start,
                 ) {
                     Icon(
-                        modifier = Modifier.size(36.dp).weight(1f),
+                        modifier = Modifier
+                            .size(36.dp)
+                            .weight(1f),
                         imageVector = Icons.Default.DateRange,
                         contentDescription = ""
                     )
@@ -111,7 +119,9 @@ fun DiscussionOptionScreen(
                         style = MaterialTheme.typography.titleMedium
                     )
                     Icon(
-                        modifier = Modifier.size(25.dp).weight(1f),
+                        modifier = Modifier
+                            .size(25.dp)
+                            .weight(1f),
                         imageVector = Icons.Default.Edit,
                         contentDescription = ""
                     )
@@ -124,7 +134,9 @@ fun DiscussionOptionScreen(
                     width = 3.dp,
                     color = butBorderColor
                 ),
-                modifier = Modifier.fillMaxWidth().padding(all = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = 16.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Row (
@@ -132,7 +144,9 @@ fun DiscussionOptionScreen(
                     horizontalArrangement = Arrangement.Start,
                 ) {
                     Icon(
-                        modifier = Modifier.size(36.dp).weight(1f),
+                        modifier = Modifier
+                            .size(36.dp)
+                            .weight(1f),
                         imageVector = Icons.Default.Place,
                         contentDescription = ""
                     )
@@ -143,7 +157,9 @@ fun DiscussionOptionScreen(
                         style = MaterialTheme.typography.titleMedium
                     )
                     Icon(
-                        modifier = Modifier.size(25.dp).weight(1f),
+                        modifier = Modifier
+                            .size(25.dp)
+                            .weight(1f),
                         imageVector = Icons.Default.Edit,
                         contentDescription = ""
                     )
@@ -152,23 +168,37 @@ fun DiscussionOptionScreen(
             Spacer(modifier = Modifier.height(16.dp))
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            enabled = !butEnabled,
-            modifier = Modifier.fillMaxWidth(),
-            onClick = onFinishButtonClicked
-        ) {
+        Box(){
+            Button(
+                enabled = !butEnabled,
+                modifier = Modifier.fillMaxWidth(),
+                onClick = onFinishButtonClicked
+            ) {
+                Text(
+                    text = "Final Decision",
+                    fontSize = 16.sp
+                )
+            }
             Text(
-                text = "Final Decision",
-                fontSize = 16.sp
+                modifier = Modifier.padding(4.dp),
+                text = "Deadline for Final Decisions is: \n$compDate2",
+                style = MaterialTheme.typography.titleMedium
             )
         }
-        Text(
-            modifier = Modifier.padding(4.dp),
-            text = "Deadline for Final Decisions is: \n$compDate2",
-            style = MaterialTheme.typography.titleMedium
-        )
+        ReorderableList(
+            Modifier.weight(weight=0.9f, fill=false),
+//            newItems = listOf(
+//                "Waterloo",
+//                "Paradise City",
+//                "Highway to Hell"
+//            ),
+            newItems = discussion.options.map { gson.toJson(it)}
+            //listTitle = "Rank Locations"
+        )}
+        //Spacer(modifier = Modifier.height(16.dp))
+
     }
-}
+
 
 @Preview(showBackground = true)
 @Composable
