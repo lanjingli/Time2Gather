@@ -43,5 +43,6 @@
 | 2023/07/23 |        |     |         |   4   |       |       | App Dev - Rankings page UI work |
 | 2023/07/24 |        |     |  6.5    |       |       |       | App Dev - Event Options Page flow testing |
 | 2023/07/24 |   3    |     |         |       |       |       | App Dev - Bug Fixes |
-| 2023/07/25 |   8    |  2  |         |       |       |       | App Dev - Discussion Database Utilities |
+| 2023/07/25 |   8    |     |         |       |       |       | App Dev - Discussion Database Utilities |
+| 2023/07/25 |        |  2  |         |       |       |       | App Dev - Features relating to friends |
 | 2023/07/26 |        |  6  |         |       |       |       | App Dev - Features relating to friends |
