@@ -18,31 +18,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.DummyData
-import com.example.ece_452_project.data.MenuData
 import com.example.ece_452_project.data.User
 import com.example.ece_452_project.remote.FirestoreUtils
-import com.example.ece_452_project.remote.RemoteEvent
-import com.example.ece_452_project.remote.RemoteUser
 import com.example.ece_452_project.ui.CalendarMonthlyScreen
 import com.example.ece_452_project.ui.DashViewModel
 import com.example.ece_452_project.ui.DashboardScreen
 import com.example.ece_452_project.ui.EventFinalScreen
 import com.example.ece_452_project.ui.EventInfoScreen
-import com.example.ece_452_project.ui.EventOptionScreen
+import com.example.ece_452_project.ui.DiscussionOptionScreen
 import com.example.ece_452_project.ui.EventSettingScreen
 import com.example.ece_452_project.ui.FriendMainScreen
 import com.example.ece_452_project.ui.ListSelectScreen
 import com.example.ece_452_project.ui.MapScreen
-import com.example.ece_452_project.ui.PreferencesScreen
 import com.example.ece_452_project.ui.TimeSelectionScreen
 import com.example.ece_452_project.ui.navigation.AppNavigationBar
 import com.example.ece_452_project.ui.navigation.NavBarItem
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 enum class DashScreen(){
     Dashboard,
@@ -51,7 +42,7 @@ enum class DashScreen(){
     TimePlaceSelect,
     Map,
     Schedule,
-    EventOption,
+    DiscussionOption,
     EventFinal
 }
 
@@ -83,11 +74,10 @@ fun DashNavGraph(
                     onNewEventButtonClicked = {
                         navController.navigate(DashScreen.EventSetting.name)
                     },
-                    onEventClick = {
-                        viewModel.updateSelectedEvent(it)
-                        navController.navigate(DashScreen.EventOption.name)
-                    },
-                    onDiscussionClick = { disc: Discussion -> Unit } // TODO: Make this go somewhere
+                    onDiscussionClick = {
+                        viewModel.updateSelectedDiscussion(it)
+                        navController.navigate(DashScreen.DiscussionOption.name)
+                    }
                 )
             }
             composable(route = DashScreen.EventSetting.name){
@@ -106,13 +96,13 @@ fun DashNavGraph(
                     }
                 )
             }
-            composable(route = DashScreen.EventOption.name){
-                EventOptionScreen(
+            composable(route = DashScreen.DiscussionOption.name){
+                DiscussionOptionScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
                     user = uiState.user,
-                    event = uiState.selectedEvent,
+                    discussion = uiState.selectedDiscussion,
                     onTimeButtonClicked = {},
                     onPlaceButtonClicked = {},
                     onFinishButtonClicked = {

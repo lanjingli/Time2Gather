@@ -1,5 +1,8 @@
 package com.example.ece_452_project.ui
 
+// second page of new event creation - lets you pick time and place (initial options for discussion)
+// save event here and START DISCUSSION
+
 import android.annotation.SuppressLint
 import java.util.Calendar
 import androidx.compose.ui.platform.LocalContext
@@ -260,7 +263,7 @@ fun EventInfoScreen(
             onClick = {onFinishButtonClicked(deadlineDateTime)}
         ) {
             Text(
-                text = stringResource(R.string.save_event),
+                text = stringResource(R.string.start_discussion),
                 fontSize = 16.sp
             )
         }

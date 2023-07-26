@@ -62,7 +62,7 @@ fun DashboardScreen(
     modifier: Modifier = Modifier,
     user: User = User(),
     onNewEventButtonClicked: () -> Unit,
-    onEventClick: (Event) -> Unit,
+//    onEventClick: (Event) -> Unit,
     onDiscussionClick: (Discussion) -> Unit
 ) {
 
@@ -120,9 +120,8 @@ fun DashboardScreen(
                 }
             )
 
-            sharedEvents.take(3).forEachIndexed {_, event ->
-                OutlinedButton(
-                    onClick = { onEventClick(event) },
+            sharedEvents.forEachIndexed {_, event ->
+                Card(
                     border = BorderStroke(
                         width = 4.dp,
                         color = MaterialTheme.colorScheme.primary
@@ -136,21 +135,20 @@ fun DashboardScreen(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            modifier = Modifier.weight(4f),
+                            modifier = Modifier.weight(4f).padding(6.dp),
                             text = event.name + " - " + event.start.format(DateTimeFormatter.ofPattern("dd-MMMM-yyyy")),
                             style = MaterialTheme.typography.titleMedium
                         )
                         //Spacer(modifier = Modifier.width(width = 155.dp))
-                        Icon(
-                            modifier = Modifier
-                                .size(35.dp)
-                                .weight(1f),
-                            imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = ""
-                        )
+//                        Icon(
+//                            modifier = Modifier
+//                                .size(35.dp)
+//                                .weight(1f),
+//                            imageVector = Icons.Default.KeyboardArrowRight,
+//                            contentDescription = ""
+//                        )
                     }
                 }
-
             }
 
             if (sharedEvents.isEmpty()){
@@ -240,7 +238,6 @@ fun DashboardPreview(){
         .fillMaxSize()
         .padding(16.dp),
         onNewEventButtonClicked = {},
-        onEventClick = { event: Event -> Unit},
         onDiscussionClick = { disc: Discussion -> Unit }
     )
 }

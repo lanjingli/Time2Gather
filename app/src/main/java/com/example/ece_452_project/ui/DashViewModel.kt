@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.ece_452_project.data.DashUiState
+import com.example.ece_452_project.data.Discussion
 import com.example.ece_452_project.data.Event
 import com.example.ece_452_project.data.User
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -114,6 +115,12 @@ class DashViewModel : ViewModel() {
     fun updateSelectedEvent(value: Event) {
         _uiState.update { currentState ->
             currentState.copy(selectedEvent = value)
+        }
+    }
+
+    fun updateSelectedDiscussion(value: Discussion) {
+        _uiState.update { currentState ->
+            currentState.copy(selectedDiscussion = value)
         }
     }
 
