@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -28,7 +29,8 @@ enum class MapScreen(){
 @Composable
 fun MapNavGraph(
     viewModel: MapViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    fragmentManager: FragmentManager
 ) {
     Scaffold(){ innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
@@ -39,7 +41,7 @@ fun MapNavGraph(
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = MapScreen.Start.name){
-                MapScreen(modifier = Modifier.fillMaxSize().padding(16.dp), locations = DummyData.places)
+                MapScreen(modifier = Modifier.fillMaxSize().padding(16.dp), fragmentManager = fragmentManager)
             }
         }
     }
