@@ -23,6 +23,7 @@ import com.example.ece_452_project.ui.InfoViewModel
 import com.example.ece_452_project.ui.LoginScreen
 import com.example.ece_452_project.ui.PreferencesScreen
 import com.example.ece_452_project.ui.RegisterScreen
+import com.example.ece_452_project.ui.ReorderableList
 import com.example.ece_452_project.ui.navigation.AppNavigationBar
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
