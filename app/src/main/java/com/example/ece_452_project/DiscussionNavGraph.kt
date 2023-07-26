@@ -26,6 +26,7 @@ import com.example.ece_452_project.ui.MapViewModel
 
 enum class DiscussionOptionScreen(){
     Start,
+    End
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,8 +58,14 @@ fun DiscussionNavGraph(
                     onTimeButtonClicked = {},
                     onPlaceButtonClicked = {},
                     onFinishButtonClicked = {
-                        navController.navigate(DashScreen.EventFinal.name)
+                        navController.navigate(DiscussionOptionScreen.End.name)
+                        //navController.navigate(DashScreen.EventFinal.name)
                     }
+                )
+            }
+            composable(route = DiscussionOptionScreen.End.name){
+                DashNavGraph(
+                    user = uiState.user
                 )
             }
         }
