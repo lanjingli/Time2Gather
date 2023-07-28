@@ -52,3 +52,4 @@
 | 2023/07/26 |        |  6  |         |       |       |       | App Dev - Features relating to friends |
 | 2023/07/26 |        |     |         |       |   8   |       | App Dev - Rankings integration |
 | 2023/07/26 |   8    |     |    8    |       |       |       | App Dev - Demo Preparation |
+| 2023/07/28 |        |     |   3     |       |       |       | D6 |
