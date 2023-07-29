@@ -29,8 +29,8 @@
 | 2023/07/17 |        |  4  |         |       |       |       |App Dev - Event Time Selection Page|
 | 2023/07/18 |        |     |         |   3   |       |       | App Dev - Merge into master, various small improvements|
 | 2023/07/18 |        |  3  |         |       |       |       |Bug fixes, testing, and improving the event time selection page|
-| 2023/07/18 |        |     |         |       |       |   2   |Map search feature|
-| 2023/07/19 |        |     |         |       |       |   4   |Map search feature|
+| 2023/07/18 |        |     |         |       |       |   2   |App Dev - Map search feature|
+| 2023/07/19 |        |     |         |       |       |   4   |App Dev - Map search feature|
 | 2023/07/19 |        |  5  |         |       |       |       |Adding additional screens to the event time selection page|
 | 2023/07/19 |        |  2.5|    2.5  |  1.5  |  2.5  |   2   |Online Discussion - Trello/Firebase|
 | 2023/07/20 |        |     | 2       |       |   3   |   3   |D5: Design Pattern Examples|
@@ -38,9 +38,13 @@
 | 2023/07/21 |        | 1.5 |         |       |       |       |Event Time Selection Page: Added the ability to warn user on availability status|
 | 2023/07/21 |   10   |     |         |       |       |       |App Dev - Network Utilities and User Authentication/Registration|
 | 2023/07/21 |        |     |         |   4   |       |       |App Dev - Navigation Bar and merge|
+| 2023/07/21 |        |     |         |       |       |   2   |App Dev - Map search feature|
+| 2023/07/22 |        |     |         |       |       |   4   |App Dev - Map search feature|
 | 2023/07/22 |        |     |   9     |       |       |       | App Dev - Event Options Page|
+| 2023/07/23 |        |     |         |       |       |   4   |App Dev - Map search feature|
 | 2023/07/23 |        |     |  4.5    |       |       |       | App Dev - Event Options Page and add event to remote db |
 | 2023/07/23 |        |     |         |   4   |       |       | App Dev - Rankings page UI work |
+| 2023/07/24 |        |     |         |       |       |   6   |App Dev - Map search feature|
 | 2023/07/24 |        |     |         |       |   3   |       | App Dev - Rankings page UI work |
 | 2023/07/24 |        |     |  6.5    |       |       |       | App Dev - Event Options Page flow testing |
 | 2023/07/24 |   3    |     |         |       |       |       | App Dev - Bug Fixes |
@@ -51,6 +55,7 @@
 | 2023/07/25 |        |     |    4    |       |       |       | App Dev - Bug Fixes |
 | 2023/07/26 |        |  6  |         |       |       |       | App Dev - Features relating to friends |
 | 2023/07/26 |        |     |         |       |   8   |       | App Dev - Rankings integration |
+| 2023/07/26 |        |     |         |       |       |   13  |App Dev - Map search feature|
 | 2023/07/26 |   8    |     |    8    |       |       |       | App Dev - Demo Preparation |
 | 2023/07/28 |        |     |   3     |       |       |       | D6 |
-| 2023/07/28 |        | 1.5 |         |   4   |       |       | D6 |
+| 2023/07/28 |        | 1.5 |         |   4   |       |  3    | D6 |
